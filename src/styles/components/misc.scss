@@ -1,0 +1,258 @@
+/* -------------------------------------------------------------------
+ * pace.js styles - minimal
+ * ------------------------------------------------------------------- */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #f9a828;
+  position: fixed;
+  z-index: 900;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 6px;
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+.bg--full {
+    position: relative;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center 70%;
+    background-size: cover;
+    text-align: center;
+    /*padding-top: 14rem;*/
+    overflow: hidden;
+
+    /*display: flex;
+    justify-content: center;*/
+    min-height: 100vh;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.overlay--fixed {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: black;
+    opacity: 0.8;
+}
+
+#stopScrolling {
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+/*.preloader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom:0;
+    right:0;
+    width: 100%;
+    height: 100vh;
+    z-index: 99999999;
+    background-image: url('../../public/images/loader.gif'); *//* your icon gif file path *//*
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center;
+    background-size: 25%;
+}*/
+
+/*.loader {
+    z-index: 99999999;
+    min-height: 50px;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    border-color: black;
+    background-image: url('../../public/images/loader.gif'); *//* your icon gif file path *//*
+    background-repeat: no-repeat;
+    background-color: black;
+    background-position: center;
+    background-size: 10%;
+    text-indent: 10000%;
+    white-space: nowrap;
+    overflow: hidden;
+}*/
+
+.loader:focus, .loader:hover {
+    border: 3px solid black;
+}
+
+#progress {
+    position: relative;
+    display: none;
+    width: 100%;
+    background-color: transparent;
+    z-index: 3;
+}
+
+#progressBar {
+      background-color: $mainColor;
+      height: 5px;
+      width: 1%;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown__menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100px;
+    padding: 5px;
+    z-index: 1;
+}
+
+
+.container {
+    margin-right: 20px;
+    margin-left: 20px;
+    max-width: 1140px;
+}
+
+
+.container--half {
+    max-width: 570px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.col-30 {
+    width: 30%;
+}
+
+.col-70 {
+    width: 70%;
+}
+
+.col-50 {
+    width: 50%;
+}
+
+.col-25 {
+    width: 25%;
+}
+
+.withBottomLine {
+    position: relative;
+    margin-bottom: 4.2rem;
+    padding-bottom: 1.5rem;
+}
+
+.withBottomLine::after {
+    display: block;
+    background-color: #001835;
+    width: 120px;
+    height: 3px;
+    content: '\0020';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin-left: -60px;
+}
+
+.withBottomLine--right::after {
+    right: 0;
+    margin: 0;
+}
+
+.withBottomLine--left::after {
+    left: 0;
+    margin: 0;
+}
+
+.invisible {
+    display: none;
+}
+
+::-ms-reveal {
+    filter: invert(100%);
+}
+
+.breathe {
+    -webkit-animation: breathing 5s ease-out infinite normal;
+    animation: breathing 5s ease-out infinite normal;
+}
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}

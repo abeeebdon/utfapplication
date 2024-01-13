@@ -1,0 +1,304 @@
+.input {
+    /*border: 3px solid white;
+    padding: 12px 45px;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    color: white;*/
+    padding: 10px 15px 10px 15px;
+    border: 3px solid $mainColor;
+    border-radius: 10px;
+    /*background-color: transparent;*/
+    background-color: #0e0e0e85;
+    color: white;
+    font-weight: normal;
+    cursor: pointer;
+    /*width: 100%;*/
+    width: -webkit-fill-available;
+}
+
+.input:focus, .input:hover, input:focus-visible {
+    border: 3px solid $mainColor;
+    outline: none;
+}
+
+.input__box {
+    text-align: left;
+}
+
+.input__boxLabel {
+    display: block;
+    color: $mainColor;
+
+}
+
+.input__underLabel {
+    font-size: 12px;
+    margin-top: -5px;
+    color: $mainColor
+}
+
+
+
+.input__checkboxBox {
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.input__checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: unset;
+}
+
+.input__checkboxLabel {
+    color: white;
+    margin-left: 10px;
+}
+
+.input__check {
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    border: 3px solid grey;
+    background-color: transparent;
+    appearance: none;
+}
+
+.input__check:checked {
+    background-color: $mainColor;
+    border-color: $mainColor;
+}
+
+.input__check:checked::before {
+    content: "\2713";
+    color: black;
+}
+
+
+
+.input__toggleBox {
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.input__toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 20px;
+}
+
+.input__toggleLabel {
+    color: white;
+    margin-left: 10px;
+}
+
+.input__toggle {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.input__toggleSlider {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.input__toggleSlider:before {
+    position: absolute;
+    content: "";
+    border-radius: 5px;
+    height: 12px;
+    width: 17px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.input__toggle:checked + .input__toggleSlider {
+    background-color: $mainColor;
+
+}
+
+.input__toggle:checked + .input__toggleSlider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.input__toggle:focus + .input__toggleSlider {
+    box-shadow: 0 0 1px #2196F3;
+
+}
+
+
+
+.input__radioBox {
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.input__radioLabel {
+    color: white;
+    margin-left: 10px;
+}
+
+.input__radio {
+    width: 18px;
+    height: 18px;
+    font-size: 8px;
+    display: flex;
+    border-radius: 50%;
+    justify-content: center;
+    padding: 0px;
+    border: 3px solid grey;
+    background-color: transparent;
+    appearance: none;
+}
+
+.input__radio:checked {
+    border-color: $mainColor;
+}
+
+.input__radio:checked::before {
+    content: "\2688";
+    color: $mainColor;
+}
+
+
+
+.input--error {
+    border-color: #ffadad;
+}
+
+.input__errorMessage {
+    color: #ffadad;
+}
+
+.input__verification {
+    display: inline;
+    width: 20px;
+    height: 45px;
+    font-size: 2.5rem;
+    font-weight: bolder;
+}
+
+.input__option {
+    padding: 10px;
+    background-color: $subBackground;
+}
+
+.search__icon {
+    padding: 10px;
+    color: $offWhite;
+    cursor: pointer;
+}
+
+.search__iconGroup {
+    display: inline-block;
+    border-radius: 10px;
+    text-align: left;
+    border: 1px solid #242424;
+    width: 100%;
+    background: #242424;
+}
+
+.search__input {
+    border: none;
+    display: inline-block;
+    width: 90%;
+    color: $offWhite;
+}
+
+.search__input:focus, .search__input:hover, .search__input:focus-visible {
+    outline: none;
+    border: none;
+}
+
+
+
+.inputIcon__iconGroup {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    border-radius: 10px;
+    text-align: left;
+    border: 3px solid $mainColor;
+    width: 100%;
+    background: #0e0e0e85;
+}
+
+.inputIcon__icon {
+    margin: 10px;
+    color: $mainColor;
+    cursor: pointer;
+}
+
+.inputIcon__logo {
+    min-width: 30px;
+    max-width: 30px;
+    height: 30px;
+    margin: 10px;
+    margin-right: 0;
+}
+
+.inputIcon__input {
+    border: none;
+    display: inline-block;
+    padding: 15px 10px;
+    width: 100%;
+    color: $offWhite;
+}
+
+.inputIcon__input:focus, .inputIcon__input:hover, .inputIcon__input:focus-visible {
+    outline: none;
+    border: none;
+}
+
+
+
+@media only screen and (max-width:1024px) {
+}
+
+@media only screen and (max-width:768px) {
+
+    .input__verification {
+        font-size: 2rem;
+    }
+}
+
+@media only screen and (max-width:600px) {
+    .input {
+        padding: 10px;
+    }
+
+    .input__verification {
+        display: inline;
+        width: 10px;
+        height: 20px;
+        font-size: 1.25rem;
+    }
+}
+
+@media only screen and (max-width:400px) {
+}

@@ -1,0 +1,52 @@
+.button {
+    border: 3px solid white;
+    padding: 15px 45px;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    color: white;
+}
+
+.button:focus, .button:hover {
+    border: 3px solid $mainColor;
+    color: $mainColor;
+}
+
+.button--action {
+    text-transform: uppercase;
+}
+
+.button--dark {
+    border-color: black;
+    color: black;
+}
+
+.button--form {
+    text-transform: uppercase;
+    border-color: $mainColor;
+    background-color: $mainColor;
+    color: white;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 1.25rem;
+    width: 100%;
+    sfont-family: Poppins;
+    font-style: normal;
+}
+
+.button--form:focus, .button--form:hover {
+    color: white;
+}
+
+.button__group {
+    border-radius: 10px;
+    background-color: #e2ad0a;
+    color: black;
+    padding: 10px 20px;
+}
+
+.button__icon {
+    padding: 5px;
+}

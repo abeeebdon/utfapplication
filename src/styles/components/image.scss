@@ -1,0 +1,27 @@
+/* =================================================================
+ *  CartNotifier
+ *
+ * ----------------------------------------------------------------- */
+
+.image__box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.image--full {
+    object-fit:
+    cover;
+    width: 100%;
+    height: 100%;
+}
+
+.image--cornered {
+    border-radius: 5px;
+}
+
+.image--rounded {
+    border-radius: 50%;
+    /*width: 40px;
+    height: 40px;*/
+}

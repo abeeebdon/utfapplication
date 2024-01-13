@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Project:      UniversalFX      -->
+<!-- Description:  Launch page        -->
+<!-- Author:       Abassyornor Edem    -->
+<!-- Date:         11 January 2024   -->
+
+<head>
+    <title>UniversalFX</title>
+    <link rel="icon"  href="/images/logo.png" type="image/png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                 maximum-scale=1.0, user-scalable=no">
+</head>
+<body id="stopScrollingg">
+    <div id="app"></div>
+    <script src="/scripts/bundle.js"></script>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+  var lazyloadImages = document.querySelectorAll("img.lazy");
+  var lazyloadThrottleTimeout;
+
+  function lazyload () {
+    if(lazyloadThrottleTimeout) {
+      clearTimeout(lazyloadThrottleTimeout);
+    }
+
+    lazyloadThrottleTimeout = setTimeout(function() {
+        var scrollTop = window.pageYOffset;
+        lazyloadImages.forEach(function(img) {
+            if(img.offsetTop < (window.innerHeight + scrollTop)) {
+              img.src = img.dataset.src;
+              img.classList.remove('lazy');
+            }
+        });
+        if(lazyloadImages.length == 0) {
+          document.removeEventListener("scroll", lazyload);
+          window.removeEventListener("resize", lazyload);
+          window.removeEventListener("orientationChange", lazyload);
+        }
+    }, 20);
+  }
+
+  document.addEventListener("scroll", lazyload);
+  window.addEventListener("resize", lazyload);
+  window.addEventListener("orientationChange", lazyload);
+});
+</script>
+</html>
