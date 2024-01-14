@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 import { Image } from "./Image";
@@ -18,14 +19,13 @@ export default function LaunchPage() {
 //    }, [])
 
     const logo = useSelector(state => state.configuration.app.logo);
-    console.log(logo)
 
     return (
         <>
             <div className="launchpage">
                 <div className="launchpage__logo breathe"><Image src={logo}/></div>
                 <h1 className="launchpage__title">Universal <span className="launchpage__title--blue">FX</span></h1>
-                <div className="launchpage__cta"><ButtonForm label={"Get Started"} /></div>
+                <div className="launchpage__cta"><Link to="/signin"><ButtonForm label={"Get Started"} /></Link></div>
             </div>
         </>
     );

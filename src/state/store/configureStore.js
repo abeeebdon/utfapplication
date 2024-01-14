@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 
 import configurationReducer from '../reducers/configuration';
+import clientSignupFormReducer from '../reducers/clientSignupForm';
 
 export default () => {
     const persistConfig = {
@@ -15,7 +16,7 @@ export default () => {
     const rootReducer = combineReducers({
         configuration: configurationReducer,
 //        endpoints: endpointsReducer,
-//        clientSignupForm: clientSignupFormReducer,
+        clientSignupForm: clientSignupFormReducer,
 //        preloader: preloaderReducer,
 //        notification: notificationReducer,
 //        images: imagesReducer,

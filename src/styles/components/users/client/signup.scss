@@ -1,0 +1,175 @@
+.signup {
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    background: $subBackground;
+    min-height: 100vh;
+}
+
+.signup .container{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}
+
+.signup .overlay--fixed {
+    z-index: -1;
+    background-color: $mainColor;
+}
+
+.signup__form {
+    padding: 3rem 0 3rem;
+    z-index: 1;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 70px auto;
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 7px 7px 50px 0px rgba(0, 0, 0, 0.25);
+}
+
+.signup__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.signup__logo {
+    width: 50px;
+    height: 50px;
+}
+
+.signup__greetings {
+    color: $mainColor;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: right;
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.signup__greetingsIcon {
+    margin-left: 5px;
+}
+
+.signup__formTitle {
+    color: rgba(51, 51, 51, 0.60);
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: left;
+    font-family: "montserrat-bold", sans-serif;
+    margin: 0;
+    letter-spacing: 0rem;
+    text-align: right;
+}
+
+/*.signup__form .overlay {
+    z-index: -1;
+    border-radius: 10px;
+}*/
+
+.signup__formInputs {
+    width: 90%;
+    display: block;
+    margin-bottom: 100px;
+}
+
+.signup__formInput {
+    margin: 25px 0px;
+
+}
+
+.signup__verification {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: transparent;
+    z-index: 1;
+}
+
+.signup__verificationControl {
+    width: 100%;
+    margin: -2rem 10px;
+    text-align: left;
+}
+
+.signup__verificationControlIcon {
+    margin-right: 10px;
+}
+
+.signup__verificationInput{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.signup__verificationFormInputsText {
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+.signup__verificationHead {
+    width: 100%;
+    font-weight: normal;
+    text-align: center;
+    font-family: "montserrat-bold", sans-serif;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 0rem;
+    margin-bottom: 10px;
+}
+
+.signup__verificationText {
+    width: 100%;
+    font-weight: normal;
+    font-size: 1.3rem;
+    text-align: center;
+    font-family: "montserrat-bold", sans-serif;
+    margin: 0;
+    letter-spacing: 0rem;
+    margin-bottom: 20px;
+}
+
+.signup__verificationCountDown{
+    color: red;
+    font-weight: bolder;
+}
+
+.signup__verificationButton {
+    display: flex;
+    justify-content: end;
+}
+
+.signup__verificationButton .button{
+    width: 30%;
+}
+
+.signup__verificationResend{
+    color: black;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+@media only screen and (max-width:768px) {
+    .signup__form {
+        width: 70%;
+    }
+}
+@media only screen and (max-width:600px) {
+    .signup__form {
+        width: 80%;
+    }
+}
+@media only screen and (max-width:400px) {
+    .signup__form {
+        width: 90%;
+    }
+}

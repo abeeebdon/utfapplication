@@ -72,6 +72,7 @@ export class IconedInput extends React.Component {
             <div className="input__box">
                 <label className={`${this.labelClass} `} htmlFor={this.props.id}>{this.props.label}</label>
                 <div className="inputIcon__iconGroup">
+                    { this.props.custom && this.props.custom }
                     { this.props.logo && this.props.logo.src && <span className="inputIcon__logo"><RoundedImage src={this.props.logo.src}/></span> }
                     { this.props.logo && this.props.logo.text  && <span className="inputIcon__icon">{this.props.logo.text}</span> }
                     { this.props.icon && this.props.icon.position == "left" && <span className={`inputIcon__icon ${ this.props.icon.name }`}></span> }

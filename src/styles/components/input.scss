@@ -10,8 +10,8 @@
     padding: 10px 15px 10px 15px;
     border: 3px solid $mainColor;
     border-radius: 10px;
-    /*background-color: transparent;*/
-    background-color: #0e0e0e85;
+    background-color: transparent;
+    /*background-color: #0e0e0e85;*/
     color: white;
     font-weight: normal;
     cursor: pointer;
@@ -30,13 +30,12 @@
 
 .input__boxLabel {
     display: block;
-    color: $mainColor;
+    color: $offBlack;
 
 }
 
 .input__underLabel {
     font-size: 12px;
-    margin-top: -5px;
     color: $mainColor
 }
 
@@ -201,6 +200,9 @@
     height: 45px;
     font-size: 2.5rem;
     font-weight: bolder;
+    background: $subBackground;
+    border-color: transparent;
+    color: $mainColor;
 }
 
 .input__option {
@@ -243,14 +245,14 @@
     align-items: center;
     border-radius: 10px;
     text-align: left;
-    border: 3px solid $mainColor;
-    width: 100%;
-    background: #0e0e0e85;
+    border: 1px solid $grey;
+    fwidth: 100%;
+    background: transparent;
 }
 
 .inputIcon__icon {
     margin: 10px;
-    color: $mainColor;
+    color: $grey;
     cursor: pointer;
 }
 
