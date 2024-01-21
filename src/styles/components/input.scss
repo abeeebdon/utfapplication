@@ -36,9 +36,17 @@
 
 .input__underLabel {
     font-size: 12px;
-    color: $mainColor
+    color: $grey;
 }
 
+.input__passwordRequirements {
+    padding: 0;
+    list-style: disc;
+}
+
+.input__underLabel--passwordRequirements {
+    line-height: 2rem;
+}
 
 
 .input__checkboxBox {
@@ -54,7 +62,7 @@
 }
 
 .input__checkboxLabel {
-    color: white;
+    color: $offBlack;
     margin-left: 10px;
 }
 
@@ -196,8 +204,9 @@
 
 .input__verification {
     display: inline;
+    text-align: center;
     width: 20px;
-    height: 45px;
+    height: 20px;
     font-size: 2.5rem;
     font-weight: bolder;
     background: $subBackground;
@@ -254,6 +263,8 @@
     margin: 10px;
     color: $grey;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .inputIcon__logo {
@@ -269,7 +280,7 @@
     display: inline-block;
     padding: 15px 10px;
     width: 100%;
-    color: $offWhite;
+    color: $offBlack;
 }
 
 .inputIcon__input:focus, .inputIcon__input:hover, .inputIcon__input:focus-visible {

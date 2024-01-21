@@ -12,11 +12,6 @@
     height: 100%;
 }
 
-.signup .overlay--fixed {
-    z-index: -1;
-    background-color: $mainColor;
-}
-
 .signup__form {
     padding: 3rem 0 3rem;
     z-index: 1;
@@ -84,6 +79,11 @@
 .signup__formInput {
     margin: 25px 0px;
 
+}
+
+.signup__formDualInputs {
+    display: flex;
+    justify-content: space-between;
 }
 
 .signup__verification {
@@ -156,6 +156,102 @@
     color: black;
     font-weight: bolder;
     cursor: pointer;
+}
+
+.signup--panel {
+    background: white;
+}
+
+
+.signup--panel__head {
+    display: flex;
+    align-items: end;
+    padding: 20px 50px;
+}
+
+.signup--panel__headText {
+    font-weight: bolder;
+    font-size: 2.5rem;
+    margin: 0;
+    margin-left: 50px;
+    padding: 5px;
+}
+
+.signup--panel__trackBar {
+    display: flex;
+}
+
+.signup--panel__track {
+    border: 2.5px solid $mainColor;
+    width: 50%;
+}
+
+.signup--panel__body {
+    display: flex;
+    padding: 0 50px;
+}
+
+.signup--panel__sidebar {
+    width: 30%;
+    padding: 3rem 0 3rem;
+}
+
+.signup--panel__text {
+    font-weight: 500;
+    font-size: 2rem;
+}
+
+.signup--panel__sidebarMenu {
+    padding: 0;
+    margin: 20px 0;
+    margin-right: 40px;
+}
+
+.signup--panel__sidebarMenuItem {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: $grey;
+}
+
+.signup--panel__sidebarMenuItem--active {
+    background: $subColor;
+    border-radius: 15px;
+    color: black;
+}
+
+.signup--panel__sidebarMenuIcon {
+    margin-right: 15px;
+    margin-left: 20px;
+    font-size: 2rem;
+}
+
+.signup--panel__sidebarMenuItem--active .signup--panel__sidebarMenuIcon {
+    color: $mainColor;
+}
+
+.signup--panel__main {
+    width: 100%;
+}
+
+.signup--panel .signup__formInputs {
+    width: 90%;
+}
+
+.signup--panel__buttonBar {
+    display: flex;
+    justify-content: end;
+}
+
+.signup--panel__buttonBar button {
+    width: 200px;
+}
+
+.signup--panel .signup__form {
+    box-shadow: none;
+    margin: 0;
+    width: 100%;
+    display: block;
 }
 
 @media only screen and (max-width:768px) {

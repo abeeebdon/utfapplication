@@ -61,7 +61,7 @@ export default function SigninPage() {
                                     name={"goggle"}
                                     type={"text"}
                                     placeholder={"Sign in with google"}
-                                    custom={ <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                                    custom={ <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
                                                   <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
                                                   <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>
                                                   <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50"/>
@@ -110,7 +110,7 @@ export default function SigninPage() {
 
             <section className="signup signup__verification invisible">
                 <div className="container">
-                    <span className="overlay"></span>
+                    <span className="overlay--fixed"></span>
                     <form onSubmit={onVerificationFormSubmit} className="signup__form">
                         <div className="signup__verificationControl" onClick={onVerificationFormSubmit}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div>
                         <p className="signup__verificationHead">Verify It's You</p>
@@ -119,7 +119,7 @@ export default function SigninPage() {
                             <p className="signup__verificationFormInputsText">Digits Verification Code</p>
                             <div className="signup__verificationInput">
                             {
-                                [...Array(6)].map((x, key)=>{
+                                [...Array(5)].map((x, key)=>{
                                     return <SingleInput
                                             key={key}
                                             id={`digit${key}`}
