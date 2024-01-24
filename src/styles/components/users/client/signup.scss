@@ -305,7 +305,7 @@
     }
 }
 @media only screen and (max-width:600px) {
-    .signup--panel__sidebar {
+    /*.signup--panel__sidebar {
         width: 40%;
     }
 
@@ -318,9 +318,8 @@
 
     .signup--panel__body {
         padding: 0px 10px;
-    }
-}
-@media only screen and (max-width:425px) {
+    }*/
+
     .signup {
         background: white;
     }
@@ -442,4 +441,7 @@
     .signup__formDualInputs--split-sm {
         display: block;
     }
+}
+@media only screen and (max-width:425px) {
+
 }
