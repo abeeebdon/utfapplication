@@ -23,6 +23,7 @@ module.exports = {
     mode: "development",
     devtool: 'eval-cheap-module-source-map',
     devServer: {
+        allowedHosts: "all",
         static: {
           directory: path.join(__dirname, 'public'),
         },
