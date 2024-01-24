@@ -341,9 +341,7 @@
     .input__fileUploadTextBox--sm, .input__fileUploadTextButton {
         display: block;
     }
-}
 
-@media only screen and (max-width:435px) {
     .inputIcon__iconGroup--bottomBorder-sm, .input__fileUpload {
         border-radius: 0px;
         border-top: none;
@@ -361,4 +359,7 @@
         margin-right: 0;
         padding-right: 0;
     }
+}
+
+@media only screen and (max-width:425px) {
 }
