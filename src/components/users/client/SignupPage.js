@@ -15,7 +15,7 @@ const dispatch = useDispatch();
 const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
-                            flag: `/images/countries/NG.svg`,
+                            flag: `/images/countries/ng.svg`,
                             currencyCode:"NGN",
                             currencySymbol: "NGN" }
 
