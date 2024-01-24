@@ -14,10 +14,12 @@
 
 .signup__form {
     padding: 3rem 0 3rem;
-    z-index: 1;
+    z-indexf: 1;
     width: 50%;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     align-items: center;
     margin: 70px auto;
@@ -37,17 +39,18 @@
 .signup__logo {
     width: 50px;
     height: 50px;
+    display: inline-block;
+}
+
+.signup__formTitleBox {
+    text-align: right;
 }
 
 .signup__greetings {
     color: $mainColor;
     font-weight: bold;
     font-size: 1.5rem;
-    text-align: right;
     margin: 0;
-    display: flex;
-    justify-content: flex-end;
-
 }
 
 .signup__greetingsIcon {
@@ -58,11 +61,9 @@
     color: rgba(51, 51, 51, 0.60);
     font-weight: bold;
     font-size: 1.2rem;
-    text-align: left;
     font-family: "montserrat-bold", sans-serif;
     margin: 0;
     letter-spacing: 0rem;
-    text-align: right;
 }
 
 /*.signup__form .overlay {
@@ -84,7 +85,29 @@
 .signup__formDualInputs {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
+
+.signup__formDualInputs .signup__formInput {
+    margin-right: 5px;
+    width: 100%;
+}
+
+.signup__formDualInputs .signup__formInput:last-child {
+    margin-right: 0px;
+}
+
+.signup__agreementText {
+    color: rgba(51, 51, 51, 0.60);
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: "montserrat-bold", sans-serif;
+    margin: 0;
+    letter-spacing: 0rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
 
 .signup__verification {
     position: absolute;
@@ -97,12 +120,13 @@
 
 .signup__verificationControl {
     width: 100%;
-    margin: -2rem 10px;
+    padding: 10px 0;
+    margin-bottom: 20px;
     text-align: left;
 }
 
 .signup__verificationControlIcon {
-    margin-right: 10px;
+    margin: 0 10px;
 }
 
 .signup__verificationInput{
@@ -162,6 +186,12 @@
     background: white;
 }
 
+.signup--panel .signup__form {
+    box-shadow: none;
+    margin: 0;
+    width: 100%;
+}
+
 
 .signup--panel__head {
     display: flex;
@@ -188,11 +218,11 @@
 
 .signup--panel__body {
     display: flex;
-    padding: 0 50px;
+    padding: 0 20px;
 }
 
 .signup--panel__sidebar {
-    width: 30%;
+    width: 35%;
     padding: 3rem 0 3rem;
 }
 
@@ -231,7 +261,7 @@
 }
 
 .signup--panel__main {
-    width: 100%;
+    width: 65%;
 }
 
 .signup--panel .signup__formInputs {
@@ -247,25 +277,169 @@
     width: 200px;
 }
 
-.signup--panel .signup__form {
-    box-shadow: none;
-    margin: 0;
+
+#personalInfoPanel .signup--panel__buttonBar {
+    justify-content: space-between;
     width: 100%;
-    display: block;
+}
+
+#personalInfoPanel .signup__formInputs, #personalInfoPanel .signup__heading {
+    width: 100%;
+}
+
+.signup__google-sm {
+    display: none;
 }
 
 @media only screen and (max-width:768px) {
+    .signup--panel__sidebar {
+        width: 40%;
+    }
+
+    .signup--panel__main {
+        width: 60%;
+    }
+
     .signup__form {
         width: 70%;
     }
 }
 @media only screen and (max-width:600px) {
+    .signup--panel__sidebar {
+        width: 40%;
+    }
+
+    .signup--panel__main {
+        width: 60%;
+    }
     .signup__form {
         width: 80%;
     }
+
+    .signup--panel__body {
+        padding: 0px 10px;
+    }
 }
-@media only screen and (max-width:400px) {
+@media only screen and (max-width:425px) {
+    .signup {
+        background: white;
+    }
+
+    .signup--panel__trackBar, .signup--panel__sidebar {
+        display: none;
+    }
+
+    .signup--panel__head {
+        display: block;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .signup--panel__headText {
+        margin: 0;
+        padding: 0;
+    }
+
+    .signup--panel__main {
+        width: 100%;
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+
+    .signup--panel__buttonBar {
+        justify-content: center;
+    }
+
     .signup__form {
         width: 90%;
+        box-shadow: none;
+        margin-top: 0;
+    }
+
+    .signup__formInputs {
+        margin-bottom: 50px;
+    }
+
+    .signup--panel .signup__formInputs {
+        width: 100%;
+    }
+
+    .signup__buttonBar {
+        display: flex;
+        justify-content: center;
+    }
+    .signup__form .button {
+        width: 150px;
+        box-shadow: 7px 7px 100px 0px $mainColor;
+    }
+
+    .signup__heading {
+        display: block;
+        width: 100%;
+    }
+
+    .signup__formTitleBox {
+        text-align: left;
+        margin-top: 20px;
+        display: block;
+    }
+
+    .signup__greetings {
+        font-size: 2rem;
+    }
+
+    .signup__google {
+        display: none;
+    }
+
+    .signup__google-sm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup__googleDash {
+        width: 80px;
+        border: 0.5px solid $grey;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .signup__googleIcon-sm {
+        border-radius: 50%;
+        background: #d3d3d399;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .signup .overlay--fixed {
+        opacity: 1;
+        background: white;
+    }
+
+    .signup__verificationHead, .signup__verificationText {
+        text-align: left;
+    }
+
+    .signup__verificationButton {
+        justify-content: center;
+    }
+
+    .signup__verificationControlIcon {
+        margin-left: 0;
+    }
+
+    .signup--panel__body {
+        padding: 0 10px;
+    }
+
+    .signup__formDualInputs--split-sm {
+        display: block;
     }
 }

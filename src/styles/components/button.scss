@@ -36,6 +36,13 @@
     font-style: normal;
 }
 
+.button--inverted {
+    border-color: $mainColor;
+    background-color: transparent;
+    color: $mainColor;
+    border-radius: 10px;
+}
+
 .button--form:focus, .button--form:hover {
     color: white;
 }

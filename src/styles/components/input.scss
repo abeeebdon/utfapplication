@@ -288,6 +288,24 @@
     border: none;
 }
 
+.input__fileUpload {
+    display: flex;
+    align-items: center;
+    color: $grey;
+    border: 1px dashed $grey;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.input__fileUploadIcon {
+    font-size: 3rem;
+    padding: 25px;
+    color: $grey;
+}
+
+.input__fileUploadTextBox--sm, .input__fileUploadTextButton {
+    display: none;
+}
 
 
 @media only screen and (max-width:1024px) {
@@ -307,11 +325,40 @@
 
     .input__verification {
         display: inline;
-        width: 10px;
-        height: 20px;
+        widthf: 10px;
+        heightf: 20px;
         font-size: 1.25rem;
+    }
+
+    .input__fileUpload {
+        justify-content: space-between;
+    }
+
+    .input__fileUploadIcon, .input__fileUploadTextBox {
+        display: none;
+    }
+
+    .input__fileUploadTextBox--sm, .input__fileUploadTextButton {
+        display: block;
     }
 }
 
-@media only screen and (max-width:400px) {
+@media only screen and (max-width:435px) {
+    .inputIcon__iconGroup--bottomBorder-sm, .input__fileUpload {
+        border-radius: 0px;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid;
+    }
+
+    .inputIcon__iconGroup--bottomBorder-sm *:first-child {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .inputIcon__iconGroup--bottomBorder-sm *:last-child {
+        margin-right: 0;
+        padding-right: 0;
+    }
 }

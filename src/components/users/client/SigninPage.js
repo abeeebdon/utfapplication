@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
 import $ from 'jquery';
 
 
@@ -9,6 +10,15 @@ import Input, { CheckBoxInput, SingleInput, IconedInput } from "../../Input";
 
 export default function SigninPage() {
     const clientSignupForm = useSelector(state => state.clientSignupForm);
+    const togglePasswordVisibility = async (event) => {
+        let password = document.getElementById("password");
+        if(password.type == "password"){
+            password.type = "text";
+        }
+        else{
+            password.type = "password"
+        }
+    }
     const onFormSubmit = async (event) => {
         event.preventDefault();
         $(".signup__verification").removeClass("invisible")
@@ -25,7 +35,7 @@ export default function SigninPage() {
 
     return (
         <>
-            <section className="signup">
+            <section className="signup signin--panel">
                 <div className="container">
                     <form onSubmit={onFormSubmit} className="signup__form">
                         <div className="signup__heading">
@@ -33,7 +43,7 @@ export default function SigninPage() {
                                 <Image src={logo}/>
                             </span>
                             <span className="signup__formTitleBox">
-                                <p className="signup__greetings">Hi There
+                                <p className="signup__greetings">Hi There!
                                     <span className="signup__greetingsIcon">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 36 36" fill="none">
                                           <g clip-path="url(#clip0_1_370)">
@@ -55,34 +65,35 @@ export default function SigninPage() {
                             </span>
                         </div>
                         <div className="signup__formInputs">
-                            <div className="signup__formInput">
+                            <div className="signup__formInput signup__google">
                                 <IconedInput
                                     id={"google"}
                                     name={"goggle"}
                                     type={"text"}
                                     placeholder={"Sign in with google"}
-                                    custom={ <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
+                                    logo={ {text: <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
                                                   <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
                                                   <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>
                                                   <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50"/>
                                                   <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
-                                            </svg>
+                                            </svg> }
                                     }
                                     error={clientSignupForm.emailField}
                                     onInput={validateEmail}
                                 />
                             </div>
-                            <p>Or</p>
+                            <p className="signup__google signup__agreementText">Or</p>
                             <div className="signup__formInput">
                                 <IconedInput
                                     id={"email"}
                                     name={"email"}
-                                    label={"Email"}
+                                    label={"Email Address"}
                                     type={"email"}
                                     placeholder={"Type here"}
                                     required={"required"}
                                     error={clientSignupForm.emailField}
                                     onInput={validateEmail}
+                                    style={{border: "bottom-sm"}}
                                 />
                             </div>
 
@@ -91,19 +102,38 @@ export default function SigninPage() {
                                     id={"password"}
                                     name={"password"}
                                     label={"Password"}
-                                    underLabel={"Forgot Password?"}
+                                    underLabel={<Link to="/">Forgot Password?</Link>}
                                     type={"password"}
                                     placeholder={"Type here"}
                                     required={"required"}
-                                    icon={ { name: "fa fa-eye", position: "right" } }
+                                    icon={ { name: "fa fa-eye", position: "right", onClick: togglePasswordVisibility } }
+                                    style={{border: "bottom-sm"}}
                                     error={clientSignupForm.passwordField}
                                 />
                             </div>
 
-                            <ButtonForm label={"Log In"} />
+                            <p className="signup__agreementText">By continuing you agree to our <Link to="/">Terms and Conditions</Link> and <Link to="/">Privacy Policy</Link></p>
+
+                            <div className="signup__buttonBar">
+                                <ButtonForm label={"Log In"} />
+                            </div>
                         </div>
 
-                            <p>You don't have an account? Sign up</p>
+
+                        <div className="signup__google-sm">
+                            <div> <span className="signup__googleDash"></span> Or <span className="signup__googleDash"></span> </div>
+
+                            <div className="signup__googleIcon-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
+                                      <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
+                                      <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>
+                                      <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50"/>
+                                      <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
                     </form>
                 </div>
             </section>
@@ -112,7 +142,7 @@ export default function SigninPage() {
                 <div className="container">
                     <span className="overlay--fixed"></span>
                     <form onSubmit={onVerificationFormSubmit} className="signup__form">
-                        <div className="signup__verificationControl" onClick={onVerificationFormSubmit}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div>
+                        <div className="signup__verificationControl"><span className="signup__verificationControlIcon fas fa-angle-left" onClick={onVerificationFormSubmit}></span><span onClick={onVerificationFormSubmit}>Back</span></div>
                         <p className="signup__verificationHead">Verify It's You</p>
                         <p className="signup__verificationText">We sent a code to (********021@gmail.com)<br/>Enter it here to verify your identity.</p>
                         <div className="signup__formInputs">
@@ -144,10 +174,10 @@ export default function SigninPage() {
                             </p>
 
                             <div className="signup__verificationButton">
-                                <ButtonForm label={"Next"} />
+                                <ButtonForm label={"Verify"} />
                             </div>
                         </div>
-                        <p className="signup__verificationText">No code received? <span onClick={sendVerificationToken} className="signup__verificationResend">Resend</span></p>
+                        <p className="">Didn't receive the code? <span onClick={sendVerificationToken} className="signup__verificationResend">Request a new one</span></p>
                     </form>
                 </div>
             </section>

@@ -59,6 +59,11 @@ export class IconedInput extends React.Component {
             this.props.onInput(event.target);
     }
 
+    onIconClick = (event) => {
+        if(this.props.icon.onClick)
+            this.props.icon.onClick(event.target);
+    }
+
     onFormChange = (event) => {
 //        event.target.className = this.class;
 //        event.target.labels[0].className = this.labelClass;
@@ -71,11 +76,11 @@ export class IconedInput extends React.Component {
         return (
             <div className="input__box">
                 <label className={`${this.labelClass} `} htmlFor={this.props.id}>{this.props.label}</label>
-                <div className="inputIcon__iconGroup">
+                <div className={`inputIcon__iconGroup ${this.props.style && this.props.style.border == "bottom-sm" && "inputIcon__iconGroup--bottomBorder-sm"} `}>
                     { this.props.custom && <span className="inputIcon__icon">{this.props.custom}</span> }
                     { this.props.logo && this.props.logo.src && <span className="inputIcon__logo"><RoundedImage src={this.props.logo.src}/></span> }
                     { this.props.logo && this.props.logo.text  && <span className="inputIcon__icon">{this.props.logo.text}</span> }
-                    { this.props.icon && this.props.icon.position == "left" && <span className={`inputIcon__icon ${ this.props.icon.name }`}></span> }
+                    { this.props.icon && this.props.icon.position == "left" && <span className={`inputIcon__icon ${ this.props.icon.name }`} onClick={this.onIconClick}></span> }
                     { this.props.type == "select" &&
                         <select
                             id={this.props.id}
@@ -107,7 +112,7 @@ export class IconedInput extends React.Component {
                             onBlur={this.onFormChange}
                         />
                     }
-                    { this.props.icon && this.props.icon.position == "right" && <span className={`inputIcon__icon ${ this.props.icon.name }`}></span> }
+                    { this.props.icon && this.props.icon.position == "right" && <span className={`inputIcon__icon ${ this.props.icon.name }`} onClick={this.onIconClick}></span> }
                 </div>
                 { this.props.underLabel && <div className="input__underLabel">{ this.props.underLabel }</div> }
                 { this.props.error && <span className={`${this.errorClass} ${this.props.error.hasError? "visible" : "invisible"}`}>{this.props.error.errorMessage}</span> }
@@ -318,6 +323,73 @@ export class SingleInput extends React.Component {
                     onInput={this.onFormInput}
                     onKeyDown={this.onKeyDown}
                 />
+        );
+    }
+}
+
+
+export class FileUpload extends React.Component {
+    class = "input__fileUpload";
+
+    onFormInput = (event) => {
+        event.target.className = this.class;
+
+        if(event.target.value != "" && event.target.nextSibling)
+            event.target.nextSibling.focus();
+
+    }
+
+    onClick = (event) => {
+        event.preventDefault();
+        let id = document.getElementById(this.props.id);
+        id.click();
+
+    }
+
+    onKeyDown = (event) => {
+        if(event.code == "Backspace" && event.target.value == "" && event.target.previousSibling){
+            event.target.previousSibling.focus();
+            event.target.previousSibling.setSelectionRange(1,1);
+        }
+
+
+        if(event.code == "ArrowLeft" && event.target.previousSibling){
+            event.target.previousSibling.focus();
+            event.target.previousSibling.setSelectionRange(1,1);
+            event.preventDefault();
+         }
+
+        if(event.code == "ArrowRight" && event.target.nextSibling){
+            event.target.nextSibling.focus();
+            event.target.nextSibling.setSelectionRange(1,1);
+            event.preventDefault();
+        }
+    }
+
+    render(){
+        return (
+                <div className="input__fileUpload">
+                    <div className="input__fileUploadIcon fa fa-upload" onClick={this.onClick}></div>
+                    <div className="input__fileUploadTextBox" onClick={this.onClick}>
+                        <p className="">Drag and drop here or click to upload {this.props.label}</p>
+                        <p className="">{this.props.fileFormats}</p>
+                    </div>
+
+                    <div className="input__fileUploadTextBox--sm">Upload {this.props.label}</div>
+                    <button className="input__fileUploadTextButton" onClick={this.onClick}>Upload</button>
+
+                    <input
+                        id={this.props.id}
+                        className="invisible"
+                        name={this.props.name}
+                        type="file"
+                        required={this.props.required}
+                        disabled={this.props.disabled}
+                        onInput={this.onFormInput}
+                        onKeyDown={this.onKeyDown}
+
+                    />
+                </div>
         );
     }
 }

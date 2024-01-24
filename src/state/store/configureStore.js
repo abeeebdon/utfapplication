@@ -5,6 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 
 import configurationReducer from '../reducers/configuration';
 import clientSignupFormReducer from '../reducers/clientSignupForm';
+import notificationReducer from '../reducers/notification';
 
 export default () => {
     const persistConfig = {
@@ -18,7 +19,7 @@ export default () => {
 //        endpoints: endpointsReducer,
         clientSignupForm: clientSignupFormReducer,
 //        preloader: preloaderReducer,
-//        notification: notificationReducer,
+        notification: notificationReducer,
 //        images: imagesReducer,
 //        buyAirtimeForm: buyAirtimeFormReducer,
 //        account: accountReducer
