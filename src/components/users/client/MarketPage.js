@@ -62,66 +62,15 @@ const countries = useSelector(state => state.configuration.countries);
                     <Header />
                     <div className="home__content">
                         <div className="trendingBox">
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
-                            <TradingPanel
-                                pair={{name: "GBP/USD", icon: "d"}}
-                                trendChart={{}}
-                                price={{amount: "$1,085.18", change: "-21.00%"}}
-                                actions={{trade: "d"}}
-                            />
+                            { [...Array(26)].map((x, key)=>{
+                                return <TradingPanel
+                                    pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
+                                    trendChart={{}}
+                                    price={{amount: "$1,085.18", change: "-21.00%"}}
+                                    actions={{trade:"e"}}
+                                />
+                              })
+                            }
                         </div>
                     </div>
                 </div>

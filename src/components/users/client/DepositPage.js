@@ -15,7 +15,7 @@ import { ControlHeader } from "./SideBar";
 export default function DepositPage() {
 const dispatch = useDispatch();
 const countries = useSelector(state => state.configuration.countries);
-const usdtLogo = "/images/crypto/USDT.svg"
+const usdtLogo = "/images/crypto/usdt.svg"
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
