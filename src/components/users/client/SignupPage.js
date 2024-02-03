@@ -22,7 +22,7 @@ const countries = useSelector(state => state.configuration.countries);
     const clientSignupForm = useSelector(state => state.clientSignupForm);
     const onFormSubmit2 = async (event) => {
         event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/"));
+        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
     }
     const onFormSubmit = async (event) => {
         event.preventDefault();

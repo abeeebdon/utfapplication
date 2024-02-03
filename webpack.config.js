@@ -30,10 +30,11 @@ module.exports = {
         devMiddleware: {
 //            writeToDisk: true,
         },
-        hot: true,
-        liveReload: true,
+//        hot: true,
+//        liveReload: true,
         watchFiles: ['src/**/*.js'],
         compress: true,
+        host: '0.0.0.0',
         port: 8080,
         historyApiFallback : true
     }

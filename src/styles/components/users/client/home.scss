@@ -1,0 +1,569 @@
+.home {
+    background-color: #F6F5F5;
+    /*text-align: -webkit-center;*/
+    min-height: 100vh;
+}
+
+.home .container {
+    display: flex;
+    height: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+}
+
+.home__main {
+    width: calc(100% - 300px);
+    height: 100%;
+    padding: 0;
+    margin-bottom: 100px;
+}
+
+.home__content {
+    padding: 20px;
+}
+
+.home__col1 {
+    width: 50%
+}
+
+.dashboardBox {
+    display: flex;
+}
+
+.dashboard {
+    padding: 30px;
+    background: linear-gradient(180deg, #032058 13.41%, #7C82FF 105.73%);
+    border-radius: 10px;
+    width: 40%;
+    margin-right: 50px;
+    position: relative;
+}
+
+.dashboardOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: url("../../public/images/dashboardMask.svg");
+    background-size: cover;
+}
+
+.dashboard__accountName {
+    color: white;
+    font-size: 2.5rem;
+    text-align: left;
+}
+
+.dashboard__balance {
+    margin-top: 20px;
+}
+
+.dashboard__data {
+    text-align: left;
+}
+
+.dashboard__dataHead {
+    font-size: 1.3rem;
+    color: #a4a3a3;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.dashboard__dataBody {
+    display: flex;
+    align-items: baseline;
+}
+
+.dashboard__figureMajor {
+    color: white;
+    margin: 0;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-right: 20px;
+}
+
+.dashboard__figureMinor {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 0.8px;
+}
+
+.dashboard__invested {
+    display: flex;
+    margin-top: 20px;
+}
+
+.dashboard__invested span:first-child {
+    padding-right: 20px;
+    margin-right: 20px;
+    border-right: 1px solid white;
+}
+
+.dashboardAction {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboardAction a:first-child button {
+    background: #34A853;
+    border: 1px solid #34A853;
+}
+
+.dashboardAction a:last-child button {
+    color: #EE6B0D;
+    border: 1px solid #EE6B0D;
+    background: rgba(238, 107, 13, 0.05);
+}
+
+.trendingBox {
+    margin-top: 20px;
+}
+
+.trendingBox__heading {
+    font-weight: bolder;
+    text-align: left;
+    font-size: 2rem;
+}
+
+.deposit__content {
+    width: 100%;
+}
+
+.deposit__heading {
+    padding: 10px 20px;
+}
+
+.deposit__levels {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.deposit__level {
+    border: 1px solid $mainColor;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    margin: 10px 10px;
+}
+
+.deposit__levelName {
+    color: $mainColor;
+    font-weight: bold;
+    margin: 20px 0;
+    font-size: 2rem;
+}
+
+.deposit__levelDescription {
+    color: $grey;
+    margin: 20px 0;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.deposit__levelPrice {
+    color: $mainColor;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 0;
+}
+
+.depositLevel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.depositLevel__title {
+    font-weight: bold;
+}
+
+.depositLevel__icon {
+    width: 50px;
+    height: 50px;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+.depositLevel__scanBox {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.depositLevel__scanHead {
+    padding: 20px;
+    padding-top: 0;
+    font-weight: bold;
+}
+
+.depositLevel__Dash {
+    width: 150px;
+    border: 0.5px solid $grey;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.depositLevel__address {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px solid $grey;
+    border-radius: 10px;
+}
+
+.depositLevel__action {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.depositLevel__actionNext {
+    margin-top: 60px;
+}
+
+.depositProof .signup__form {
+    background: transparent;
+    box-shadow: none;
+}
+
+.withdraw .signup__form {
+    margin-top: 20px;
+}
+
+.withdrawalBalance {
+    display: flex;
+    justify-content: center;
+    margin: 40px auto;
+    margin-bottom: 0;
+    width: 50%;
+}
+
+.withdrawalBalance .tradingPanel {
+    width: 100%;
+}
+
+.withdraw__details {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.withdraw__heading {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.withdraw__heading2 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.withdraw__summaryTable {
+    width: 80%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.withdraw__summaryTable .tradingPanel {
+    box-shadow: none;
+}
+
+.withdraw__total {
+    width: 80%;
+    margin: 40px 0;
+}
+
+.withdraw__subHeading, .withdraw__footnote {
+    width: 80%;
+    text-align: center;
+}
+
+
+/***************************/
+.autoTrade {
+    display: flex;
+    align-items: center;
+    background: $subColor;
+    padding: 0 20px;
+    border-radius: 10px;
+    width: max-content;
+}
+
+.autoTrade .input__box {
+    margin-right: 20px;
+}
+
+.orderForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orderForm__title {
+    margin: 0;
+}
+
+.orderForm__pair {
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 0;
+}
+
+.orderForm__direction {
+    display: flex;
+    align-items: center;
+    width: 500px;
+    justify-content: space-between;
+}
+
+.orderForm__directionButton {
+    padding: 10px 20px;
+    border: 1px solid $mainColor;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.orderForm__directionButton p {
+    margin: 0;
+    margin-right: 10px;
+}
+
+.orderForm__directionButton input {
+    margin-right: 20px;
+}
+
+.orderForm__lots {
+    margin-top: 20px;
+}
+
+.orderForm__lotsControl {
+    display: flex;
+}
+
+.orderForm__lotsControl input {
+    border: 1px solid $mainColor;
+    border-radius: 10px;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.orderForm__lotsControlButton {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: $subColor;
+    font-size: 2rem;
+}
+
+.orderForm__margin {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.orderForm__marginAvailable {
+    text-align: right;
+}
+
+.orderForm__button {
+    width: 150px;
+    margin-top: 20px;
+}
+
+.rewardBanners {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rewardBanner {
+    display: flex;
+    padding: 20px;
+    background: #9300F5;
+    border-radius: 10px;
+    color: white;
+    width: 40%;
+}
+
+.rewardBanner__caption {
+    margin-right: 10px;
+    width: 50%;
+}
+
+.rewardBanner__text {
+    margin-bottom: 20px;
+}
+
+.rewardBanner__title {
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.rewardBanner .button {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.reward .rewardBanner:first-child .button {
+    color: #9300F5;
+}
+
+.reward .rewardBanner:last-child {
+    background: #F59300;
+}
+
+.reward .rewardBanner:last-child .button {
+    color: #F59300;
+}
+
+.rewardBanner__imageBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.rewardBanner__image {
+    width: 125px;
+    height: 100px;
+}
+
+
+/***************************/
+
+
+@media only screen and (max-width:1024px) {
+    .home__main {
+        width: calc(100% - 200px);
+    }
+
+    .deposit__level {
+        width: 200px;
+    }
+}
+
+@media only screen and (max-width:768px) {
+    .home__main {
+        width: 100vw;
+    }
+
+    .withdrawalBalance {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width:600px) {
+    .home__col1 {
+        width: 100%
+    }
+
+    .dashboardBox {
+        display: block;
+    }
+
+    .dashboard {
+        margin: 0;
+        width: auto;
+    }
+
+    .dashboardAction {
+        margin-top: 20px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dashboardAction a {
+        width: 100%;
+    }
+
+    .dashboardAction a:first-child {
+        margin-right: 10px;
+    }
+
+    .home .tradingPanel__action {
+        display: none;
+    }
+
+    .withdrawalBalance {
+        width: 90%;
+    }
+
+    .withdraw__summaryTable {
+        box-shadow: none;
+        width: 90%;
+        border: none;
+        border-top: 1px solid grey;
+        border-bottom: 1px solid grey;
+        border-radius: initial;
+        background: transparent;
+    }
+
+    .withdraw__total {
+        margin-top: 0;
+        box-shadow: none;
+        width: 90%;
+        border: none;
+        border-top: 1px solid grey;
+        border-bottom: 1px solid grey;
+        border-radius: initial;
+        background: transparent;
+    }
+
+    .withdraw__subHeading, .withdraw__footnote {
+        width: 90%;
+        text-align: center;
+    }
+
+    .withdraw__summaryTable .tradingPanel, .withdraw__total .tradingPanel {
+        background: transparent;
+        border-radius: initial;
+        box-shadow: none;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .deposit__levels {
+        margin-top: 0px;
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .deposit__level {
+        width: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+    .deposit__levelNote {
+        display: none;
+    }
+
+    .deposit__levelAction button {
+        display: none;
+    }
+
+    .deposit__levelAction span {
+        display: block;
+        font-size: 3rem;
+    }
+}
+
+@media only screen and (max-width:400px) {
+}

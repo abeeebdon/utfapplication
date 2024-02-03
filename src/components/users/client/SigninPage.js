@@ -25,7 +25,8 @@ export default function SigninPage() {
     }
     const onVerificationFormSubmit = async (event) => {
         event.preventDefault();
-        $(".signup__verification").addClass("invisible")
+//        $(".signup__verification").addClass("invisible")
+        window.location.replace("/home")
     }
     const sendVerificationToken = async (event) => {}
     let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);

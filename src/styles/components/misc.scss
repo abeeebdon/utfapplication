@@ -63,6 +63,12 @@ html {
     opacity: 0.5;
 }
 
+.separator {
+    height: 100%;
+    border: 1px solid $grey;
+    display: inline-block;
+}
+
 #stopScrolling {
     height: 100% !important;
     overflow: hidden !important;
@@ -137,7 +143,7 @@ html {
 .container {
     margin-right: 20px;
     margin-left: 20px;
-    max-width: 1140px;
+    max-width: 1440px;
 }
 
 

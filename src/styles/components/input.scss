@@ -221,17 +221,17 @@
 
 .search__icon {
     padding: 10px;
-    color: $offWhite;
+    color: $grey;
     cursor: pointer;
 }
 
 .search__iconGroup {
-    display: inline-block;
+    display: flex;
     border-radius: 10px;
     text-align: left;
-    border: 1px solid #242424;
+    border: 1px solid $subBackground;
     width: 100%;
-    background: #242424;
+    background: $subBackground;
 }
 
 .search__input {

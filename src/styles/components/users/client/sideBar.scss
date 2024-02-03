@@ -1,0 +1,451 @@
+/*----------------------
+  SIDEBAR              |
+-----------------------*/
+.sidebar {
+    width: 300px;
+    background-color: $subBackground;
+    position: relative;
+}
+
+.sidebar__content {
+    text-align: left;
+    position: fixed;
+    width: inherit;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar__appName {
+    color: white;
+    font-weight: bolder;
+    font-size: 4rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 30%;
+    align-self: center;
+    letter-spacing: 2.5px;
+}
+
+.sidebar__menu {
+    margin: 0;
+    padding: 0 10px;
+    text-align: left;
+    overflow-y: scroll;
+}
+
+.sidebar__menuItem, .sidebar__menuItem:visited {
+    padding: 10px 20px;
+    margin: 5px 0;
+    display: block;
+    color: $grey;
+}
+
+.sidebar__menuItem:first-child {
+    margin-top: 0;
+
+}
+
+.sidebar__menuItem:last-child {
+    margin-bottom: 0;
+
+}
+
+.sidebar__menuItem--selected {
+    background-color: $mainColor;
+    border-radius: 5px;
+    color: white;
+}
+
+.sidebar__menuItem--selected * {
+    color: white;
+
+}
+
+.sidebar__menuIcon {
+    margin-right: 15px;
+
+}
+
+.sidebar__menuText {
+}
+
+
+/*----------------------
+  HEADER               |
+-----------------------*/
+.header {
+    position: sticky;
+    top: 0px;
+    background: white;
+    margin: 0;
+    margin-bottom: 20px;
+    z-index: 1;
+}
+
+.header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+    color: black;
+}
+
+.header .search__form {
+    width: 50%;
+}
+
+.accountBar, .profileBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileBar__greetings {
+    color: $grey;
+    font-weight: 800;
+    margin-right: 10px;
+}
+
+.header__notification {
+    color: $mainColor;
+    margin-right: 50px;
+    font-size: 2.8rem;
+}
+
+.profileBar__image {
+    width: 40px;
+
+}
+
+.header__menuToggle {
+    color: $mainColor;
+    margin-left: 40px;
+    font-size: 2.8rem;
+    display: none;
+  cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
+  transform: rotate(-45deg) translate(-9px, 6px) ;
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
+  transform: rotate(45deg) translate(-8px, -8px) ;
+}
+
+
+.controlHeader {
+    margin-bottom: 0;
+    position: sticky;
+    top: 0px;
+    background: white;
+    margin: 0;
+    margin-bottom: 20px;
+    z-index: 1;
+}
+
+.controlHeader__logo {
+    width: 50px;
+    height: 50px;
+}
+
+.controlHeader__items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controlHeader__items > * {
+    margin-right: 30px;
+}
+
+.controlHeader__back {
+    padding: 5px;
+}
+
+.controlHeader__title {
+    font-weight: bold;
+}
+
+.controlHeader__action {
+    display: flex;
+}
+
+.controlHeader__action .button {
+    width: 150px;
+    padding: 10px 15px 10px 15px;
+    background: #E7EFFE;
+    margin: 0 5px;
+}
+
+.controlHeader__close {
+    padding: 5px;
+}
+
+.progressBar {
+    width: 100%;
+    height: 3px;
+    border: 1px inset;
+    background: #bfbfbf;
+}
+
+.progress {
+    height: 100%;
+    background: $mainColor;
+    display: flex;
+}
+
+/*----------------------
+  ACTION LIST ITEM     |
+-----------------------*/
+.actionListItem__box {
+    background: $subBackground;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+}
+
+.actionListItem__box:first-child {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.actionListItem__box:last-child {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom: none;
+}
+
+.actionListItem {
+    background: $subBackground;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.actionListItem > * {
+    margin: 0 5px;
+}
+
+.actionListItem__left {
+    display: flex;
+    align-items: center;
+}
+
+.actionListItem__left > * {
+    margin: 0 5px;
+}
+
+.actionListItem__icon {
+    font-size: 18px;
+    color: gray;
+}
+
+.actionListItem__logo {
+    width: 25px;
+    height: 25px;
+}
+
+.actionListItem__label {
+    margin: 0;
+    color: white;
+    text-align: left;
+    font-size: 14px;
+}
+
+.actionListItem__subLabel {
+    margin: 0;
+    color: gray;
+    text-align: left;
+    font-size: 14px;
+}
+
+.actionListItem__button {
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0 5px;
+}
+
+
+
+/*----------------------
+  TRADING PANEL     |
+-----------------------*/
+
+.tradingPanel {
+    border-radius: 10px;
+    background: white;
+    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.tradingPanel__pair {
+    display: flex;
+    align-items: center;
+   /* width: 16%;
+    justify-content: space-between;*/
+}
+
+.tradingPanel__pairIcon {
+    width: 30px;
+    height: 30px;
+    margin-right: 25px;
+}
+
+.tradingPanel__pairName {
+    font-weight: bold;
+}
+
+.tradingPanel__chart {
+    width: 16%;
+}
+
+.tradingPanel__figure {
+    text-align: right;
+}
+
+.tradingPanel__change {
+    font-size: 1.2rem;
+    line-height: normal
+}
+
+.tradingPanel__change--up {
+    color: green;
+}
+
+.tradingPanel__change--down {
+    color: red;
+}
+
+.tradingPanel__action .button {
+    width: 150px;
+    padding: 10px 15px 10px 15px;
+    box-shadow: 7px 7px 100px 0px #1160F7;
+    background: $subBackground;
+}
+
+.tradingPanel__action .buy {
+    margin-right: 5px;
+    box-shadow: none;
+}
+
+.tradingPanel__action .sell {
+    margin-left: 5px;
+    box-shadow: none;
+}
+
+@media only screen and (max-width:1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    /*.sidebar__content {
+        width: unset;
+    }*/
+}
+
+@media only screen and (max-width:768px) {
+    .sidebar {
+        left: -300px;
+        position: fixed;
+        z-index: 2;
+        box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    .sidebar--open {
+        left: 0px;
+    }
+
+    .sidebar__content {
+        position: static;
+    }
+
+
+
+    .header__notification {
+        margin-right: 10px;
+    }
+
+    .header__menuToggle {
+        display: inline-block;
+        margin-left: 15px;
+    }
+}
+
+@media only screen and (max-width:600px) {
+    .header {
+        display: none;
+    }
+
+    .sidebar {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: unset;
+        box-shadow: 4px -4px 10px 0px rgba(0, 0, 0, 0.25);
+        background: white;
+    }
+
+    .sidebar__content {
+        height: unset;
+    }
+
+    .sidebar__appName {
+        display: none;
+    }
+
+    .sidebar__menu {
+        display: flex;
+        padding: 10px;
+        justify-content: space-between;
+    }
+
+    .sidebar__menuItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 10px;
+        margin: 0;
+    }
+
+    .sidebar__menuIcon {
+        margin: 0;
+        font-size: 3rem;
+        margin-bottom: -10px;
+    }
+
+    .sidebar__menuItem--selected * {
+        color: $mainColor;
+    }
+
+    .sidebar__menuItem--selected {
+        color: $mainColor;
+        background: white;
+    }
+}
+
+@media only screen and (max-width:400px) {
+}
