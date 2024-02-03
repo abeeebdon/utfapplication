@@ -12,14 +12,15 @@
 }
 
 .home__main {
-    width: calc(100% - 300px);
+    width: calc(100% - 250px);
     height: 100%;
     padding: 0;
     margin-bottom: 100px;
 }
 
 .home__content {
-    padding: 20px;
+    padding: 0 20px;
+    margin-top: 20px;
 }
 
 .home__col1 {
@@ -454,6 +455,15 @@
     .deposit__level {
         width: 200px;
     }
+
+    .rewardBanner__caption {
+        width: 70%;
+    }
+
+    .rewardBanner__image {
+        width: 70px;
+        height: 56px;
+    }
 }
 
 @media only screen and (max-width:768px) {
@@ -463,6 +473,16 @@
 
     .withdrawalBalance {
         width: 70%;
+    }
+
+    .rewardBanners {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rewardBanner {
+        width: 80%;
+        margin-bottom: 40px;
     }
 }
 
@@ -495,7 +515,7 @@
         margin-right: 10px;
     }
 
-    .home .tradingPanel__action {
+    .trendingBox--home .tradingPanel__action {
         display: none;
     }
 

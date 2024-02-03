@@ -59,7 +59,7 @@ const countries = useSelector(state => state.configuration.countries);
             <div className="container">
                 <SideBar selectedItem={"reward"} />
                 <div className="home__main">
-                    <Header />
+                    <Header title="Reward"/>
                     <div className="home__content">
                         <div className="trendingBox">
                             <p className="trendingBox__heading">Earn by Referrals</p>
@@ -68,7 +68,7 @@ const countries = useSelector(state => state.configuration.countries);
                                     <div className="rewardBanner__caption">
                                         <p className="rewardBanner__title">Reward</p>
                                         <p className="rewardBanner__text">Like, Share <br/>& get free Crypto</p>
-                                        <button className="button">Get Started Now</button>
+                                        <button className="button">Start Now</button>
                                     </div>
                                     <div className="rewardBanner__imageBox">
                                         <div className="rewardBanner__image">

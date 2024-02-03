@@ -2,7 +2,7 @@
   SIDEBAR              |
 -----------------------*/
 .sidebar {
-    width: 300px;
+    width: 250px;
     background-color: $subBackground;
     position: relative;
 }
@@ -93,7 +93,7 @@
 }
 
 .header .search__form {
-    width: 50%;
+    width: 40%;
 }
 
 .accountBar, .profileBar {
@@ -312,7 +312,7 @@
 .tradingPanel__pairIcon {
     width: 30px;
     height: 30px;
-    margin-right: 25px;
+    margin-right: 20px;
 }
 
 .tradingPanel__pairName {
@@ -329,7 +329,7 @@
 
 .tradingPanel__change {
     font-size: 1.2rem;
-    line-height: normal
+    line-height: normal;
 }
 
 .tradingPanel__change--up {
@@ -340,8 +340,18 @@
     color: red;
 }
 
+.tradingPanel__spread--sm {
+    display: none;
+}
+
+.tradingPanel__spread--sm .tradingPanel__price {
+    font-size: 1.2rem;
+    line-height: normal;
+    color: grey;
+}
+
 .tradingPanel__action .button {
-    width: 150px;
+    width: 130px;
     padding: 10px 15px 10px 15px;
     box-shadow: 7px 7px 100px 0px #1160F7;
     background: $subBackground;
@@ -365,6 +375,10 @@
     /*.sidebar__content {
         width: unset;
     }*/
+
+    .tradingPanel__action .sell, .tradingPanel__action .buy {
+        width: 80px;
+    }
 }
 
 @media only screen and (max-width:768px) {
@@ -384,7 +398,6 @@
     }
 
 
-
     .header__notification {
         margin-right: 10px;
     }
@@ -396,7 +409,11 @@
 }
 
 @media only screen and (max-width:600px) {
-    .header {
+    .home--select .header {
+        display: none;
+    }
+
+    .accountBar{
         display: none;
     }
 
@@ -444,6 +461,18 @@
     .sidebar__menuItem--selected {
         color: $mainColor;
         background: white;
+    }
+
+    .tradingPanel__spread {
+        display: none;
+    }
+
+    .tradingPanel__spread--sm {
+        display: block;
+    }
+
+    .trade .tradingPanel__chart {
+        display: none;
     }
 }
 

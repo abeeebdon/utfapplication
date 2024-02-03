@@ -55,11 +55,11 @@ const countries = useSelector(state => state.configuration.countries);
     const logo = useSelector(state => state.configuration.app.logo);
 
     return (
-        <section className="home">
+        <section className="home home--select">
             <div className="container">
                 <SideBar selectedItem={"home"} />
                 <div className="home__main">
-                    <Header />
+                    <Header title="Home"/>
                     <div className="home__content">
                         <div className="dashboardBox">
                             <div className="dashboard">
@@ -95,7 +95,7 @@ const countries = useSelector(state => state.configuration.countries);
                                 <Link to='/withdraw'> <ButtonForm label={"Withdraw"} /> </Link>
                             </div>
                         </div>
-                        <div className="trendingBox">
+                        <div className="trendingBox trendingBox--home">
                             <p className="trendingBox__heading">Trending</p>
                             { [...Array(26)].map((x, key)=>{
                                 return <TradingPanel

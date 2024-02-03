@@ -64,7 +64,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                     <div className="">
                         <div className="withdrawalBalance">
                             <TradingPanel
-                                pair={{name: "USDT (TRC20)", icon: "/images/crypto/usdt.svg"}}
+                                pair={{name: <div>USDT<br/>TRC20</div>, icon: "/images/crypto/usdt.svg"}}
                                 price={{amount: "Available balance", change: "2.23464 USDT"}}
                             />
                         </div>

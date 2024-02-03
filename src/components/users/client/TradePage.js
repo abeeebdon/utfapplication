@@ -55,19 +55,18 @@ const countries = useSelector(state => state.configuration.countries);
     const logo = useSelector(state => state.configuration.app.logo);
 
     return (
-        <section className="home order">
+        <section className="home trade">
             <div className="container">
                 <SideBar selectedItem={"trade"} />
                 <div className="home__main">
-                    <Header />
+                    <Header title="Trade"/>
                     <div className="home__content">
-                        <ControlHeader title={"Trade"}/>
                         <div className="trendingBox">
                             { [...Array(26)].map((x, key)=>{
                                 return <TradingPanel
                                     pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
                                     trendChart={{}}
-                                    price={{amount: "Spread 0.0001", change: "-21.00%"}}
+                                    spread={{amount: "0.0001", change: "-21.00%", buy: "0.8132", sell: "0.8131"}}
                                     actions={{buy: "functionCall", sell: "functionCall"}}
                                 />
                               })

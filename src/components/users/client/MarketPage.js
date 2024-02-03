@@ -59,9 +59,9 @@ const countries = useSelector(state => state.configuration.countries);
             <div className="container">
                 <SideBar selectedItem={"market"} />
                 <div className="home__main">
-                    <Header />
+                    <Header title="Market"/>
                     <div className="home__content">
-                        <div className="trendingBox">
+                        <div className="trendingBox trendingBox--home">
                             { [...Array(26)].map((x, key)=>{
                                 return <TradingPanel
                                     pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}

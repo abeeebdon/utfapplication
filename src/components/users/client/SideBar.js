@@ -62,6 +62,7 @@ export function Header(props) {
     return (
         <div className="header">
             <div className="header__content">
+                <div>{props.title}</div>
                 <form className="search__form">
                     <span className="search__iconGroup">
                         <span className="search__icon fa fa-search"></span>
@@ -137,7 +138,13 @@ export function TradingPanel(props) {
         <div className="tradingPanel">
             <div className="tradingPanel__pair">
                 { props.pair.icon && <div className="tradingPanel__pairIcon"> <RoundedImage src={props.pair.icon} /> </div> }
-                <div className="tradingPanel__pairName"> {props.pair.name} </div>
+                <div className="tradingPanel__pairName">
+                    <div>{props.pair.name}</div>
+                    { props.spread && <div className="tradingPanel__spread--sm">
+                        <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
+                        <div className="tradingPanel__change tradingPanel__change--down"> {props.spread.change} </div>
+                    </div> }
+                </div>
             </div>
             { props.trendChart && <div className="tradingPanel__chart">
                 <svg preserveAspectRatio="none" viewBox="0 0 148 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -148,10 +155,20 @@ export function TradingPanel(props) {
                 <div className="tradingPanel__price"> {props.price.amount} </div>
                 <div className="tradingPanel__change tradingPanel__change--down"> {props.price.change} </div>
             </div> }
+            { props.spread && <div className="tradingPanel__figure tradingPanel__spread">
+                <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
+                <div className="tradingPanel__change tradingPanel__change--down"> {props.spread.change} </div>
+            </div> }
             { props.actions && <div className="tradingPanel__action">
                     { props.actions.trade && <button className="button button--inverted trade">Trade</button> }
-                    { props.actions.buy && <button className="button button--inverted buy">Buy</button> }
-                    { props.actions.sell && <button className="button button--inverted sell">Sell</button> }
+                    { props.actions.buy && props.spread && <button className="button button--inverted buy">
+                            <div className="tradingPanel__pairName">BUY</div>
+                            <div>{props.spread.buy}</div>
+                    </button> }
+                    { props.actions.buy && props.spread && <button className="button button--inverted sell">
+                            <div className="tradingPanel__pairName">SELL</div>
+                            <div>{props.spread.sell}</div>
+                    </button> }
             </div> }
         </div>
     );

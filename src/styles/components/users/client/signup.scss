@@ -322,6 +322,11 @@
 
     .signup {
         background: white;
+        align-items: initial;
+    }
+
+    .signup .container {
+        margin-top: 0;
     }
 
     .signup--panel__trackBar, .signup--panel__sidebar {
