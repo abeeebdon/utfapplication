@@ -269,20 +269,19 @@
     margin-bottom: 20px;
 }
 
-.withdraw__summaryTable {
+.withdraw__summaryTable, .withdraw__total {
     width: 80%;
     background: white;
     border-radius: 10px;
     box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 40px;
+    padding: 10px;
 }
 
-.withdraw__summaryTable .tradingPanel {
+.withdraw__summaryTable .tradingPanel, .withdraw__total .tradingPanel {
     box-shadow: none;
-}
-
-.withdraw__total {
-    width: 80%;
-    margin: 40px 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .withdraw__subHeading, .withdraw__footnote {
@@ -313,12 +312,14 @@
 
 .orderForm__title {
     margin: 0;
+    margin-top: 20px;
 }
 
 .orderForm__pair {
     font-weight: bold;
     font-size: 2rem;
     margin-top: 0;
+    margin-bottom: 20px;
 }
 
 .orderForm__direction {
@@ -326,6 +327,7 @@
     align-items: center;
     width: 500px;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .orderForm__directionButton {
@@ -347,10 +349,12 @@
 
 .orderForm__lots {
     margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .orderForm__lotsControl {
     display: flex;
+    margin-bottom: 20px;
 }
 
 .orderForm__lotsControl input {
@@ -373,6 +377,12 @@
     width: 500px;
     justify-content: space-between;
     margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.orderForm__margin * {
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .orderForm__marginAvailable {
@@ -382,6 +392,62 @@
 .orderForm__button {
     width: 150px;
     margin-top: 20px;
+    padding: 10px 15px 10px 15px;
+}
+
+.marketTrend__caption {
+    font-size: 2rem;
+    padding:  0 20px;
+}
+
+.marketTrend__direction {
+    color: red;
+}
+
+.marketTrend__duration {
+    font-size: 1.5rem;
+    padding:  0 20px;
+    margin-top: 0;
+}
+
+.market__category {
+    background: white;
+    padding: 20px;
+}
+
+.market__categoryNav {
+    margin-top: 10px;
+}
+
+.market__categoryNavButton {
+    margin-right: 15px;
+    border-radius: 10px;
+    background: $subColor;
+    border: unset;
+    padding: 10px;
+}
+
+.market__categoryNavSelected {
+    background: $mainColor;
+    color: white;
+}
+
+.market__favorites {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.market__favoritesImage {
+    width: 500px;
+}
+
+.market__favorites p {
+    margin-bottom: 5px;
+}
+
+.market__favorites p:first-of-type {
+    font-weight: bold;
 }
 
 .rewardBanners {
@@ -443,6 +509,146 @@
     height: 100px;
 }
 
+.referralBox {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 7px 7px 50px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.referralBox__title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.referralBox__subTitle {
+    font-size: 2rem;
+}
+
+.referralBox__codeBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.referralBox__code {
+    background: $subColor;
+    border-radius: 10px;
+    padding: 10px;
+    width: 70%;
+}
+
+.referralBox__button {
+    background: $mainColor;
+    border-radius: 10px;
+    padding: 10px 20px;
+    color: white;
+}
+
+.commissionBox {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.commission {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 7px 7px 50px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    width: 25%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.commission__amount {
+    color: $mainColor;
+}
+
+.account__panel {
+    display: flex;
+    margin: 10px;
+    justify-content: space-around;
+}
+
+.account__navigation {
+    background: white;
+    border-radius: 10px;
+    height: 100%;
+    min-height: 100vh;
+    padding: 20px 0px;
+}
+
+.account__navigation .account__profile {
+    display: none;
+}
+
+.account__navigation ul {
+    margin: 0;
+    padding: 0;
+}
+
+.account__navigation li {
+    padding: 20px 35px;
+}
+
+.account__navigation li span {
+    margin-right: 25px;
+    width: 5px;
+}
+
+.account__navigationItem--selected {
+    background: $subColor;
+    color: $mainColor;
+    border-left: 5px solid $mainColor;
+}
+
+.account__details {
+    width: 70%;
+}
+
+.account__profile {
+
+}
+
+.account__profileCard {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #02266A 13.41%, #3379FF 105.73%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 90%;
+    margin: auto;
+}
+
+.account__profileCardImage {
+    width: 100px;
+}
+
+.account__activity {
+    display: flex;
+    flex-direction: column;
+}
+
+.account__activityHead {
+    font-weight: bold;
+    text-align: center;
+}
+
+.account__activityDate {
+    font-weight: bold;
+}
+
+.account__activity .button {
+    width: max-content;
+    margin: auto;
+}
 
 /***************************/
 
@@ -464,6 +670,10 @@
         width: 70px;
         height: 56px;
     }
+
+    .account__details {
+        width: 60%;
+    }
 }
 
 @media only screen and (max-width:768px) {
@@ -483,6 +693,10 @@
     .rewardBanner {
         width: 80%;
         margin-bottom: 40px;
+    }
+
+    .account__details {
+        width: 60%;
     }
 }
 
@@ -531,6 +745,7 @@
         border-bottom: 1px solid grey;
         border-radius: initial;
         background: transparent;
+        margin-bottom: 0;
     }
 
     .withdraw__total {
@@ -583,7 +798,44 @@
         display: block;
         font-size: 3rem;
     }
+
+    .commissionBox {
+        background: white;
+    }
+
+    .commission {
+        box-shadow: none;
+    }
+
+    .account__navigation {
+        width: 100%;
+    }
+
+    .account__navigation .account__profile {
+        display: flex;
+    }
+
+    .account__details .account__profile {
+        display: none;
+    }
+
+    .account__details {
+        display: none;
+    }
+
+    .account__details {
+        width: 100%;
+    }
+
+    .account__profileCard {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
-@media only screen and (max-width:400px) {
+@media only screen and (max-width:500px) {
+    .orderForm__direction, .orderForm__margin {
+        width: 400px;
+    }
 }

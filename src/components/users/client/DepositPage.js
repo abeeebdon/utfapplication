@@ -14,6 +14,7 @@ import { ControlHeader } from "./SideBar";
 
 export default function DepositPage() {
 const dispatch = useDispatch();
+const navigate = useNavigate();
 const countries = useSelector(state => state.configuration.countries);
 const usdtLogo = "/images/crypto/usdt.svg"
     let selectedCountry = { isoCode: "NG",
@@ -60,7 +61,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
         <section className="deposit home">
             <div className="container">
                 <div id="stage1" className="deposit__content">
-                    <ControlHeader back={{onClick: ()=>window.location.replace("/home")}} close={{onClick: ()=>window.location.replace("/home")}} title={"Deposit"} progress="25%" />
+                    <ControlHeader back={{onClick: ()=>navigate("/home")}} close={{onClick: ()=>navigate("/home")}} title={"Deposit"} progress="25%" />
                     <div className="deposit__heading">
                         <div className="deposit__title">Select level</div>
                         <div className="deposit__subTitle">Please note, mininum payable amount is $30</div>
@@ -117,7 +118,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                 </div>
 
                 <div id="stage2" className="deposit__content invisible">
-                    <ControlHeader back={{onClick: ()=>{$("#stage1").show(); $("#stage2").hide()}}} close={{onClick: ()=>window.location.replace("/home")}} title={"Deposit"} progress="50%" />
+                    <ControlHeader back={{onClick: ()=>{$("#stage1").show(); $("#stage2").hide()}}} close={{onClick: ()=>navigate("/home")}} title={"Deposit"} progress="50%" />
                     <div className="depositLevel">
                         <div className="depositLevel__title">Beginner Level</div>
                         <div className="depositLevel__subTitle">Amounts accepted $30, $50, $99</div>
@@ -145,7 +146,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                 </div>
 
                 <div id="stage3" className="deposit__content invisible">
-                    <ControlHeader back={{onClick: ()=>{$("#stage2").show(); $("#stage3").hide()}}} close={{onClick: ()=>window.location.replace("/home")}} title={"Deposit"} progress="75%" />
+                    <ControlHeader back={{onClick: ()=>{$("#stage2").show(); $("#stage3").hide()}}} close={{onClick: ()=>navigate("/home")}} title={"Deposit"} progress="75%" />
                     <div className="depositProof">
                         <form onSubmit={onFormSubmit2} className="signup__form">
                             <div className="signup__heading">

@@ -60,9 +60,22 @@ const countries = useSelector(state => state.configuration.countries);
                 <SideBar selectedItem={"market"} />
                 <div className="home__main">
                     <Header title="Market"/>
+                    <div className="marketTrend__caption">Market is down <span className="marketTrend__direction">-11.17%</span></div>
+                    <p className="marketTrend__duration">In the past 24 hours</p>
+
+                    <div className="market__category">
+                        <div className="market__categoryName">Currency pairs</div>
+                        <div className="market__categoryNav">
+                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton market__categoryNavSelected">All</button>
+                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Gainers</button>
+                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Losers</button>
+                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Favourites</button>
+                        </div>
+                    </div>
+
                     <div className="home__content">
                         <div className="trendingBox trendingBox--home">
-                            { [...Array(26)].map((x, key)=>{
+                            { [...Array(2)].map((x, key)=>{
                                 return <TradingPanel
                                     pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
                                     trendChart={{}}
@@ -71,6 +84,13 @@ const countries = useSelector(state => state.configuration.countries);
                                 />
                               })
                             }
+                        </div>
+                        <div className="market__favorites invisible">
+                            <div className="market__favoritesImage">
+                                <Image src="/images/favorite.png"/>
+                            </div>
+                            <p>Special place for favorite coins</p>
+                            <p>Add your favorite coins and check here easily</p>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ import { ControlHeader, TradingPanel } from "./SideBar";
 
 export default function WithdrawPage() {
 const dispatch = useDispatch();
+const navigate = useNavigate();
 const countries = useSelector(state => state.configuration.countries);
 const usdtLogo = "/images/crypto/usdt.svg"
     let selectedCountry = { isoCode: "NG",
@@ -60,7 +61,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
         <section className="withdraw home">
             <div className="container">
                 <div className="deposit__content withdraw__content">
-                    <ControlHeader back={{onClick: ()=>window.location.replace("/home")}} title={"Withdraw"} />
+                    <ControlHeader back={{onClick: ()=>navigate("/home")}} title={"Withdraw"} />
                     <div className="">
                         <div className="withdrawalBalance">
                             <TradingPanel
@@ -69,7 +70,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                             />
                         </div>
 
-                        <form onSubmit={onFormSubmit2} className="signup__form">
+                        <form  className="signup__form">
                             <div className="signup__formInputs">
                                 <div className="signup__formInput">
                                     <IconedInput
@@ -110,7 +111,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                             </div>
 
                             <div className="signup--panel__buttonBar">
-                                <ButtonForm label={"Withdraw"} />
+                                <ButtonForm label={"Withdraw"} onClick={onFormSubmit2} />
                             </div>
                         </form>
                     </div>

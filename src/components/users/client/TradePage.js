@@ -11,8 +11,9 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 
-export default function HomePage() {
+export default function TradePage() {
 const dispatch = useDispatch();
+const navigate = useNavigate();
 const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
@@ -67,71 +68,10 @@ const countries = useSelector(state => state.configuration.countries);
                                     pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
                                     trendChart={{}}
                                     spread={{amount: "0.0001", change: "-21.00%", buy: "0.8132", sell: "0.8131"}}
-                                    actions={{buy: "functionCall", sell: "functionCall"}}
+                                    actions={{buy: ()=>navigate("/order"), sell: ()=>navigate("/order")}}
                                 />
                               })
                             }
-                        </div>
-                    </div>
-                </div>
-
-                <div className="home__main invisible">
-                    <ControlHeader action={"g"} />
-                    <div className="home__content">
-                        <div className="trendingBox">
-                            <div className="autoTrade">
-                                <ToggleInput
-                                    id={"checkBox"}
-                                    name={"checkBox"}
-                                    required={"required"}
-                                    checked={"false"}
-                                />
-                                <span><p>Switch to Auto Trading</p></span>
-                            </div>
-                            <form className="orderForm">
-                                <p className="orderForm__title">Trade Type</p>
-                                <p className="orderForm__pair">GBP/USD</p>
-                                <div className="orderForm__direction">
-                                    <span className="orderForm__directionButton">
-                                        <RadioInput
-                                            id={"radio"}
-                                            name={"radio"}
-                                            required={"required"}
-                                            checked={"true"}
-                                        />
-                                        <p>Sell</p>
-                                        <p>0.081</p>
-                                    </span>
-                                    <span className="orderForm__directionButton">
-                                        <RadioInput
-                                            id={"radio"}
-                                            name={"radio"}
-                                            required={"required"}
-                                            checked={"true"}
-                                        />
-                                        <p>Buy</p>
-                                        <p>0.081</p>
-                                    </span>
-                                </div>
-                                <p className="orderForm__lots">Trade Amounts (Lots)</p>
-                                <div className="orderForm__lotsControl">
-                                    <span className="orderForm__lotsControlButton">+</span>
-                                    <input type="number" />
-                                    <span className="orderForm__lotsControlButton">-</span>
-                                </div>
-                                <div className="orderForm__margin">
-                                    <span className="orderForm__marginOccupied">
-                                        <p>Occupied Margin(s)</p>
-                                        <p>148.566</p>
-                                    </span>
-
-                                    <span className="orderForm__marginAvailable">
-                                        <p>Available Margin(s)</p>
-                                        <p>96.173</p>
-                                    </span>
-                                </div>
-                                <div className="orderForm__button button button--form">Place Order</div>
-                            </form>
                         </div>
                     </div>
                 </div>

@@ -12,8 +12,10 @@ import HomePage from "../components/users/client/HomePage";
 import DepositPage from "../components/users/client/DepositPage";
 import WithdrawPage from "../components/users/client/WithdrawPage";
 import TradePage from "../components/users/client/TradePage";
+import OrderPage from "../components/users/client/OrderPage";
 import RewardPage from "../components/users/client/RewardPage";
 import MarketPage from "../components/users/client/MarketPage";
+import AccountPage from "../components/users/client/AccountPage";
 
 const Routers = ()=>(
     <BrowserRouter>
@@ -25,9 +27,10 @@ const Routers = ()=>(
             <Route path='/deposit' element={<DepositPage/>}  />
             <Route path='/withdraw' element={<WithdrawPage/>}  />
             <Route path='/trade' element={<TradePage/>}  />
+            <Route path='/order' element={<OrderPage/>}  />
             <Route path='/reward' element={<RewardPage/>}  />
             <Route path='/market' element={<MarketPage/>}  />
-            <Route path='/account' element={<MarketPage/>}  />
+            <Route path='/account' element={<AccountPage/>}  />
         </Routes>
         <NotificationModal />
     </BrowserRouter>

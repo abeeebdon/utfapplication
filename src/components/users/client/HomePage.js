@@ -13,6 +13,7 @@ import { SideBar, Header, TradingPanel} from "./SideBar";
 
 export default function HomePage() {
 const dispatch = useDispatch();
+const navigate = useNavigate();
 const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
@@ -102,7 +103,8 @@ const countries = useSelector(state => state.configuration.countries);
                                     pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
                                     trendChart={{}}
                                     price={{amount: "$1,085.18", change: "-21.00%"}}
-                                    actions={{trade:"e"}}
+                                    actions={{trade: ()=>navigate("/trade")}}
+                                    onClick={()=>navigate("/trade")}
                                 />
                               })
                             }

@@ -64,7 +64,7 @@
 
 .sidebar__menuIcon {
     margin-right: 15px;
-
+    width: 30px;
 }
 
 .sidebar__menuText {
@@ -417,6 +417,10 @@
         display: none;
     }
 
+    .header__menuToggle {
+        display: none;
+    }
+
     .sidebar {
         bottom: 0;
         right: 0;
@@ -436,7 +440,7 @@
 
     .sidebar__menu {
         display: flex;
-        padding: 10px;
+        padding: 5px;
         justify-content: space-between;
     }
 

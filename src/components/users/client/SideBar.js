@@ -62,7 +62,7 @@ export function Header(props) {
     return (
         <div className="header">
             <div className="header__content">
-                <div>{props.title}</div>
+                <div className="profileBar__greetings">{props.title}</div>
                 <form className="search__form">
                     <span className="search__iconGroup">
                         <span className="search__icon fa fa-search"></span>
@@ -79,9 +79,9 @@ export function Header(props) {
                         </div>
                     </div>
                     <span className="header__menuToggle" onClick={toggleSideBar}>
-                         <div class="bar1"></div>
-                         <div class="bar2"></div>
-                         <div class="bar3"></div>
+                         <div className="bar1"></div>
+                         <div className="bar2"></div>
+                         <div className="bar3"></div>
                     </span>
                 </div>
             </div>
@@ -95,12 +95,8 @@ export function ControlHeader(props) {
     const logo = useSelector(state => state.configuration.app.logo);
 
     const toggleSideBar = async (event) => {
-        if( $(".sidebar").css("left") == "-300px"){
-            $(".sidebar").addClass("sidebar--open");
-        }
-        else {
-            $(".sidebar").removeClass("sidebar--open");
-        }
+        $(".header__menuToggle").toggleClass("change");
+        $(".sidebar").toggleClass("sidebar--open");
     }
 
 //    dispatch(setSidebarItem(props.item))
@@ -112,14 +108,21 @@ export function ControlHeader(props) {
                         { props.back && <div className="controlHeader__back" onClick={props.back.onClick}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div> }
                         { props.logo && <div className="controlHeader__logo"> <Image src={logo}/> </div> }
                         { props.action &&
-                            <div className="controlHeader__action">
-                                <button className="button button--inverted trade">Market Price</button>
-                                <button className="button button--inverted trade">Pending Order</button>
-                            </div>
+                            <div className="controlHeader__action">{
+                                Object.entries(props.action).map(([key,value])=>{
+                                    return <button className="button button--inverted trade" onClick={value.onClick && value.onClick}>{value.name}</button>
+                                })
+                            }</div>
                         }
                         { props.title && <div className="controlHeader__title">{props.title}</div> }
                     </div>
                     { props.close && <div className="controlHeader__close" onClick={props.back.onClick}><span className="signup__verificationControlIcon fa fa-close"></span></div> }
+
+                    <span className="header__menuToggle" onClick={toggleSideBar}>
+                         <div className="bar1"></div>
+                         <div className="bar2"></div>
+                         <div className="bar3"></div>
+                    </span>
                 </div>
                 { props.progress &&
                     <div className="progressBar">
@@ -135,7 +138,7 @@ export function TradingPanel(props) {
     const dispatch = useDispatch();
 
     return (
-        <div className="tradingPanel">
+        <div className="tradingPanel" onClick={props.onClick && props.onClick}>
             <div className="tradingPanel__pair">
                 { props.pair.icon && <div className="tradingPanel__pairIcon"> <RoundedImage src={props.pair.icon} /> </div> }
                 <div className="tradingPanel__pairName">
@@ -151,21 +154,22 @@ export function TradingPanel(props) {
                     <path d="M147.452 53.7986L141.698 39.6603L131.341 44.017L120.984 36.2081L112.106 40.8113L102.736 33.1669L83.5009 36.044L73.1437 28.2351L66.239 33.1672L57.6079 15.0012L49.9634 24.372L31.4683 1.52066L23.5772 9.32968L11.7405 7.35699L1.13681 16.2346" stroke="#FF2C2C"/>
                 </svg>
             </div> }
-            { props.price && <div className="tradingPanel__figure">
-                <div className="tradingPanel__price"> {props.price.amount} </div>
-                <div className="tradingPanel__change tradingPanel__change--down"> {props.price.change} </div>
-            </div> }
             { props.spread && <div className="tradingPanel__figure tradingPanel__spread">
                 <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
                 <div className="tradingPanel__change tradingPanel__change--down"> {props.spread.change} </div>
             </div> }
+            { props.price && <div className="tradingPanel__figure">
+                <div className="tradingPanel__price"> {props.price.amount} </div>
+                <div className="tradingPanel__change tradingPanel__change--down"> {props.price.change} </div>
+            </div> }
             { props.actions && <div className="tradingPanel__action">
-                    { props.actions.trade && <button className="button button--inverted trade">Trade</button> }
-                    { props.actions.buy && props.spread && <button className="button button--inverted buy">
+                    { props.actions.trade && <button className="button button--inverted trade" onClick={props.actions.trade}>Trade</button> }
+                    { props.actions.close && <button className="button button--inverted trade" onClick={props.actions.close}>Close</button> }
+                    { props.actions.buy && props.spread && <button className="button button--inverted buy" onClick={props.actions.buy}>
                             <div className="tradingPanel__pairName">BUY</div>
                             <div>{props.spread.buy}</div>
                     </button> }
-                    { props.actions.buy && props.spread && <button className="button button--inverted sell">
+                    { props.actions.buy && props.spread && <button className="button button--inverted sell" onClick={props.actions.sell}>
                             <div className="tradingPanel__pairName">SELL</div>
                             <div>{props.spread.sell}</div>
                     </button> }

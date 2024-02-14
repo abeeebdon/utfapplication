@@ -10,6 +10,7 @@ import Input, { CheckBoxInput, SingleInput, IconedInput } from "../../Input";
 
 export default function SigninPage() {
     const clientSignupForm = useSelector(state => state.clientSignupForm);
+    const navigate = useNavigate();
     const togglePasswordVisibility = async (event) => {
         let password = document.getElementById("password");
         if(password.type == "password"){
@@ -26,7 +27,7 @@ export default function SigninPage() {
     const onVerificationFormSubmit = async (event) => {
         event.preventDefault();
 //        $(".signup__verification").addClass("invisible")
-        window.location.replace("/home")
+        navigate("/home")
     }
     const sendVerificationToken = async (event) => {}
     let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);

@@ -87,6 +87,46 @@ const countries = useSelector(state => state.configuration.countries);
                                 </div>
                             </div>
                         </div>
+
+                        <div>
+                            <div className="referralBox">
+                                <p className="referralBox__title">Share to make money</p>
+                                <p className="referralBox__subTitle">Your referral link</p>
+                                <div className="referralBox__codeBox">
+                                    <div className="referralBox__code">ljefjwfjfijelkfj99jjeioijwefojwfoj-9jfvnrvjoejf-0virf-rfjov</div>
+                                    <div className="referralBox__button">Copy</div>
+                                </div>
+                            </div>
+
+                            <div className="commissionBox">
+                                { [...Array(3)].map((x, key)=>{
+                                    return <div className="commission">
+                                                <p>First<br/>Commission</p>
+                                                <p className="commission__amount">329</p>
+                                            </div>
+                                  })
+                                }
+                            </div>
+
+                            <p className="referralBox__title">Total Recommended Members</p>
+
+                            <div className="commissionBox">
+                                { [...Array(3)].map((x, key)=>{
+                                    return <div className="commission">
+                                                <p>First<br/>Level Member</p>
+                                                <p className="commission__amount">125</p>
+                                            </div>
+                                  })
+                                }
+                            </div>
+
+                            <ul className="input__passwordRequirements">
+                                <li className="input__underLabel input__underLabel--passwordRequirements">The commission of the member you recommend will be added to your fund account according to the proportion after transaction is closed</li>
+                                <li className="input__underLabel input__underLabel--passwordRequirements">Direct referral income is 10% and indirect is 5%. Referral will depend on the daily trade profit.</li>
+                            </ul>
+
+                            <Link to="/term">Terms and Conditions Apply</Link>
+                        </div>
                     </div>
                 </div>
             </div>
