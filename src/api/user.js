@@ -6,7 +6,7 @@ import { useNavigate, Link, Navigate } from 'react-router-dom'
 
 import { store } from '../app.js'
 import API from './api.mjs';
-import { populateMobileRechargers, populateCurrencies, populateBlockchains } from './configuration';
+import { populateMobileRechargers, populateCurrencies, populateBlockchains, populatePairs } from './configuration';
 import NotificationModal from "../components/NotificationModal";
 import { showErrorModal, showSuccessModal } from '../state/actions/notification';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../state/actions/account';

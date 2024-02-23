@@ -14,6 +14,7 @@ import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, set
 import { selectVerificationTokenEndpoint, selectVerifyLoginEndpoint, selectLoginUserEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
+import { populatePairs } from '../../../api/configuration.js';
 
 export default function SigninPage() {
     const dispatch = useDispatch();
@@ -45,7 +46,6 @@ export default function SigninPage() {
     }
 
     const closeVerificationForm = async (event) => {
-        event.preventDefault();
         dispatch(resetVerificationFields());
         $(".signup__verification").addClass("invisible")
     }
@@ -142,6 +142,7 @@ export default function SigninPage() {
                 dispatch(setUser(response))
                 dispatch(setAuthentication(response))
                 dispatch(setLoggedIn(true))
+                populatePairs()
                 navigate("/home")
             },
             async (errorMessage)=>{

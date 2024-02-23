@@ -15,6 +15,7 @@ import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegis
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 //import { login, populateUser } from '../../../api/user.js';
+import { populatePairs } from '../../../api/configuration.js';
 
 export default function SignupPage() {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function SignupPage() {
     }
 
     const closeVerificationForm = async (event) => {
-        event.preventDefault();
+//        event.preventDefault();
         dispatch(resetVerificationFields());
         $(".signup__verification").addClass("invisible")
     }

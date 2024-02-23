@@ -62,6 +62,14 @@ export const setBlockchains = (blockchains) => (
     }
 );
 
+// SET PAIRS
+export const setPairs = (pairs) => (
+    {
+        type: "SET_PAIRS",
+        pairs
+    }
+);
+
 // RESET ALL
 export const resetAll = () => (
     {

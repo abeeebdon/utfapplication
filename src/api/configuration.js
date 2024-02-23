@@ -7,10 +7,10 @@ import { setToken } from './user.js';
 import NotificationModal from "../components/NotificationModal";
 import { showErrorModal, showSuccessModal } from '../state/actions/notification';
 import { setAuthentication, setUser } from '../state/actions/account';
-import { setOperators, setMobileRechargers, setCurrencies, setBlockchains } from '../state/actions/configuration';
+import { setOperators, setMobileRechargers, setCurrencies, setBlockchains, setPairs } from '../state/actions/configuration';
 
 import { selectGetOperatorsInCountryEndpoint, selectGetMobileRechargersEndpoint, selectGetCurrenciesEndpoint,
-        selectGetBlockchainsEndpoint } from '../state/selectors/endpoints';
+        selectGetPairsEndpoint } from '../state/selectors/endpoints';
 
 export async function populateOperators(){
     let api = new API();
@@ -85,25 +85,28 @@ export async function populateCurrencies(){
     )
 }
 
-export async function populateBlockchains(){
+export async function populatePairs(){
     let api = new API();
     const dispatch = store.dispatch;
-    let getBlockchainsURL = selectGetBlockchainsEndpoint(store.getState().endpoints)();
-    let formData = {}
-
-    setToken();
+    let getPairsURL = selectGetPairsEndpoint(store.getState().endpoints)();
+    let formData;
     return api.get(
-        getBlockchainsURL,
+        getPairsURL,
         formData,
         (response)=>{
-            let blockchains = response.data
-            let allBlockchains = {}
-
-            blockchains.map((blockchain)=>{
-                allBlockchains[blockchain.blockchainId] = blockchain;
+            let pairs = []
+            response.map((value)=>{
+                console.log(value[0].symbol)
+                pairs.push({
+                    name: value[0].symbol,
+                    rate: value[0].rate,
+                    spread: 1,
+                    change: 1,
+                    icon: `/images/countries/${value[0].symbol[0].toUpperCase() + value[0].symbol[1].toUpperCase()}.svg`
+                })
             })
 
-            dispatch(setBlockchains(allBlockchains))
+            dispatch(setPairs(pairs))
         },
         (errorMessage)=>{
             dispatch(showErrorModal(errorMessage));

@@ -9,15 +9,15 @@ const configurationReducerDefaultState = {
 //            blockchainId: '1'
 //        }
     },
-    currencies: {
-//        currencyId: {
-//            name: "Tether USD",
-//            symbol: "USDT"
+    pairs: [
+//        {
+//            name: "GBPUSD",
+//            rate: "1",
+//            spread: "1",
+//            change: "1",
+//            icon: ""
 //        }
-    },
-    operators: [],
-    masterWallets: [],
-    mobileRechargers: []
+    ]
 };
 
 export default ( state = configurationReducerDefaultState, action ) => {
@@ -36,8 +36,8 @@ export default ( state = configurationReducerDefaultState, action ) => {
             return { ...state, mobileRechargers: action.mobileRechargers }
         case "SET_OPERATORS":
             return { ...state, operators: action.operators }
-        case "SET_BLOCKCHAINS":
-            return { ...state, blockchains: action.blockchains }
+        case "SET_PAIRS":
+            return { ...state, pairs: action.pairs }
 //        case "RESET_ALL":
 //            return configurationReducerDefaultState;
         default:

@@ -73,9 +73,10 @@ export const selectGetTransactionsEndpoint = (endpoints) => {
         }
 }
 
-export const selectGetBlockchainsEndpoint = (endpoints) => {
+export const selectGetPairsEndpoint = (endpoints) => {
         return ()=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/blockchains`;
+            return "https://api.iex.cloud/v1/fx/historical?symbols=EURUSD,GBPUSD&token=pk_d3a65e5ad7fc400a8862da67b3ab118e"
+//            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/blockchains`;
         }
 }
 

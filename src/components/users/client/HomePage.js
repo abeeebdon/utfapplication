@@ -11,14 +11,17 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import { requireLogin } from '../../../api/user.js';
+import { populatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     useEffect(()=>{
         requireLogin();
-    });
+        populatePairs();
+    }, []);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const countries = useSelector(state => state.configuration.countries);
+    const pairs = useSelector(state => state.configuration.pairs);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
@@ -102,12 +105,13 @@ export default function HomePage() {
                             </div>
                         </div>
                         <div className="trendingBox trendingBox--home">
+
                             <p className="trendingBox__heading">Trending</p>
-                            { [...Array(26)].map((x, key)=>{
+                            { pairs.map((value)=>{
                                 return <TradingPanel
-                                    pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
+                                    pair={{name: value.name, icon: value.icon}}
                                     trendChart={{}}
-                                    price={{amount: "$1,085.18", change: "-21.00%"}}
+                                    price={{amount: value.rate, change: value.change}}
                                     actions={{trade: ()=>navigate("/trade")}}
                                     onClick={()=>navigate("/trade")}
                                 />
