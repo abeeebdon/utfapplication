@@ -111,7 +111,7 @@ export default function HomePage() {
                                 return <TradingPanel
                                     pair={{name: value.name, icon: value.icon}}
                                     trendChart={{}}
-                                    price={{amount: value.rate, change: value.change}}
+                                    price={{amount: value.rate, change: `${value.change}%`}}
                                     actions={{trade: ()=>navigate("/trade")}}
                                     onClick={()=>navigate("/trade")}
                                 />

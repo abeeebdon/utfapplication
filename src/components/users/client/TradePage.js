@@ -54,6 +54,7 @@ const countries = useSelector(state => state.configuration.countries);
     let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
     const validateEmail = async ()=>{}
     const logo = useSelector(state => state.configuration.app.logo);
+    const pairs = useSelector(state => state.configuration.pairs);
 
     return (
         <section className="home trade">
@@ -63,11 +64,12 @@ const countries = useSelector(state => state.configuration.countries);
                     <Header title="Trade"/>
                     <div className="home__content">
                         <div className="trendingBox">
-                            { [...Array(26)].map((x, key)=>{
+                            {
+                              pairs.map((value)=>{
                                 return <TradingPanel
-                                    pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
+                                    pair={{name: value.name, icon: value.icon}}
                                     trendChart={{}}
-                                    spread={{amount: "0.0001", change: "-21.00%", buy: "0.8132", sell: "0.8131"}}
+                                    spread={{amount: value.spread, change: `${value.change}%`, buy: value.rate - value.spread, sell: value.rate + value.spread}}
                                     actions={{buy: ()=>navigate("/order"), sell: ()=>navigate("/order")}}
                                 />
                               })

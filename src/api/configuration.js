@@ -100,8 +100,8 @@ export async function populatePairs(){
                 pairs.push({
                     name: value[0].symbol,
                     rate: value[0].rate,
-                    spread: 1,
-                    change: 1,
+                    spread: 0.00054,
+                    change: "-21",
                     icon: `/images/countries/${value[0].symbol[0].toUpperCase() + value[0].symbol[1].toUpperCase()}.svg`
                 })
             })
