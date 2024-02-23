@@ -4,25 +4,27 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 
 import configurationReducer from '../reducers/configuration';
+import endpointsReducer from '../reducers/endpoints';
 import clientSignupFormReducer from '../reducers/clientSignupForm';
 import notificationReducer from '../reducers/notification';
+import accountReducer from '../reducers/account';
 
 export default () => {
     const persistConfig = {
         key: 'root',
         storage,
-        whitelist: ['configuration']
+//        whitelist: ['configuration']
     }
 
     const rootReducer = combineReducers({
         configuration: configurationReducer,
-//        endpoints: endpointsReducer,
+        endpoints: endpointsReducer,
         clientSignupForm: clientSignupFormReducer,
 //        preloader: preloaderReducer,
         notification: notificationReducer,
 //        images: imagesReducer,
 //        buyAirtimeForm: buyAirtimeFormReducer,
-//        account: accountReducer
+        account: accountReducer
     })
 
     const persistedReducer = persistReducer(persistConfig, rootReducer)

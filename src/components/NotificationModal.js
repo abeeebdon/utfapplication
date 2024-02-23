@@ -34,7 +34,7 @@ export default function NotificationModal() {
                     <span className="overlay--fixed"></span>
                     <div className="container">
                         <div className="notificationModal__box">
-                            <h1 className="notificationModal__errorTitle">Sorry</h1>
+                            <h1 className="notificationModal__errorTitle">Oops!</h1>
                             <span >
                                 <RoundedImage src={errorImage} />
                             </span>

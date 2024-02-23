@@ -10,9 +10,17 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 
+import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, setFormData, setFirstNameField, setLastNameField, setEmailField, setPasswordField, setConfirmPasswordField, setAgreeToTermsField, resetFields, resetVerificationFields } from '../../../state/actions/clientSignupForm';
+import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint } from '../../../state/selectors/endpoints';
+import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
+import API from '../../../api/api.mjs';
+//import { login, populateUser } from '../../../api/user.js';
+
 export default function SignupPage() {
-const dispatch = useDispatch();
-const countries = useSelector(state => state.configuration.countries);
+    const dispatch = useDispatch();
+    let api = new API();
+    let countDown = localStorage.getItem('id');
+    const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
@@ -20,14 +28,13 @@ const countries = useSelector(state => state.configuration.countries);
                             currencySymbol: "NGN" }
 
     const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
+    let getVerificationTokenURL = useSelector(state => selectVerificationTokenEndpoint(state.endpoints));
+    let getVerifyEmailURL = useSelector(state => selectVerifyEmailEndpoint(state.endpoints));
+    let getRegisterUserURL = useSelector(state => selectRegisterUserEndpoint(state.endpoints));
+    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
+    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
+    const logo = useSelector(state => state.configuration.app.logo);
+
     const togglePasswordVisibility = async (event) => {
         let password = document.getElementById("password");
         if(password.type == "password"){
@@ -37,21 +44,269 @@ const countries = useSelector(state => state.configuration.countries);
             password.type = "password"
         }
     }
-    const onVerificationFormSubmit = async (event) => {
+
+    const closeVerificationForm = async (event) => {
         event.preventDefault();
+        dispatch(resetVerificationFields());
         $(".signup__verification").addClass("invisible")
-
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
     }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
+
+    const showVerificationPanel = ()=>{
+        $(".signup__verification").removeClass("invisible")
+        var countDownDate = new Date();
+        countDownDate.setMinutes(countDownDate.getMinutes() + verificationTokenValidityDuration);
+        countDownDate = countDownDate.getTime();
+
+        countDown = setInterval(function() {
+          var now = new Date().getTime();
+          var distance = countDownDate - now;
+
+          if (distance <= 0) {
+              clearInterval(countDown)
+              return;
+          }
+
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          dispatch(setVerificationTokenExpiryTimeLeft(`${minutes}:${seconds}`))
+        }, 1000);
+
+        localStorage.setItem('id', countDown);
+    }
+
+    const validatePassword = async (event) => {
+        let errorFlag = false
+        let password = $("#password").val()
+
+        if(password.length < 8){
+            errorFlag = true;
+            $("#passwordLength").addClass("input__errorMessage")
+        }
+        else {
+            $("#passwordLength").removeClass("input__errorMessage")
+        }
+
+        if(!/[A-Z]/.test(password)){
+            errorFlag = true;
+            $("#uppercase").addClass("input__errorMessage")
+        }
+        else {
+            $("#uppercase").removeClass("input__errorMessage")
+        }
+
+        if(!/[a-z]/.test(password)){
+            errorFlag = true;
+            $("#lowercase").addClass("input__errorMessage")
+        }
+        else {
+            $("#lowercase").removeClass("input__errorMessage")
+        }
+
+        if(!/\d/.test(password)){
+            errorFlag = true;
+            $("#digit").addClass("input__errorMessage")
+        }
+        else {
+            $("#digit").removeClass("input__errorMessage")
+        }
+
+        if(!/\W/.test(password)){
+            errorFlag = true;
+            $("#specialChar").addClass("input__errorMessage")
+        }
+        else {
+            $("#specialChar").removeClass("input__errorMessage")
+        }
+
+        if(errorFlag == true){
+            dispatch(setPasswordField({ hasError: true, errorMessage: "Please fix the error(s) before proceeding!" }));
+        }
+        else {
+            dispatch(setPasswordField({ hasError: false, errorMessage: "" }));
+        }
+
+        return errorFlag
+    }
+
+    const validateEmail = async (event) => {
+        let errorFlag = false
+        let email = $("#email").val()
+
+        if(!/[a-z]/.test(email)){
+            errorFlag = true;
+        }
+
+        if(errorFlag == true){
+            dispatch(setEmailField({ hasError: true, errorMessage: "Invalid email!" }));
+        }
+        else {
+            dispatch(setEmailField({ hasError: false, errorMessage: "" }));
+        }
+
+        return errorFlag
+    }
+
+    const validateFirstName = async ()=>{
+        let firstNameField = document.getElementById("firstName");
+        if(firstNameField.value.length > 3){
+            dispatch(setFirstNameField({ hasError: false, errorMessage: "" }));
+        }
+        else {
+            dispatch(setFirstNameField({ hasError: true, errorMessage: "Name must be greater than 3 characters" }));
+            errorExist = true;
+        }
+    }
+
+    const validateLastName = async (input)=>{
+        let lastNameField = document.getElementById("lastName");
+
+        if(lastNameField.value.length > 3){
+            dispatch(setLastNameField({ hasError: false, errorMessage: "" }));
+        }
+        else {
+            dispatch(setLastNameField({ hasError: true, errorMessage: "Name must be greater than 3 characters" }));
+            errorExist = true;
+        }
+    }
+
+    const validateCheckBox = async (input)=>{
+        let checkboxField = document.getElementById("sendSMSUpdate");
+
+//        if(checkboxField.checked == true){
+//            dispatch(setAgreeToTermsField({ hasError: false, errorMessage: "" }));
+//        }
+//        else {
+//            dispatch(setAgreeToTermsField({ hasError: true, errorMessage: (input.type == "checkbox") ? "Please tick the box" : "Input cannot be blank" }));
+//            errorExist = true;
+//        }
+    }
+
+
+    const collectVerificationInfo = async (event) => {
+        event.preventDefault();
+        dispatch(resetFields());
+
+        if(validateEmail() && validatePassword()) {
+            let email = document.getElementById("email").value;
+            let firstName;
+            let lastName;
+            let password = document.getElementById("password").value;
+
+            dispatch(setFormData({ email, firstName, lastName, password }));
+
+            $(".signup__verification").addClass("invisible")
+
+            $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
+            $("#verificationPanel").addClass("invisible");
+
+            $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
+            $("#personalInfoPanel").removeClass("invisible");
+        }
+
+    }
+
+    const registerAccount = async (event) => {
+        event.preventDefault();
+        dispatch(resetFields());
+
+
+        let errorExist = false
+
+        await validateFirstName();
+        await validateLastName();
+        await validateCheckBox();
+
+        if(!errorExist){
+            let email = document.getElementById("email").value;
+            let firstName = document.getElementById("firstName").value;
+            let lastName = document.getElementById("lastName").value;
+            let password = document.getElementById("password").value;
+            let full_name = `${firstName} ${lastName}`
+
+            dispatch(setFormData({ email, firstName, lastName, password }))
+
+            return api.post(
+                getRegisterUserURL(),
+                { email, full_name, password },
+                (response)=>{
+                    showVerificationPanel();
+                },
+                (errorMessage)=>{
+                    dispatch(showErrorModal(errorMessage));
+                }
+            )
+        }
+
+
+
+        /*api.post(
+            getRegisterUserURL(),
+            formData,
+            (response)=>{
+                dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
+//                login(formData.email, formData.password)
+//                .catch((err)=>{
+//                    dispatch(showErrorModal(err.message))
+//                    stopSpin(button);
+//                })
+//                .then(()=>{
+//                    stopSpin(button);
+//
+//                })
+            },
+            (errorMessage)=>{
+                dispatch(showErrorModal(errorMessage));
+            }
+        )*/
+    }
+
+    const requestVerificationToken = async (event)=>{
+        if(event){
+            event.target.parentNode.previousSibling.reset();
+        }
+
+        let email = $("#email").val();
+        clearInterval(countDown)
+        dispatch(resetVerificationFields());
+        api.post(
+            getVerificationTokenURL(),
+            {email},
+            (response)=>{
+                showVerificationPanel()
+            },
+            (errorMessage)=>{
+                dispatch(showErrorModal(errorMessage));
+            }
+        )
+    }
+
+    const activateAccount = async (event) => {
+        event.preventDefault();
+        dispatch(resetVerificationFields());
+        let email = $("#email").val();
+        let token = "";
+
+        for(let i=0; i<6; i++){
+            let child = event.target[i];
+            token = `${token}${child.value}`
+        }
+
+        api.post(
+            getVerifyEmailURL(),
+            {email, token},
+            (response)=>{
+                closeVerificationForm();
+                dispatch(resetAll())
+                dispatch(setUser(response))
+                dispatch(setAuthentication(response))
+                dispatch(setLoggedIn(true))
+                return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
+            },
+            async (errorMessage)=>{
+                dispatch(setVerificationField({hasError: true, errorMessage: errorMessage}));
+            }
+        )
+    }
 
     return (
         <>
@@ -83,7 +338,7 @@ const countries = useSelector(state => state.configuration.countries);
                             </ul>
                         </div>
                         <div id="verificationPanel" className="signup--panel__main">
-                            <form onSubmit={onFormSubmit} className="signup__form">
+                            <form onSubmit={collectVerificationInfo} className="signup__form">
                                 <div className="signup__heading">
                                     <span className="signup--panel__text">Verifications</span>
                                 </div>
@@ -93,6 +348,7 @@ const countries = useSelector(state => state.configuration.countries);
                                             id={"google"}
                                             name={"goggle"}
                                             type={"text"}
+                                            disabled={"disabled"}
                                             placeholder={"Sign in with google"}
                                             custom={ <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
                                                           <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
@@ -101,8 +357,6 @@ const countries = useSelector(state => state.configuration.countries);
                                                           <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
                                                     </svg>
                                             }
-                                            error={clientSignupForm.emailField}
-                                            onInput={validateEmail}
                                         />
                                     </div>
                                     <p className="signup__google signup__agreementText">Or</p>
@@ -126,12 +380,21 @@ const countries = useSelector(state => state.configuration.countries);
                                             id={"password"}
                                             name={"password"}
                                             label={"Password"}
+                                            underLabel={
+                                                <ul className="input__passwordRequirements">
+                                                    <li id="passwordLength" className="input__underLabel input__underLabel--passwordRequirements">At least 8 characters</li>
+                                                    <li id="uppercase" className="input__underLabel input__underLabel--passwordRequirements">At least one uppercase letter</li>
+                                                    <li id="lowercase" className="input__underLabel input__underLabel--passwordRequirements">At least one lowercase letter</li>
+                                                    <li id="digit" className="input__underLabel input__underLabel--passwordRequirements">At least one number letter</li>
+                                                    <li id="specialChar" className="input__underLabel input__underLabel--passwordRequirements">At least one special character</li>
+                                                </ul>
+                                            }
                                             type={"password"}
-                                            passwordRequirements={"w"}
                                             placeholder={"Type here"}
                                             required={"required"}
                                             icon={ { name: "fa fa-eye", position: "right", onClick: togglePasswordVisibility } }
                                             style={{border: "bottom-sm"}}
+                                            onInput={validatePassword}
                                             error={clientSignupForm.passwordField}
                                         />
                                     </div>
@@ -161,7 +424,7 @@ const countries = useSelector(state => state.configuration.countries);
                         </div>
 
                         <div id="personalInfoPanel" className="signup--panel__main invisible">
-                            <form onSubmit={onFormSubmit2} className="signup__form">
+                            <form onSubmit={registerAccount} className="signup__form">
                                 <div className="signup__heading">
                                     <span className="signup--panel__text">Personal Information</span>
                                 </div>
@@ -177,7 +440,7 @@ const countries = useSelector(state => state.configuration.countries);
                                                 required={"required"}
                                                 style={{border: "bottom-sm"}}
                                                 error={clientSignupForm.emailField}
-                                                onInput={validateEmail}
+                                                onInput={validateFirstName}
                                             />
                                         </div>
 
@@ -191,7 +454,7 @@ const countries = useSelector(state => state.configuration.countries);
                                                 required={"required"}
                                                 style={{border: "bottom-sm"}}
                                                 error={clientSignupForm.emailField}
-                                                onInput={validateEmail}
+                                                onInput={validateLastName}
                                             />
                                         </div>
                                     </span>
@@ -228,7 +491,7 @@ const countries = useSelector(state => state.configuration.countries);
                                             label={"Send SMS Update about my account"}
                                             required={"required"}
                                             error={clientSignupForm.agreeToTermsField}
-                                            onInput={"validateCheckBox"}
+                                            onInput={validateCheckBox}
                                         />
                                     </div>
 
@@ -257,7 +520,6 @@ const countries = useSelector(state => state.configuration.countries);
                                                 logo={ { src: selectedCountry.flag } }
                                                 options={countries}
                                                 error={clientSignupForm.emailField}
-                                                onInput={validateEmail}
                                             />
                                         </div>
 
@@ -271,7 +533,6 @@ const countries = useSelector(state => state.configuration.countries);
                                                 options={countries}
                                                 style={{border: "bottom-sm"}}
                                                 error={clientSignupForm.emailField}
-                                                onInput={validateEmail}
                                             />
                                         </div>
                                     </span>
@@ -290,10 +551,10 @@ const countries = useSelector(state => state.configuration.countries);
             <section className="signup signup__verification invisible">
                 <div className="container">
                     <span className="overlay--fixed"></span>
-                    <form onSubmit={onVerificationFormSubmit} className="signup__form">
-                        <div className="signup__verificationControl" onClick={onVerificationFormSubmit}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div>
+                    <form onSubmit={activateAccount} className="signup__form">
+                        <div className="signup__verificationControl" onClick={closeVerificationForm}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div>
                         <p className="signup__verificationHead">Verify It's You</p>
-                        <p className="signup__verificationText">We sent a code to (********021@gmail.com)<br/>Enter it here to verify your identity.</p>
+                        <p className="signup__verificationText">We sent a code to ({$("#email").val()})<br/>Enter it here to verify your identity.</p>
                         <div className="signup__formInputs">
                             <p className="signup__verificationFormInputsText">Digits Verification Code</p>
                             <div className="signup__verificationInput">
@@ -326,7 +587,7 @@ const countries = useSelector(state => state.configuration.countries);
                                 <ButtonForm label={"Next"} />
                             </div>
                         </div>
-                        <p className="">Didn't receive the code? <span onClick={sendVerificationToken} className="signup__verificationResend">Request a new one</span></p>
+                        <p className="">Did not receive the code? <span onClick={requestVerificationToken} className="signup__verificationResend">Request a new one</span></p>
                     </form>
                 </div>
             </section>

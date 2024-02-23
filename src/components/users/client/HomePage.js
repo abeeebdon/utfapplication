@@ -10,11 +10,15 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
+import { requireLogin } from '../../../api/user.js';
 
 export default function HomePage() {
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const countries = useSelector(state => state.configuration.countries);
+    useEffect(()=>{
+        requireLogin();
+    });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
@@ -54,6 +58,7 @@ const countries = useSelector(state => state.configuration.countries);
     let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
     const validateEmail = async ()=>{}
     const logo = useSelector(state => state.configuration.app.logo);
+    const user = useSelector(state => state.account.user);
 
     return (
         <section className="home home--select">
@@ -66,7 +71,7 @@ const countries = useSelector(state => state.configuration.countries);
                             <div className="dashboard">
                                 <div className="dashboardOverlay"></div>
 
-                                <div className="dashboard__accountName">Tatenda Muzenda</div>
+                                <div className="dashboard__accountName">{user.full_name}</div>
                                 <div className="dashboard__balance">
                                     <div className="dashboard__data">
                                         <p className="dashboard__dataHead">Holding Value</p>

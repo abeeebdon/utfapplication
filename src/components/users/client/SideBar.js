@@ -53,6 +53,7 @@ export function Header(props) {
     const dispatch = useDispatch();
     let sidebarItem = "home"//useSelector(state => state.configuration.sidebarItem);
     const profileImage = "images/avatars/allison.jpg"//useSelector(state => state.configuration.app.logo);
+    const user = useSelector(state => state.account.user);
 
     const toggleSideBar = async (event) => {
         $(".header__menuToggle").toggleClass("change");
@@ -73,7 +74,7 @@ export function Header(props) {
                 <div className="accountBar">
                     <div className="header__notification fa fa-bell-o"></div>
                     <div className="profileBar">
-                        <p className="profileBar__greetings">Welcome, Tatenda</p>
+                        <p className="profileBar__greetings">Welcome, {user.full_name}</p>
                         <div className="profileBar__image">
                             <RoundedImage src={profileImage} />
                         </div>

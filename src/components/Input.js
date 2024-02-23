@@ -76,7 +76,7 @@ export class IconedInput extends React.Component {
         return (
             <div className="input__box">
                 <label className={`${this.labelClass} `} htmlFor={this.props.id}>{this.props.label}</label>
-                <div className={`inputIcon__iconGroup ${this.props.style && this.props.style.border == "bottom-sm" && "inputIcon__iconGroup--bottomBorder-sm"} `}>
+                <div className={`inputIcon__iconGroup ${this.props.error && this.props.error.hasError && "inputIcon__iconGroup--error"} ${this.props.style && this.props.style.border == "bottom-sm" && "inputIcon__iconGroup--bottomBorder-sm"} `}>
                     { this.props.custom && <span className="inputIcon__icon">{this.props.custom}</span> }
                     { this.props.logo && this.props.logo.src && <span className="inputIcon__logo"><RoundedImage src={this.props.logo.src}/></span> }
                     { this.props.logo && this.props.logo.text  && <span className="inputIcon__icon">{this.props.logo.text}</span> }
@@ -116,15 +116,6 @@ export class IconedInput extends React.Component {
                 </div>
                 { this.props.underLabel && <div className="input__underLabel">{ this.props.underLabel }</div> }
                 { this.props.error && <span className={`${this.errorClass} ${this.props.error.hasError? "visible" : "invisible"}`}>{this.props.error.errorMessage}</span> }
-                { this.props.type == "password" && this.props.passwordRequirements &&
-                    <ul className="input__passwordRequirements">
-                        <li className="input__underLabel input__underLabel--passwordRequirements">At least 8 characters</li>
-                        <li className="input__underLabel input__underLabel--passwordRequirements">At least one uppercase letter</li>
-                        <li className="input__underLabel input__underLabel--passwordRequirements">At least one lowercase letter</li>
-                        <li className="input__underLabel input__underLabel--passwordRequirements">At least one number letter</li>
-                        <li className="input__underLabel input__underLabel--passwordRequirements">At least one special character</li>
-                    </ul>
-                }
             </div>
         );
     }

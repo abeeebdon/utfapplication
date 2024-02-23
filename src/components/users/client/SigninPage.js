@@ -5,12 +5,35 @@ import $ from 'jquery';
 
 
 import { Image } from "../../Image";
-import { ButtonForm } from "../../Button";
-import Input, { CheckBoxInput, SingleInput, IconedInput } from "../../Input";
+import { ButtonForm, ButtonInverted } from "../../Button";
+
+import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
+import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
+
+import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, setFormData, setFirstNameField, setLastNameField, setEmailField, setPasswordField, setConfirmPasswordField, setAgreeToTermsField, resetFields, resetVerificationFields } from '../../../state/actions/clientSignupForm';
+import { selectVerificationTokenEndpoint, selectVerifyLoginEndpoint, selectLoginUserEndpoint } from '../../../state/selectors/endpoints';
+import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
+import API from '../../../api/api.mjs';
 
 export default function SigninPage() {
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    let api = new API();
+    let countDown = localStorage.getItem('id');
+
+    useEffect(()=>{
+        dispatch(resetFields());
+    }, []);
+
+    const clientSignupForm = useSelector(state => state.clientSignupForm);
+
+    let getLoginUserURL = useSelector(state => selectLoginUserEndpoint(state.endpoints));
+    let getVerifyLoginURL = useSelector(state => selectVerifyLoginEndpoint(state.endpoints));
+
+    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
+    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
+    const logo = useSelector(state => state.configuration.app.logo);
+
     const togglePasswordVisibility = async (event) => {
         let password = document.getElementById("password");
         if(password.type == "password"){
@@ -20,26 +43,143 @@ export default function SigninPage() {
             password.type = "password"
         }
     }
-    const onFormSubmit = async (event) => {
+
+    const closeVerificationForm = async (event) => {
         event.preventDefault();
+        dispatch(resetVerificationFields());
+        $(".signup__verification").addClass("invisible")
+    }
+
+    const showVerificationPanel = ()=>{
         $(".signup__verification").removeClass("invisible")
+        var countDownDate = new Date();
+        countDownDate.setMinutes(countDownDate.getMinutes() + verificationTokenValidityDuration);
+        countDownDate = countDownDate.getTime();
+
+        countDown = setInterval(function() {
+          var now = new Date().getTime();
+          var distance = countDownDate - now;
+
+          if (distance <= 0) {
+              clearInterval(countDown)
+              return;
+          }
+
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          dispatch(setVerificationTokenExpiryTimeLeft(`${minutes}:${seconds}`))
+        }, 1000);
+
+        localStorage.setItem('id', countDown);
     }
-    const onVerificationFormSubmit = async (event) => {
+
+    const validateEmail = async (event) => {
+        let errorFlag = false
+        let email = $("#email").val()
+
+        if(!/[a-z]/.test(email)){
+            errorFlag = true;
+        }
+
+        if(errorFlag == true){
+            dispatch(setEmailField({ hasError: true, errorMessage: "Invalid email!" }));
+        }
+        else {
+            dispatch(setEmailField({ hasError: false, errorMessage: "" }));
+        }
+
+        return errorFlag
+    }
+
+
+
+    const signin = async (event) => {
         event.preventDefault();
-//        $(".signup__verification").addClass("invisible")
-        navigate("/home")
+        dispatch(resetFields());
+
+        clearInterval(countDown)
+        dispatch(resetVerificationFields());
+
+        if(validateEmail()) {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let formData = {
+                email, password
+            }
+
+//            dispatch(setFormData({ email, firstName, lastName, password }));
+
+            return api.post(
+                getLoginUserURL(),
+                formData,
+                (response)=>{
+                    showVerificationPanel();
+                },
+                (errorMessage)=>{
+                    dispatch(showErrorModal(errorMessage));
+                }
+            )
+        }
     }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
+
+    const verifyLogin = async (event) => {
+        event.preventDefault();
+        dispatch(resetVerificationFields());
+        let email = $("#email").val();
+        let token = "";
+
+        for(let i=0; i<6; i++){
+            let child = event.target[i];
+            token = `${token}${child.value}`
+        }
+
+        api.post(
+            getVerifyLoginURL(),
+            {email, token},
+            (response)=>{
+                closeVerificationForm();
+                dispatch(resetAll())
+                dispatch(setUser(response))
+                dispatch(setAuthentication(response))
+                dispatch(setLoggedIn(true))
+                navigate("/home")
+            },
+            async (errorMessage)=>{
+                dispatch(setVerificationField({hasError: true, errorMessage: errorMessage}));
+            }
+        )
+    }
+
+
+
+
+   /* const requestVerificationToken = async (event)=>{
+        if(event){
+            event.target.parentNode.previousSibling.reset();
+        }
+
+        let email = $("#email").val();
+        let countDown = localStorage.getItem('id');
+        clearInterval(countDown)
+        dispatch(resetVerificationFields());
+        api.post(
+            getVerificationTokenURL(),
+            {email},
+            (response)=>{
+                showVerificationPanel()
+            },
+            (errorMessage)=>{
+                dispatch(showErrorModal(errorMessage));
+            }
+        )
+    }*/
+
 
     return (
         <>
             <section className="signup signin--panel">
                 <div className="container">
-                    <form onSubmit={onFormSubmit} className="signup__form">
+                    <form onSubmit={signin} className="signup__form">
                         <div className="signup__heading">
                             <span className="signup__logo">
                                 <Image src={logo}/>
@@ -80,8 +220,6 @@ export default function SigninPage() {
                                                   <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
                                             </svg> }
                                     }
-                                    error={clientSignupForm.emailField}
-                                    onInput={validateEmail}
                                 />
                             </div>
                             <p className="signup__google signup__agreementText">Or</p>
@@ -143,10 +281,10 @@ export default function SigninPage() {
             <section className="signup signup__verification invisible">
                 <div className="container">
                     <span className="overlay--fixed"></span>
-                    <form onSubmit={onVerificationFormSubmit} className="signup__form">
-                        <div className="signup__verificationControl"><span className="signup__verificationControlIcon fas fa-angle-left" onClick={onVerificationFormSubmit}></span><span onClick={onVerificationFormSubmit}>Back</span></div>
+                    <form onSubmit={verifyLogin} className="signup__form">
+                        <div className="signup__verificationControl"><span className="signup__verificationControlIcon fas fa-angle-left" onClick={closeVerificationForm}></span><span onClick={closeVerificationForm}>Back</span></div>
                         <p className="signup__verificationHead">Verify It's You</p>
-                        <p className="signup__verificationText">We sent a code to (********021@gmail.com)<br/>Enter it here to verify your identity.</p>
+                        <p className="signup__verificationText">We sent a code to ({$("#email").val()})<br/>Enter it here to verify your identity.</p>
                         <div className="signup__formInputs">
                             <p className="signup__verificationFormInputsText">Digits Verification Code</p>
                             <div className="signup__verificationInput">
@@ -179,7 +317,7 @@ export default function SigninPage() {
                                 <ButtonForm label={"Verify"} />
                             </div>
                         </div>
-                        <p className="">Didn't receive the code? <span onClick={sendVerificationToken} className="signup__verificationResend">Request a new one</span></p>
+                        <p className="">Didn't receive the code? <span onClick={signin} className="signup__verificationResend">Request a new one</span></p>
                     </form>
                 </div>
             </section>

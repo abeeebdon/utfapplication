@@ -53,6 +53,7 @@ const countries = useSelector(state => state.configuration.countries);
     let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
     const validateEmail = async ()=>{}
     const logo = useSelector(state => state.configuration.app.logo);
+    const user = useSelector(state => state.account.user);
 
     return (
         <section className="home account">
@@ -68,8 +69,8 @@ const countries = useSelector(state => state.configuration.countries);
                                     <div className="account__profileCardImage">
                                         <RoundedImage src="/images/avatars/allison.jpg" />
                                     </div>
-                                    <p>Tatenda Muzenda</p>
-                                    <p>tatendamuzenda@gmail.com<br/>+91 944497718</p>
+                                    <p>{user.full_name}</p>
+                                    <p>{user.email}<br/>+91 944497718</p>
                                 </div>
                             </div>
 
@@ -88,8 +89,8 @@ const countries = useSelector(state => state.configuration.countries);
                                     <div className="account__profileCardImage">
                                         <RoundedImage src="/images/avatars/allison.jpg" />
                                     </div>
-                                    <p>Tatenda Muzenda</p>
-                                    <p>tatendamuzenda@gmail.com<br/>+91 944497718</p>
+                                    <p>{user.full_name}</p>
+                                    <p>{user.email}<br/>+91 944497718</p>
                                 </div>
                             </div>
 

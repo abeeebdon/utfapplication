@@ -259,6 +259,15 @@
     background: transparent;
 }
 
+.inputIcon__iconGroup--error {
+    border-color: red;
+    color: red;
+}
+
+.inputIcon__iconGroup--error input {
+    color: red;
+}
+
 .inputIcon__icon {
     margin: 10px;
     color: $grey;

@@ -1,32 +1,32 @@
 import {createSelector} from 'reselect'
 
 export const selectVerificationTokenEndpoint = (endpoints) => {
-        return (email)=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users/${email}/verification`
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/resend_activation/`
         }
 }
 
 export const selectVerifyEmailEndpoint = (endpoints) => {
-        return (email, token)=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users/${email}/verification/${token}`;
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/activate_account/`;
         }
 }
 
 export const selectRegisterUserEndpoint = (endpoints) => {
         return ()=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users`;
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/signup/`;
         }
 }
 
-export const selectGenerateAuthenticationTokenEndpoint = (endpoints) => {
+export const selectLoginUserEndpoint = (endpoints) => {
         return ()=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users/authenticationToken`;
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/login/`;
         }
 }
 
-export const selectRefreshAuthenticationTokenEndpoint = (endpoints) => {
+export const selectVerifyLoginEndpoint = (endpoints) => {
         return ()=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users/authenticationRefreshToken`;
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/confirm_login/`;
         }
 }
 
