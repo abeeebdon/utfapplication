@@ -1968,7 +1968,7 @@ let countries = {
 
 store.dispatch(setServer({ protocol: "https", host: "utx-application-production.up.railway.app", }));
 store.dispatch(setApiVersion("v1"));
-store.dispatch(setApp({ name: "Universal-FX", namePlural: "Universal-FX's", version: "1", logo: "images/logo-nobg.png" }));
+store.dispatch(setApp({ name: "Universal-FX", namePlural: "Universal-FX's", version: "1", logo: "/images/logo-nobg.png" }));
 store.dispatch(setCountries(countries));
 
 const JSX = (

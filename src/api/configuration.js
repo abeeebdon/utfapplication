@@ -96,13 +96,22 @@ export async function populatePairs(){
         (response)=>{
             let pairs = []
             response.map((value)=>{
-                console.log(value[0].symbol)
+                let currentRate = value[0]
+                let previousRate = value[value.length - 1]
+//                console.log(currentRate, previousRate)
+                let trendData = []
+
+                value.map((pair, index)=>{
+                    trendData.push([index, pair.rate])
+                })
+
                 pairs.push({
-                    name: value[0].symbol,
-                    rate: value[0].rate,
-                    spread: 0.00054,
-                    change: "-21",
-                    icon: `/images/countries/${value[0].symbol[0].toLowerCase() + value[0].symbol[1].toLowerCase()}.svg`
+                    name: currentRate.symbol,
+                    rate: currentRate.rate,
+                    spread: 0.00022,
+                    trendData: trendData.reverse(),
+                    change: (((currentRate.rate - previousRate.rate)/previousRate.rate) * 100).toFixed(2),
+                    icon: `/images/countries/${currentRate.symbol[0].toLowerCase() + currentRate.symbol[1].toLowerCase()}.svg`
                 })
             })
 

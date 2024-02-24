@@ -27,7 +27,7 @@ const Routers = ()=>(
             <Route path='/deposit' element={<DepositPage/>}  />
             <Route path='/withdraw' element={<WithdrawPage/>}  />
             <Route path='/trade' element={<TradePage/>}  />
-            <Route path='/order' element={<OrderPage/>}  />
+            <Route path='/order/:pairName' element={<OrderPage/>}  />
             <Route path='/reward' element={<RewardPage/>}  />
             <Route path='/market' element={<MarketPage/>}  />
             <Route path='/account' element={<AccountPage/>}  />

@@ -65,13 +65,15 @@ const countries = useSelector(state => state.configuration.countries);
                     <div className="home__content">
                         <div className="trendingBox">
                             {
-                              pairs.map((value)=>{
+                              pairs.map((pair)=>{
                                 return <TradingPanel
-                                    pair={{name: value.name, icon: value.icon}}
-                                    trendChart={{}}
-                                    spread={{amount: value.spread, change: `${value.change}%`, buy: value.rate - value.spread, sell: value.rate + value.spread}}
-                                    actions={{buy: ()=>navigate("/order"), sell: ()=>navigate("/order")}}
+                                    pair={{name: pair.name, icon: pair.icon}}
+                                    trendChart={pair.trendData}
+                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toFixed(5), sell: (pair.rate - pair.spread).toFixed(5)}}
+                                    actions={{buy: ()=>navigate(`/order/${pair.name}`), sell: ()=>navigate(`/order/${pair.name}`)}}
                                 />
+
+
                               })
                             }
                         </div>

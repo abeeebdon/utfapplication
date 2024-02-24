@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useParams } from 'react-router-dom'
 import $ from 'jquery';
 
 
@@ -12,8 +12,17 @@ import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 
 export default function OrderPage() {
-const dispatch = useDispatch();
-const countries = useSelector(state => state.configuration.countries);
+    const dispatch = useDispatch();
+    const {pairName} = useParams();
+    let pair;
+    const pairs = useSelector(state => state.configuration.pairs);
+    pairs.map((pairData)=>{
+        if(pairData.name == pairName)
+            pair = pairData
+    })
+
+
+    const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
@@ -73,7 +82,7 @@ const countries = useSelector(state => state.configuration.countries);
                             </div>
                             <form className="orderForm">
                                 <p className="orderForm__title">Trade Type</p>
-                                <p className="orderForm__pair">GBP/USD</p>
+                                <p className="orderForm__pair">{pair  && pair.name}</p>
                                 <div className="orderForm__direction">
                                     <span className="orderForm__directionButton">
                                         <RadioInput
@@ -83,7 +92,7 @@ const countries = useSelector(state => state.configuration.countries);
                                             checked={"true"}
                                         />
                                         <p>Sell</p>
-                                        <p>0.081</p>
+                                        <p>{pair && (pair.rate - pair.spread).toFixed(5)}</p>
                                     </span>
                                     <span className="orderForm__directionButton">
                                         <RadioInput
@@ -93,7 +102,7 @@ const countries = useSelector(state => state.configuration.countries);
                                             checked={"true"}
                                         />
                                         <p>Buy</p>
-                                        <p>0.081</p>
+                                        <p>{pair && (pair.rate + pair.spread).toFixed(5)}</p>
                                     </span>
                                 </div>
                                 <p className="orderForm__lots">Trade Amounts (Lots)</p>

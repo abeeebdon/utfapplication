@@ -40,8 +40,8 @@ export default class api {
         this.setHeaders({
 //            "Origin": "https://utx-application-production.up.railway.app",
 //            "Access-Control-Allow-Origin": "https://utx-application-production.up.railway.app",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+//            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+//            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         })
         return $.post(url, body, (response) => {
                 console.log(response)

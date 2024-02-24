@@ -357,6 +357,19 @@
     background: $subBackground;
 }
 
+
+.tradingPanel__action .priceUp {
+    color: green;
+    background: #ecfee7;
+    border-color: green;
+}
+
+.tradingPanel__action .priceDown {
+    color: red;
+    background: #fee7e7;
+    border-color: red;
+}
+
 .tradingPanel__action .buy {
     margin-right: 5px;
     box-shadow: none;

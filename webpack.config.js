@@ -20,7 +20,7 @@ module.exports = {
             use: ["style-loader", "css-loader", "sass-loader"],
         }]
     },
-    mode: "development",
+    mode: "production",
     devtool: 'eval-cheap-module-source-map',
     devServer: {
         allowedHosts: "all",

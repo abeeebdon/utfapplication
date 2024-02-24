@@ -107,13 +107,13 @@ export default function HomePage() {
                         <div className="trendingBox trendingBox--home">
 
                             <p className="trendingBox__heading">Trending</p>
-                            { pairs.map((value)=>{
+                            { pairs.map((pair)=>{
                                 return <TradingPanel
-                                    pair={{name: value.name, icon: value.icon}}
-                                    trendChart={{}}
-                                    price={{amount: value.rate, change: `${value.change}%`}}
-                                    actions={{trade: ()=>navigate("/trade")}}
-                                    onClick={()=>navigate("/trade")}
+                                    pair={{name: pair.name, icon: pair.icon}}
+                                    trendChart={pair.trendData}
+                                    price={{amount: pair.rate, change: pair.change}}
+                                    actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                    onClick={()=>navigate(`/order/${pair.name}`)}
                                 />
                               })
                             }

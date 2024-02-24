@@ -5,6 +5,7 @@ import $ from 'jquery';
 //import { logout } from '../../../api/user.js';
 
 import { Image, RoundedImage } from "../../Image";
+import { DoughnutChart, LineChart } from "../../Chart.js"
 import Input, { CheckBoxInput, SingleInput, Select, IconedInput, RadioInput, ToggleInput } from "../../Input";
 import { setSidebarItem} from '../../../state/actions/configuration';
 
@@ -52,7 +53,7 @@ export function SideBar(props) {
 export function Header(props) {
     const dispatch = useDispatch();
     let sidebarItem = "home"//useSelector(state => state.configuration.sidebarItem);
-    const profileImage = "images/avatars/allison.jpg"//useSelector(state => state.configuration.app.logo);
+    const profileImage = "/images/avatars/allison.jpg"//useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
 
     const toggleSideBar = async (event) => {
@@ -146,31 +147,35 @@ export function TradingPanel(props) {
                     <div>{props.pair.name}</div>
                     { props.spread && <div className="tradingPanel__spread--sm">
                         <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
-                        <div className="tradingPanel__change tradingPanel__change--down"> {props.spread.change} </div>
+                        <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`} </div>
                     </div> }
                 </div>
             </div>
             { props.trendChart && <div className="tradingPanel__chart">
-                <svg preserveAspectRatio="none" viewBox="0 0 148 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M147.452 53.7986L141.698 39.6603L131.341 44.017L120.984 36.2081L112.106 40.8113L102.736 33.1669L83.5009 36.044L73.1437 28.2351L66.239 33.1672L57.6079 15.0012L49.9634 24.372L31.4683 1.52066L23.5772 9.32968L11.7405 7.35699L1.13681 16.2346" stroke="#FF2C2C"/>
-                </svg>
+                { props.price &&
+                    <LineChart data={props.trendChart} color={props.price.change && props.price.change < 0 ? "red": "green"}/>
+                }
+                { props.spread &&
+                    <LineChart data={props.trendChart} color={props.spread.change && props.spread.change < 0 ? "red": "green"}/>
+                }
             </div> }
             { props.spread && <div className="tradingPanel__figure tradingPanel__spread">
                 <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
-                <div className="tradingPanel__change tradingPanel__change--down"> {props.spread.change} </div>
+                <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`}% </div>
             </div> }
             { props.price && <div className="tradingPanel__figure">
                 <div className="tradingPanel__price"> {props.price.amount} </div>
-                <div className="tradingPanel__change tradingPanel__change--down"> {props.price.change} </div>
+                {/*<div className="tradingPanel__change tradingPanel__change--down"> {props.price.change}% </div>*/}
+                <div className={`tradingPanel__change ${props.price.change && props.price.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.price.change && props.price.change < 0? props.price.change : `+${props.price.change}`}% </div>
             </div> }
             { props.actions && <div className="tradingPanel__action">
                     { props.actions.trade && <button className="button button--inverted trade" onClick={props.actions.trade}>Trade</button> }
                     { props.actions.close && <button className="button button--inverted trade" onClick={props.actions.close}>Close</button> }
-                    { props.actions.buy && props.spread && <button className="button button--inverted buy" onClick={props.actions.buy}>
+                    { props.actions.buy && props.spread && <button className={`button button--inverted buy ${props.spread.change < 0? "priceDown": "priceUp"}`} onClick={props.actions.buy}>
                             <div className="tradingPanel__pairName">BUY</div>
                             <div>{props.spread.buy}</div>
                     </button> }
-                    { props.actions.buy && props.spread && <button className="button button--inverted sell" onClick={props.actions.sell}>
+                    { props.actions.buy && props.spread && <button className={`button button--inverted sell ${props.spread.change < 0? "priceDown": "priceUp"}`} onClick={props.actions.sell}>
                             <div className="tradingPanel__pairName">SELL</div>
                             <div>{props.spread.sell}</div>
                     </button> }
