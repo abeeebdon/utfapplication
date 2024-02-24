@@ -102,7 +102,7 @@ export async function populatePairs(){
                     rate: value[0].rate,
                     spread: 0.00054,
                     change: "-21",
-                    icon: `/images/countries/${value[0].symbol[0].toUpperCase() + value[0].symbol[1].toUpperCase()}.svg`
+                    icon: `/images/countries/${value[0].symbol[0].toLowerCase() + value[0].symbol[1].toLowerCase()}.svg`
                 })
             })
 
