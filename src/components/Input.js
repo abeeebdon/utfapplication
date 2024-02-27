@@ -110,6 +110,9 @@ export class IconedInput extends React.Component {
                             disabled={this.props.disabled}
                             onInput={this.onFormInput}
                             onBlur={this.onFormChange}
+                            min={this.min}
+                            max={this.max}
+                            step={this.step}
                         />
                     }
                     { this.props.icon && this.props.icon.position == "right" && <span className={`inputIcon__icon ${ this.props.icon.name }`} onClick={this.onIconClick}></span> }

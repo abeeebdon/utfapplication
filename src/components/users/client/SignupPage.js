@@ -14,7 +14,7 @@ import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, set
 import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
-//import { login, populateUser } from '../../../api/user.js';
+import { populateUser } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function SignupPage() {
@@ -298,9 +298,9 @@ export default function SignupPage() {
             (response)=>{
                 closeVerificationForm();
                 dispatch(resetAll())
-                dispatch(setUser(response))
                 dispatch(setAuthentication(response))
                 dispatch(setLoggedIn(true))
+                populateUser()
                 return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
             },
             async (errorMessage)=>{

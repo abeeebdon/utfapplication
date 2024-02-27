@@ -16,6 +16,7 @@ const accountReducerDefaultState = {
         expires: '',
         refreshToken: ''
     },
+    openTrades: [],
     wallets: null,//{
 //        myWallet: {
 //            name: 'myWallet',
@@ -74,6 +75,8 @@ export default ( state = accountReducerDefaultState, action ) => {
             return { ...state, isOnboarded: action.isOnboarded }
         case "SET_USER":
             return { ...state, user: action.user }
+        case "SET_OPEN_TRADES":
+            return { ...state, openTrades: action.openTrades }
         case "SET_WALLETS":
             return { ...state, wallets: action.wallets }
         case "SET_TRANSACTIONS":

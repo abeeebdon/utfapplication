@@ -30,11 +30,37 @@ export const selectVerifyLoginEndpoint = (endpoints) => {
         }
 }
 
-export const selectGetUserInfoEndpoint = (endpoints) => {
-        return (userId)=>{
-            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/users/${userId}`;
+export const selectGetPairsEndpoint = (endpoints) => {
+        return ()=>{
+            return "https://api.iex.cloud/v1/fx/historical?symbols=EURUSD,GBPUSD,USDJPY,NZDUSD,AUDUSD,USDCHF,USDCAD&last=365&token=pk_d3a65e5ad7fc400a8862da67b3ab118e"
         }
 }
+
+export const selectGetUserInfoEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/profile/`;
+        }
+}
+
+export const selectNewBuyTradeEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/buy_trade/`;
+        }
+}
+
+export const selectNewSellTradeEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/sell_trade/`;
+        }
+}
+
+export const selectGetOpenTradesEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/open_trades/`;
+        }
+}
+
+
 
 export const selectBuyAirtimeEndpoint = createSelector(state => state.endpoints, (endpoints) => {
         return ()=>{
@@ -70,13 +96,6 @@ export const selectGetTransactionsEndpoint = (endpoints) => {
         return (userId)=>{
 //            userId = "0f2ec2cb-cf8a-4e61-8836-3c76d1178b2f"
             return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/transactions/users/${userId}`;
-        }
-}
-
-export const selectGetPairsEndpoint = (endpoints) => {
-        return ()=>{
-            return "https://api.iex.cloud/v1/fx/historical?symbols=EURUSD,GBPUSD,USDJPY,NZDUSD,AUDUSD,USDCHF,USDCAD&last=365&token=pk_d3a65e5ad7fc400a8862da67b3ab118e"
-//            return `${endpoints.server.protocol}://${endpoints.server.host}/api/${endpoints.apiVersion}/blockchains`;
         }
 }
 

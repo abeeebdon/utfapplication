@@ -30,6 +30,14 @@ export const setUser = (user) => (
     }
 );
 
+// SET OPEN TRADES
+export const setOpenTrades = (openTrades) => (
+    {
+        type: "SET_OPEN_TRADES",
+        openTrades
+    }
+);
+
 // SET WALLETS
 export const setWallets = (wallets) => (
     {

@@ -10,58 +10,23 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
-import { requireLogin } from '../../../api/user.js';
+import { requireLogin, populateUser } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     useEffect(()=>{
         requireLogin();
         populatePairs();
+        populateUser()
     }, []);
     const dispatch = useDispatch();
+
     const navigate = useNavigate();
     const countries = useSelector(state => state.configuration.countries);
     const pairs = useSelector(state => state.configuration.pairs);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
-
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
-        }
-        else{
-            password.type = "password"
-        }
-    }
-    const onVerificationFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").addClass("invisible")
-
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
-    }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
+    let gainPercent = (((user.wallet_balance - user.invested_value) / user.invested_value) * 100) || 0
+    gainPercent = gainPercent.toFixed(2);
 
     return (
         <section className="home home--select">
@@ -79,8 +44,8 @@ export default function HomePage() {
                                     <div className="dashboard__data">
                                         <p className="dashboard__dataHead">Holding Value</p>
                                         <div className="dashboard__dataBody">
-                                            <p className="dashboard__figureMajor">$2,509.75</p>
-                                            <p className="dashboard__figureMinor">+9.77%</p>
+                                            <p className="dashboard__figureMajor">${user.wallet_balance.toLocaleString("en-US")}</p>
+                                            <p className="dashboard__figureMinor">{gainPercent && gainPercent <= 0? gainPercent.toLocaleString("en-US") : `+${gainPercent.toLocaleString("en-US")}`}%</p>
                                         </div>
                                     </div>
                                 </div>
@@ -88,13 +53,13 @@ export default function HomePage() {
                                     <span className="">
                                         <div className="dashboard__data">
                                             <p className="dashboard__dataHead">Invested Value</p>
-                                            <p className="dashboard__figureMinor">$1,618.75</p>
+                                            <p className="dashboard__figureMinor">${user.invested_value.toLocaleString("en-US")}</p>
                                         </div>
                                     </span>
                                     <span className="">
                                         <div className="dashboard__data">
                                             <p className="dashboard__dataHead">Available Balance</p>
-                                            <p className="dashboard__figureMinor">$1,589</p>
+                                            <p className="dashboard__figureMinor">${user.wallet_balance.toLocaleString("en-US")}</p>
                                         </div>
                                     </span>
                                 </div>

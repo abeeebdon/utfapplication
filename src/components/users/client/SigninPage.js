@@ -14,6 +14,7 @@ import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, set
 import { selectVerificationTokenEndpoint, selectVerifyLoginEndpoint, selectLoginUserEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
+import { populateUser } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function SigninPage() {
@@ -139,10 +140,10 @@ export default function SigninPage() {
             (response)=>{
                 closeVerificationForm();
                 dispatch(resetAll())
-                dispatch(setUser(response))
                 dispatch(setAuthentication(response))
                 dispatch(setLoggedIn(true))
                 populatePairs()
+                populateUser()
                 navigate("/home")
             },
             async (errorMessage)=>{

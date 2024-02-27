@@ -14,7 +14,7 @@ export function SideBar(props) {
     let selectedItem = useSelector(state => state.configuration.sidebarItem);
     const logo = useSelector(state => state.configuration.app.logo);
 
-    dispatch(setSidebarItem(props.selectedItem))
+//    dispatch(setSidebarItem(props.selectedItem))
 
     return (
         <div className="sidebar">
@@ -147,7 +147,7 @@ export function TradingPanel(props) {
                     <div>{props.pair.name}</div>
                     { props.spread && <div className="tradingPanel__spread--sm">
                         <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
-                        <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`} </div>
+                        <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`}% </div>
                     </div> }
                 </div>
             </div>
@@ -159,7 +159,7 @@ export function TradingPanel(props) {
                     <LineChart data={props.trendChart} color={props.spread.change && props.spread.change < 0 ? "red": "green"}/>
                 }
             </div> }
-            { props.spread && <div className="tradingPanel__figure tradingPanel__spread">
+            { props.spread && !props.position && <div className="tradingPanel__figure tradingPanel__spread">
                 <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
                 <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`}% </div>
             </div> }
@@ -167,6 +167,13 @@ export function TradingPanel(props) {
                 <div className="tradingPanel__price"> {props.price.amount} </div>
                 {/*<div className="tradingPanel__change tradingPanel__change--down"> {props.price.change}% </div>*/}
                 <div className={`tradingPanel__change ${props.price.change && props.price.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.price.change && props.price.change < 0? props.price.change : `+${props.price.change}`}% </div>
+            </div> }
+            { props.position && <div>
+                <div className="tradingPanel__price" style={{color: props.position.direction == "buy"? "blue": "red"}}> {props.position.direction} {props.position.lotSize} </div>
+                <div className="tradingPanel__price"> {props.position.openPrice} <small>`n</small> {props.position.closePrice} </div>
+            </div> }
+            { props.position && <div>
+                <div className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL} </div>
             </div> }
             { props.actions && <div className="tradingPanel__action">
                     { props.actions.trade && <button className="button button--inverted trade" onClick={props.actions.trade}>Trade</button> }

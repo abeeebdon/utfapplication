@@ -8,121 +8,136 @@ import { Image } from "../../Image";
 import { ButtonForm, ButtonInverted } from "../../Button";
 
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
+import { selectNewBuyTradeEndpoint, selectNewSellTradeEndpoint } from '../../../state/selectors/endpoints';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
+import API from '../../../api/api.mjs';
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
+import { requireLogin, populateTrades } from '../../../api/user.js';
+import { populatePairs } from '../../../api/configuration.js';
 
 export default function OrderPage() {
+    useEffect(()=>{
+        requireLogin();
+        populateTrades()
+    }, []);
+
     const dispatch = useDispatch();
+    let api = new API();
     const {pairName} = useParams();
     let pair;
     const pairs = useSelector(state => state.configuration.pairs);
+    const openTrades = useSelector(state => state.account.openTrades);
+    let getNewBuyTradeURL = useSelector(state => selectNewBuyTradeEndpoint(state.endpoints));
+    let getNewSellTradeURL = useSelector(state => selectNewSellTradeEndpoint(state.endpoints));
+
     pairs.map((pairData)=>{
         if(pairData.name == pairName)
             pair = pairData
     })
 
+    openTrades.map((trade, index)=>{
+        pairs.map((pairData)=>{
+            if(pairData.name == trade.pairName)
+                openTrades[index].pair = pairData
+        })
+        openTrades[index].closePrice = openTrades[index].pair.rate;
 
-    const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
-
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
+        if(openTrades[index].direction == "buy") {
+            openTrades[index].PL = (openTrades[index].pair.rate * openTrades[index].lotSize * 100000) - (openTrades[index].openPrice * openTrades[index].lotSize * 100000)
         }
-        else{
-            password.type = "password"
+        else {
+            openTrades[index].PL = (openTrades[index].openPrice * openTrades[index].lotSize * 100000) - (openTrades[index].pair.rate * openTrades[index].lotSize * 100000)
         }
-    }
-    const onVerificationFormSubmit = async (event) => {
+    })
+
+
+
+    const user = useSelector(state => state.account.user);
+    const openPosition = async (event) => {
         event.preventDefault();
-        $(".signup__verification").addClass("invisible")
 
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
+        let getNewTradeURL  = document.getElementById("directionSell").checked == true ? getNewSellTradeURL : getNewBuyTradeURL;
 
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
+        let lotSize = parseFloat($("#lotSize").val())
+        lotSize = lotSize.toFixed(2)
+
+        if(lotSize <= 0)
+            return
+
+        let formData = {
+            forex_pair: pair.name,
+            lot_size: lotSize,
+            lot_cost: pair.rate
+        }
+
+        return api.post(
+            getNewTradeURL(),
+            formData,
+            (response)=>{
+                dispatch(showSuccessModal("Your trade has been accepted by the server", "/trade"));
+            },
+            (errorMessage)=>{
+                dispatch(showErrorModal(errorMessage));
+            }
+        )
     }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
 
     return (
         <section className="home trade">
             <div className="container">
                 <SideBar selectedItem={"trade"} />
                 <div className="home__main">
-                    <ControlHeader action={ {1: {name: "Market Price", onClick: ()=>{$(".marketOrder").show(); $(".pendingOrder").hide()}}, 2: {name: "Pending Order", onClick: ()=>{$(".marketOrder").hide(); $(".pendingOrder").show()}}}} />
+                    <ControlHeader action={ {1: {name: "New Trade", onClick: ()=>{$(".marketOrder").show(); $(".pendingOrder").hide()}}, 2: {name: "Running Trades", onClick: ()=>{$(".marketOrder").hide(); $(".pendingOrder").show()}}}} />
                     <div className="home__content marketOrder">
                         <div className="trendingBox">
                             <div className="autoTrade">
                                 <ToggleInput
                                     id={"checkBox"}
                                     name={"checkBox"}
-                                    required={"required"}
-                                    checked={"false"}
                                 />
                                 <span><p>Switch to Auto Trading</p></span>
                             </div>
-                            <form className="orderForm">
+                            <form className="orderForm" onSubmit={openPosition}>
                                 <p className="orderForm__title">Trade Type</p>
                                 <p className="orderForm__pair">{pair  && pair.name}</p>
                                 <div className="orderForm__direction">
                                     <span className="orderForm__directionButton">
                                         <RadioInput
-                                            id={"radio"}
+                                            id={"directionSell"}
                                             name={"radio"}
                                             required={"required"}
-                                            checked={"true"}
                                         />
                                         <p>Sell</p>
-                                        <p>{pair && (pair.rate - pair.spread).toFixed(5)}</p>
+                                        <p>{pair && (pair.rate - pair.spread).toPrecision(6)}</p>
                                     </span>
                                     <span className="orderForm__directionButton">
                                         <RadioInput
-                                            id={"radio"}
+                                            id={"directionBuy"}
                                             name={"radio"}
                                             required={"required"}
-                                            checked={"true"}
                                         />
                                         <p>Buy</p>
-                                        <p>{pair && (pair.rate + pair.spread).toFixed(5)}</p>
+                                        <p>{pair && (pair.rate + pair.spread).toPrecision(6)}</p>
                                     </span>
                                 </div>
                                 <p className="orderForm__lots">Trade Amounts (Lots)</p>
                                 <div className="orderForm__lotsControl">
                                     <span className="orderForm__lotsControlButton">+</span>
-                                    <input type="number" />
+                                    <input id="lotSize" type="number" min="0.01" step="0.01" placeholder="0.01" />
                                     <span className="orderForm__lotsControlButton">-</span>
                                 </div>
                                 <div className="orderForm__margin">
                                     <span className="orderForm__marginOccupied">
                                         <p>Occupied Margin(s)</p>
-                                        <p>148.566</p>
+                                        <p>{user.wallet_balance.toLocaleString("en-US")}</p>
                                     </span>
 
                                     <span className="orderForm__marginAvailable">
                                         <p>Available Margin(s)</p>
-                                        <p>96.173</p>
+                                        <p>{user.wallet_balance.toLocaleString("en-US")}</p>
                                     </span>
                                 </div>
-                                <div className="orderForm__button button button--form">Place Order</div>
+                                <button className="orderForm__button button button--form">Place Order</button>
                             </form>
                         </div>
                     </div>
@@ -130,14 +145,16 @@ export default function OrderPage() {
                     <div className="home__content pendingOrder invisible">
                         <div className="trendingBox">
                             <p className="trendingBox__heading">Open Positions</p>
-                            { [...Array(26)].map((x, key)=>{
+                            {
+                              openTrades.map((trade)=>{
                                 return <TradingPanel
-                                    pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
-                                    trendChart={{}}
-                                    price={{amount: "0.8132"}}
-                                    spread={{amount: "0.0001", change: "-21.00%", buy: "0.8132", sell: "0.8131"}}
+                                    pair={{name: trade.pair.name, icon: trade.pair.icon}}
+                                    position={{direction: trade.direction, lotSize: trade.lotSize, openPrice: trade.openPrice.toPrecision(6), closePrice: trade.closePrice.toPrecision(6), PL: trade.PL.toLocaleString("en-US")}}
+                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
                                     actions={{close: ()=>{$(".home__content").hide(); $(".orderSummary").show()}}}
                                 />
+
+
                               })
                             }
                         </div>

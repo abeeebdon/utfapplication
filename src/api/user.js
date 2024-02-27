@@ -9,10 +9,10 @@ import API from './api.mjs';
 import { populateMobileRechargers, populateCurrencies, populateBlockchains, populatePairs } from './configuration';
 import NotificationModal from "../components/NotificationModal";
 import { showErrorModal, showSuccessModal } from '../state/actions/notification';
-import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../state/actions/account';
+import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded, setOpenTrades } from '../state/actions/account';
 
 import { selectGenerateAuthenticationTokenEndpoint, selectRefreshAuthenticationTokenEndpoint, selectGetUserInfoEndpoint,
-        selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint } from '../state/selectors/endpoints';
+        selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint, selectGetOpenTradesEndpoint } from '../state/selectors/endpoints';
 
 
 //export async function generateAuthenticationToken(email, password) {
@@ -173,7 +173,7 @@ export function logout(){
 
 export function setToken() {
     let api = new API();
-    let authenticationToken = store.getState().account.authentication.authenticationToken;
+    let authenticationToken = store.getState().account.authentication.access;
     let authorization = "Bearer " + authenticationToken;
     api.setHeaders({authorization});
 }
@@ -194,6 +194,40 @@ export async function populateUser(){
         }
     )
 }
+
+export async function populateTrades(){
+    let api = new API();
+    const dispatch = store.dispatch;
+    let getOpenTradesURL = selectGetOpenTradesEndpoint(store.getState().endpoints)();
+    let formData = {}
+
+    setToken();
+    return api.get(
+        getOpenTradesURL,
+        formData,
+        (response)=>{
+            let tradesData = [ ...response.data ]
+            let trades = []
+
+            tradesData.map((trade)=>{
+                trades.push({
+                    id: trade.id,
+                    pair: null,
+                    pairName: trade.forex_pair,
+                    direction: "buy",
+                    lotSize: trade.lot_size,
+                    openPrice: trade.lot_cost,
+                    openTime: trade.created_at,
+                    PL: null
+                })
+            });
+
+            dispatch(setOpenTrades(trades))
+        }
+    )
+}
+
+
 
 export async function populateWallets(){
     let api = new API();

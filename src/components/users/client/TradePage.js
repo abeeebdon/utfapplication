@@ -10,11 +10,17 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
+import { requireLogin, populateTrades } from '../../../api/user.js';
+import { populatePairs } from '../../../api/configuration.js';
 
 export default function TradePage() {
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const countries = useSelector(state => state.configuration.countries);
+    useEffect(()=>{
+        requireLogin();
+    }, []);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const countries = useSelector(state => state.configuration.countries);
     let selectedCountry = { isoCode: "NG",
                             numberPrefix: "+234",
                             flag: `/images/countries/ng.svg`,
@@ -69,7 +75,7 @@ const countries = useSelector(state => state.configuration.countries);
                                 return <TradingPanel
                                     pair={{name: pair.name, icon: pair.icon}}
                                     trendChart={pair.trendData}
-                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toFixed(5), sell: (pair.rate - pair.spread).toFixed(5)}}
+                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
                                     actions={{buy: ()=>navigate(`/order/${pair.name}`), sell: ()=>navigate(`/order/${pair.name}`)}}
                                 />
 
