@@ -5,7 +5,9 @@ const notificationReducerDefaultState = {
     hasSuccess: false,
     successMessage: "",
     successImage: "../../images/success.png",
-    redirectUrl: ""
+    redirectUrl: "",
+    hasAction: false,
+    actionMessage: "",
 };
 
 export default ( state = notificationReducerDefaultState, action ) => {
@@ -18,6 +20,10 @@ export default ( state = notificationReducerDefaultState, action ) => {
             return { ...state, hasSuccess: true, successMessage: action.successMessage, redirectUrl: action.redirectUrl }
         case "HIDE_SUCCESS_MODAL":
             return { ...state, hasSuccess: false, successMessage: "", redirectUrl: "" }
+        case "SHOW_ACTION_MODAL":
+            return { ...state, hasAction: true, actionMessage: action.actionMessage, redirectUrl: action.redirectUrl }
+        case "HIDE_ACTION_MODAL":
+            return { ...state, hasAction: false, actionMessage: "", redirectUrl: "" }
         case "RESET_ALL":
             return notificationReducerDefaultState;
         default:

@@ -14,9 +14,7 @@ import { requireLogin, populateTrades } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function TradePage() {
-    useEffect(()=>{
-        requireLogin();
-    }, []);
+    requireLogin();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -71,8 +69,8 @@ export default function TradePage() {
                     <div className="home__content">
                         <div className="trendingBox">
                             {
-                              pairs.map((pair)=>{
-                                return <TradingPanel
+                              pairs.map((pair, index)=>{
+                                return <TradingPanel key={index}
                                     pair={{name: pair.name, icon: pair.icon}}
                                     trendChart={pair.trendData}
                                     spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}

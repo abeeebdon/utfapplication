@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import $ from 'jquery';
@@ -11,7 +11,7 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 
 import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, setFormData, setFirstNameField, setLastNameField, setEmailField, setPasswordField, setConfirmPasswordField, setAgreeToTermsField, resetFields, resetVerificationFields } from '../../../state/actions/clientSignupForm';
-import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint } from '../../../state/selectors/endpoints';
+import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint, selectUploadCredentialsEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 import { populateUser } from '../../../api/user.js';
@@ -27,11 +27,13 @@ export default function SignupPage() {
                             flag: `/images/countries/ng.svg`,
                             currencyCode:"NGN",
                             currencySymbol: "NGN" }
+    const [files, setFiles] = useState([]);
 
     const clientSignupForm = useSelector(state => state.clientSignupForm);
     let getVerificationTokenURL = useSelector(state => selectVerificationTokenEndpoint(state.endpoints));
     let getVerifyEmailURL = useSelector(state => selectVerifyEmailEndpoint(state.endpoints));
     let getRegisterUserURL = useSelector(state => selectRegisterUserEndpoint(state.endpoints));
+    let getUploadCredentialsURL = useSelector(state => selectUploadCredentialsEndpoint(state.endpoints));
     let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
     let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
     const logo = useSelector(state => state.configuration.app.logo);
@@ -202,6 +204,8 @@ export default function SignupPage() {
 
             $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
             $("#personalInfoPanel").removeClass("invisible");
+
+            $(".trackText").html("<span style='color: blue'}> <span>2</span><span>/</span><span>2</span> </span>");
         }
 
     }
@@ -210,19 +214,23 @@ export default function SignupPage() {
         event.preventDefault();
         dispatch(resetFields());
 
-
-        let errorExist = false
-
-        await validateFirstName();
-        await validateLastName();
-        await validateCheckBox();
-
-        if(!errorExist){
+        if(validateFirstName() && validateLastName() && validateEmail() && validatePassword() && files.length > 0){
             let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
             let firstName = document.getElementById("firstName").value;
             let lastName = document.getElementById("lastName").value;
-            let password = document.getElementById("password").value;
             let full_name = `${firstName} ${lastName}`
+            let country = document.getElementById("country").value;
+            let street = document.getElementById("street").value;
+            let nin = document.getElementById("nin").value;
+            let ninDoc = files[0]
+
+            let formData = new FormData()
+            formData.append('state', country)
+            formData.append('city', country)
+            formData.append('street_address', street)
+            formData.append('nin', nin)
+            formData.append('nin_picture', ninDoc)
 
             dispatch(setFormData({ email, firstName, lastName, password }))
 
@@ -231,6 +239,7 @@ export default function SignupPage() {
                 { email, full_name, password },
                 (response)=>{
                     showVerificationPanel();
+                    api.postWithFile(getUploadCredentialsURL(), formData)
                 },
                 (errorMessage)=>{
                     dispatch(showErrorModal(errorMessage));
@@ -326,7 +335,7 @@ export default function SignupPage() {
                     </div>
                     <div className="signup--panel__body">
                         <div className="signup--panel__sidebar">
-                            <div className="signup--panel__text"><span>1</span><span>/</span><span>2</span></div>
+                            <div className="signup--panel__text trackText"><span style={{color:"blue"}}>1</span><span>/</span><span>2</span></div>
                             <ul className="signup--panel__sidebarMenu">
                                 <li id="verification" className="signup--panel__sidebarMenuItem signup--panel__sidebarMenuItem--active">
                                     <span className="signup--panel__sidebarMenuIcon fa fa-user"></span>
@@ -460,6 +469,48 @@ export default function SignupPage() {
                                         </div>
                                     </span>
 
+                                    {/*<span className="signup__formDualInputs">*/}
+                                        <div className="signup__formInput">
+                                            <IconedInput
+                                                id={"country"}
+                                                name={"country"}
+                                                label={"Country"}
+                                                type={"select"}
+                                                required={"required"}
+                                                style={{border: "bottom-sm"}}
+                                                logo={ { src: selectedCountry.flag } }
+                                                options={countries}
+                                                error={clientSignupForm.emailField}
+                                            />
+                                        </div>
+
+                                        {/*<div className="signup__formInput">
+                                            <IconedInput
+                                                id={"city"}
+                                                name={"city"}
+                                                label={"City"}
+                                                type={"select"}
+                                                required={"required"}
+                                                options={countries}
+                                                style={{border: "bottom-sm"}}
+                                                error={clientSignupForm.emailField}
+                                            />
+                                        </div>
+                                    </span>*/}
+
+                                    <div className="signup__formInput">
+                                        <IconedInput
+                                            id={"street"}
+                                            name={"street"}
+                                            label={"Street Address"}
+                                            type={"text"}
+                                            style={{border: "bottom-sm"}}
+                                            placeholder={"Type here"}
+                                            required={"required"}
+                                            error={clientSignupForm.passwordField}
+                                        />
+                                    </div>
+
                                     <div className="signup__formInput">
                                         <IconedInput
                                             id={"nin"}
@@ -478,10 +529,8 @@ export default function SignupPage() {
                                             id={"ninUpload"}
                                             name={"ninUpload"}
                                             label={"National ID picture"}
-                                            type={"text"}
-                                            placeholder={"Type here"}
                                             fileFormats={"(PDF/JPG/PNG)"}
-                                            error={clientSignupForm.passwordField}
+                                            onFilesSelected={setFiles}
                                         />
                                     </div>
 
@@ -495,52 +544,10 @@ export default function SignupPage() {
                                             onInput={validateCheckBox}
                                         />
                                     </div>
-
-                                    <div className="signup__formInput">
-                                        <IconedInput
-                                            id={"street"}
-                                            name={"street"}
-                                            label={"Street Address"}
-                                            type={"text"}
-                                            style={{border: "bottom-sm"}}
-                                            placeholder={"Type here"}
-                                            required={"required"}
-                                            error={clientSignupForm.passwordField}
-                                        />
-                                    </div>
-
-                                    <span className="signup__formDualInputs">
-                                        <div className="signup__formInput">
-                                            <IconedInput
-                                                id={"state"}
-                                                name={"state"}
-                                                label={"State"}
-                                                type={"select"}
-                                                required={"required"}
-                                                style={{border: "bottom-sm"}}
-                                                logo={ { src: selectedCountry.flag } }
-                                                options={countries}
-                                                error={clientSignupForm.emailField}
-                                            />
-                                        </div>
-
-                                        <div className="signup__formInput">
-                                            <IconedInput
-                                                id={"city"}
-                                                name={"city"}
-                                                label={"City"}
-                                                type={"select"}
-                                                required={"required"}
-                                                options={countries}
-                                                style={{border: "bottom-sm"}}
-                                                error={clientSignupForm.emailField}
-                                            />
-                                        </div>
-                                    </span>
                                 </div>
 
                                 <div className="signup--panel__buttonBar">
-                                    <ButtonInverted label={"Skip For Now"} />
+                                    {/*<ButtonInverted label={"Skip For Now"} />*/}
                                     <ButtonForm label={"Next"} />
                                 </div>
                             </form>

@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { RoundedImage } from "./Image";
 
@@ -322,10 +322,40 @@ export class SingleInput extends React.Component {
 }
 
 
-export class FileUpload extends React.Component {
-    class = "input__fileUpload";
+export function FileUpload (props) {
+//    const class = "input__fileUpload";
+    const [files, setFiles] = useState([]);
 
-    onFormInput = (event) => {
+    const handleFileChange = (event) => {
+        const selectedFiles = event.target.files;
+        if (selectedFiles && selectedFiles.length > 0) {
+              const newFiles = Array.from(selectedFiles);
+              setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+            }
+      };
+
+    const handleDrop = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        const droppedFiles = event.dataTransfer.files;
+        if (droppedFiles.length > 0) {
+          const newFiles = Array.from(droppedFiles);
+          setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        }
+      };
+
+    const handleRemoveFile = (index) => {
+        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+
+      };
+
+    useEffect(() => {
+        props.onFilesSelected(files);
+
+      }, [files, props.onFilesSelected]);
+
+
+    const onFormInput = (event) => {
         event.target.className = this.class;
 
         if(event.target.value != "" && event.target.nextSibling)
@@ -333,57 +363,55 @@ export class FileUpload extends React.Component {
 
     }
 
-    onClick = (event) => {
+    const onClick = (event) => {
         event.preventDefault();
-        let id = document.getElementById(this.props.id);
+        let id = document.getElementById(props.id);
         id.click();
 
-    }
+    };
 
-    onKeyDown = (event) => {
-        if(event.code == "Backspace" && event.target.value == "" && event.target.previousSibling){
-            event.target.previousSibling.focus();
-            event.target.previousSibling.setSelectionRange(1,1);
-        }
-
-
-        if(event.code == "ArrowLeft" && event.target.previousSibling){
-            event.target.previousSibling.focus();
-            event.target.previousSibling.setSelectionRange(1,1);
-            event.preventDefault();
-         }
-
-        if(event.code == "ArrowRight" && event.target.nextSibling){
-            event.target.nextSibling.focus();
-            event.target.nextSibling.setSelectionRange(1,1);
-            event.preventDefault();
-        }
-    }
-
-    render(){
-        return (
-                <div className="input__fileUpload">
-                    <div className="input__fileUploadIcon fa fa-upload" onClick={this.onClick}></div>
-                    <div className="input__fileUploadTextBox" onClick={this.onClick}>
-                        <p className="">Drag and drop here or click to upload {this.props.label}</p>
-                        <p className="">{this.props.fileFormats}</p>
-                    </div>
-
-                    <div className="input__fileUploadTextBox--sm">Upload {this.props.label}</div>
-                    <button className="input__fileUploadTextButton" onClick={this.onClick}>Upload</button>
-
-                    <input
-                        id={this.props.id}
-                        className="invisible"
-                        name={this.props.name}
-                        type="file"
-                        required={this.props.required}
-                        disabled={this.props.disabled}
-                        onInput={this.onFormInput}
-                        onKeyDown={this.onKeyDown}
-
-                    />
+    return (
+            <div>
+            <div className="input__fileUpload" onDrop={handleDrop} onDragOver={(event) => event.preventDefault()} >
+                <div className="input__fileUploadIcon fa fa-upload" onClick={onClick}></div>
+                <div className="input__fileUploadTextBox" onClick={onClick}>
+                    <label htmlFor={props.id}>Drag and drop here or click to upload {props.label}</label>
+                    <p className="">{props.fileFormats}</p>
                 </div>
-        );
-    }
+
+                <div className="input__fileUploadTextBox--sm">Upload {props.label}</div>
+                <button className="input__fileUploadTextButton" onClick={onClick}>Upload</button>
+
+                <input
+                    id={props.id}
+                    hidden
+                    onChange={handleFileChange}
+                    accept={props.accept}
+                    name={props.name}
+                    type="file"
+                    required={props.required}
+                    disabled={props.disabled}
+
+                />
+            </div>
+
+                {files.length > 0 && (
+                      <div className="file-list">
+                        <div className="file-list__container">
+                          {files.map((file, index) => (
+                            <div className="file-item" key={index}>
+                              <div className="file-info">
+                                <p>{file.name}</p>
+                                {/* <p>{file.type}</p> */}
+                              </div>
+                              <div className="file-actions">
+                                <div onClick={() => handleRemoveFile(index)}><span className="fa fa-remove"></span></div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                )}
+            </div>
+    );
 }

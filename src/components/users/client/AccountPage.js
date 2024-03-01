@@ -10,50 +10,19 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
+import { requireLogin, populateActivity, logout } from '../../../api/user.js';
+import { setActivity } from '../../../state/actions/account';
+
 
 export default function MarketPage() {
-const dispatch = useDispatch();
-const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
+    requireLogin();
+    populateActivity()
 
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
-        }
-        else{
-            password.type = "password"
-        }
-    }
-    const onVerificationFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").addClass("invisible")
-
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
-    }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
+    const dispatch = useDispatch();
     const logo = useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
+    const activities = useSelector(state => state.account.activity);
+//    dispatch(setActivity([]))
 
     return (
         <section className="home account">
@@ -67,19 +36,19 @@ const countries = useSelector(state => state.configuration.countries);
                             <div className="account__profile">
                                 <div className="account__profileCard">
                                     <div className="account__profileCardImage">
-                                        <RoundedImage src="/images/avatars/allison.jpg" />
+                                        <RoundedImage src="/images/avatars/avatar.jpg" />
                                     </div>
                                     <p>{user.full_name}</p>
-                                    <p>{user.email}<br/>+91 944497718</p>
+                                    <p>{user.email}</p>
                                 </div>
                             </div>
 
                             <ul>
                                 <li className="account__navigationItem account__navigationItem--selected"><span className="fa fa-history"></span>History</li>
-                                <li className="account__navigationItem"><span className="fa fa-bell"></span>Notification</li>
                                 <li className="account__navigationItem"><span className="fa fa-shield"></span>Security</li>
                                 <li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>
                                 <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
+                                <li className="account__navigationItem" onClick={ logout }><span className="fa fa-sign-out"></span>Logout</li>
                             </ul>
                         </div>
 
@@ -87,22 +56,26 @@ const countries = useSelector(state => state.configuration.countries);
                             <div className="account__profile">
                                 <div className="account__profileCard">
                                     <div className="account__profileCardImage">
-                                        <RoundedImage src="/images/avatars/allison.jpg" />
+                                        <RoundedImage src="/images/avatars/avatar.jpg" />
                                     </div>
                                     <p>{user.full_name}</p>
-                                    <p>{user.email}<br/>+91 944497718</p>
+                                    <p>{user.email}</p>
                                 </div>
                             </div>
 
                             <div className="account__activity">
                                 <p className="account__activityHead">Activity</p>
-                                <p className="account__activityDate">Today, Aug 1</p>
-                                <TradingPanel
-                                    pair={{name: "Deposit", icon: "/images/countries/gb.svg"}}
-                                    price={{amount: "+$1,085.18", change: "4:30 pm"}}
-                                />
+                                {/*<p className="account__activityDate">Today, Aug 1</p>*/}
+                                {
+                                    activities.map((activity, index)=>{
+                                        return <TradingPanel key={index}
+                                                pair={{name: activity.type}}
+                                                price={{amount: activity.amount}}
+                                            />
+                                    })
+                                }
 
-                                <button className="button button--form">Download Transactions</button>
+                                {/*<button className="button button--form">Download Transactions</button>*/}
                             </div>
                         </div>
                     </div>

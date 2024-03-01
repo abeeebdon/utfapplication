@@ -8,8 +8,8 @@ export default class api {
         });
     }
 
-    get(url, body, doneCallback, failCallback, alwaysCallback){
-        return $.get(url, body, (response) => {
+    get(url, doneCallback, failCallback, alwaysCallback){
+        return $.get(url, (response) => {
                 console.log(response)
                 doneCallback(response);
             }
@@ -55,6 +55,41 @@ export default class api {
 //                console.log(response)
 //            }
 //        )
+        .fail(
+            (response) => {
+                console.log(response)
+//                let errorMessage = response.responseJSON ? ( response.responseJSON.message instanceof Array ? response.responseJSON.message[0].msg : response.responseJSON.message ) : response.statusText;
+                let errorMessage = response.responseJSON ? ( response.responseJSON.message ? response.responseJSON.message : response.responseText ) : response.statusText;
+                if(failCallback)
+                    failCallback(errorMessage);
+//                <Redirect to="/Error" />
+            }
+        )
+//        .always(
+//            (response) => {
+//                alwaysCallback(response);
+////                console.log(response)
+//            }
+//        );
+    }
+
+    postWithFile(url, body, doneCallback, failCallback, alwaysCallback){
+        $.ajax({
+                type: "POST",
+                url,
+                data: body,
+                dataType: "JSON",
+                processData: false,
+//                contentType: "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+    contentType: false
+            })
+        .done(
+            (response) => {
+                console.log(response)
+                if(doneCallback)
+                    doneCallback(response);
+            }
+        )
         .fail(
             (response) => {
                 console.log(response)

@@ -30,6 +30,22 @@ export const hideSuccessModal = () => (
     }
 );
 
+// SHOW ACTION MODAL
+export const showActionModal = (actionMessage, redirectUrl="") => (
+    {
+        type: "SHOW_ACTION_MODAL",
+        actionMessage,
+        redirectUrl
+    }
+);
+
+// HIDE ACTION MODAL
+export const hideActionModal = () => (
+    {
+        type: "HIDE_ACTION_MODAL"
+    }
+);
+
 // RESET ALL
 export const resetAll = () => (
     {

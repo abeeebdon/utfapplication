@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { hideErrorModal, hideSuccessModal } from '../state/actions/notification';
+import { hideErrorModal, hideSuccessModal, hideActionModal } from '../state/actions/notification';
 //import { stopLoading, startLoading } from '../state/actions/preloader';
 //import API from '../api/api.mjs';
 import Input, {CheckBoxInput} from "./Input";
@@ -15,13 +15,14 @@ export default function NotificationModal() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 //    dispatch(stopLoading());
-    const {hasError, errorMessage, errorImage, hasSuccess, successMessage, successImage, redirectUrl} = useSelector(state => state.notification);
+    const {hasError, errorMessage, errorImage, hasSuccess, successMessage, successImage, redirectUrl, hasAction, actionMessage} = useSelector(state => state.notification);
 //    let api = new API();
     const el = document.getElementById('app');
 
     let close = async (event) => {
         dispatch(hideErrorModal());
         dispatch(hideSuccessModal());
+        dispatch(hideActionModal());
 
         if(redirectUrl != "")
             navigate(redirectUrl, {replace: true})
@@ -60,6 +61,17 @@ export default function NotificationModal() {
                             <div className="">
                                 <ButtonForm label={"Next"} />
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+
+            <Modal appElement={el} isOpen={hasAction} contentLabel="isOpen">
+                <div className="notificationModal" onClick={close}>
+                    <span className="overlay--fixed"></span>
+                    <div className="container">
+                        <div className="notificationModal__box">
+                            { actionMessage && actionMessage }
                         </div>
                     </div>
                 </div>

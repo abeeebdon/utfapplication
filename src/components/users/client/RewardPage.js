@@ -10,49 +10,25 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
+import { requireLogin, populateTrades } from '../../../api/user.js';
 
 export default function RewardPage() {
-const dispatch = useDispatch();
-const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
-
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
+    requireLogin();
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.account.user);
+    const endpoints = useSelector(state => state.endpoints);
+    let referralLink = `${endpoints.server.protocol}://${endpoints.server.host}/signup&refer=${user.uuid}`
+    const openReferralPage = async (event) => {
         event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
+        $(".referralPage").toggleClass("invisible")
     }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
-        }
-        else{
-            password.type = "password"
-        }
-    }
-    const onVerificationFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").addClass("invisible")
 
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
+    const copyAddress = (event)=> {
+        event.preventDefault();
+        var copyText = $("#referralBox__code")[0].innerText;
+        navigator.clipboard.writeText(copyText);
+        $('.alert').fadeIn('show');
     }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
 
     return (
         <section className="home reward">
@@ -61,14 +37,14 @@ const countries = useSelector(state => state.configuration.countries);
                 <div className="home__main">
                     <Header title="Reward"/>
                     <div className="home__content">
-                        <div className="trendingBox">
+                        <div className="trendingBox referralPage">
                             <p className="trendingBox__heading">Earn by Referrals</p>
                             <div className="rewardBanners">
                                 <div className="rewardBanner">
                                     <div className="rewardBanner__caption">
                                         <p className="rewardBanner__title">Reward</p>
                                         <p className="rewardBanner__text">Like, Share <br/>& get free Crypto</p>
-                                        <button className="button">Start Now</button>
+                                        <button className="button" onClick={openReferralPage}>Start Now</button>
                                     </div>
                                     <div className="rewardBanner__imageBox">
                                         <div className="rewardBanner__image">
@@ -80,7 +56,7 @@ const countries = useSelector(state => state.configuration.countries);
                                     <div className="rewardBanner__caption">
                                         <p className="rewardBanner__title">Refer and Earn</p>
                                         <p className="rewardBanner__text">Refer Your Friend and Win Cryptocoins</p>
-                                        <button className="button">Refer Now</button>
+                                        <button className="button" onClick={openReferralPage}>Refer Now</button>
                                     </div>
                                     <div className="rewardBanner__imageBox">
                                     </div>
@@ -88,19 +64,23 @@ const countries = useSelector(state => state.configuration.countries);
                             </div>
                         </div>
 
-                        <div>
+                        <div className="referralPage invisible">
                             <div className="referralBox">
                                 <p className="referralBox__title">Share to make money</p>
                                 <p className="referralBox__subTitle">Your referral link</p>
                                 <div className="referralBox__codeBox">
-                                    <div className="referralBox__code">ljefjwfjfijelkfj99jjeioijwefojwfoj-9jfvnrvjoejf-0virf-rfjov</div>
-                                    <div className="referralBox__button">Copy</div>
+                                    <div id="referralBox__code" className="referralBox__code">{referralLink}</div>
+                                    <div className="referralBox__button" onClick={copyAddress}>Copy</div>
+                                </div>
+                                <div class="alert">
+                                  <span class="closebtn" onClick={(event)=> event.target.parentElement.style.display='none'}>&times;</span>
+                                  Copied to clipboard
                                 </div>
                             </div>
 
                             <div className="commissionBox">
-                                { [...Array(3)].map((x, key)=>{
-                                    return <div className="commission">
+                                { [...Array(3)].map((x, index)=>{
+                                    return <div className="commission" key={index}>
                                                 <p>First<br/>Commission</p>
                                                 <p className="commission__amount">329</p>
                                             </div>
@@ -111,8 +91,8 @@ const countries = useSelector(state => state.configuration.countries);
                             <p className="referralBox__title">Total Recommended Members</p>
 
                             <div className="commissionBox">
-                                { [...Array(3)].map((x, key)=>{
-                                    return <div className="commission">
+                                { [...Array(3)].map((x, index)=>{
+                                    return <div className="commission" key={index}>
                                                 <p>First<br/>Level Member</p>
                                                 <p className="commission__amount">125</p>
                                             </div>

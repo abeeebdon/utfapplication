@@ -2,6 +2,7 @@ const configurationReducerDefaultState = {
     app: { name: "", namePlural: "", version: "", logo: "" },
     cryptos: [],
     countries: {},
+    depositAddress: "",
     sidebarItem: '',
     blockchains: {
 //        bitcoinId: {
@@ -28,6 +29,8 @@ export default ( state = configurationReducerDefaultState, action ) => {
             return { ...state, cryptos: action.cryptos }
         case "SET_COUNTRIES":
             return { ...state, countries: action.countries }
+        case "SET_DEPOSIT_ADDRESS":
+            return { ...state, depositAddress: action.depositAddress }
         case "SET_CURRENCIES":
             return { ...state, currencies: action.currencies }
         case "SET_SIDEBAR_ITEM":

@@ -1,3 +1,8 @@
+.ReactModalPortal {
+    z-index: 200;
+    position: relative;
+}
+
 .notificationModal {
    /* display: flex;
     flex-direction: column;
@@ -15,7 +20,7 @@
 
 .notificationModal__box {
     padding: 8rem 20px;
-    z-index: 200;
+    z-index: 2;
     width: 80%;
     display: flex;
     flex-direction: column;

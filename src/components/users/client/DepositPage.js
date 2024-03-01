@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { QRCodeSVG, QRCodeCanvas} from 'qrcode.react';
@@ -8,54 +8,65 @@ import $ from 'jquery';
 import { Image } from "../../Image";
 import { ButtonForm, ButtonInverted } from "../../Button";
 
+import { selectUploadDepositProofEndpoint } from '../../../state/selectors/endpoints';
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
+import API from '../../../api/api.mjs';
 import { ControlHeader } from "./SideBar";
+import { requireLogin, populateUser } from '../../../api/user.js';
+import { populateDepositAddress } from '../../../api/configuration.js';
 
 export default function DepositPage() {
-const dispatch = useDispatch();
-const navigate = useNavigate();
-const countries = useSelector(state => state.configuration.countries);
-const usdtLogo = "/images/crypto/usdt.svg"
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
+    requireLogin();
+    populateDepositAddress()
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    let api = new API();
+
+    const depositAddress = useSelector(state => state.configuration.depositAddress);
+    const usdtLogo = "/images/crypto/usdt.svg"
+    let getUploadDepositProofURL = useSelector(state => selectUploadDepositProofEndpoint(state.endpoints));
+    const [files, setFiles] = useState([]);
+
+    const uploadDepositProof = async (event) => {
+        event.preventDefault();
+
+        let address = document.getElementById("address").value;
+        let amount = document.getElementById("amount").value;
+        let transaction_id = document.getElementById("transactionId").value;
+
+        if(address && amount && transaction_id && (files.length > 0)) {
+            let formData = new FormData()
+            formData.append('address', address)
+            formData.append('amount', amount)
+            formData.append('transaction_id', transaction_id)
+            formData.append('proof', files[0])
+
+            return api.postWithFile(
+                getUploadDepositProofURL(),
+                formData,
+                (response)=>{
+                    dispatch(showSuccessModal("Please your deposit is still being verified and it usually takes up to 6 hours for your account to be verified", "/home"));
+                },
+                (errorMessage)=>{
+                    dispatch(showErrorModal(errorMessage));
+                }
+            )
+        }
+    }
+
+    const copyAddress = (event)=> {
+        event.preventDefault();
+        var copyText = $("#depositLevel__address")[0].innerText;
+        navigator.clipboard.writeText(copyText);
+        $('.alert').fadeIn('show');
+    }
+
 
     const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("Please your deposit is still being verified and it usually takes up to 6 hours for your account to be verified", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
-        }
-        else{
-            password.type = "password"
-        }
-    }
-    const onVerificationFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").addClass("invisible")
+    let validateEmail;
 
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
-    }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
 
     return (
         <section className="deposit home">
@@ -128,16 +139,22 @@ const usdtLogo = "/images/crypto/usdt.svg"
                         <div className="depositLevel__scanBox">
                             <div className="depositLevel__scanCode">{
 
-                                <QRCodeSVG value="0x78760030Bd9c50E7ee0CE0b8E2829095EEC0ef41" size="100"/>
+                                <QRCodeSVG value={depositAddress} size="100"/>
 
                             }</div>
 
                         </div>
                         <div> <span className="depositLevel__Dash"></span> Or <span className="depositLevel__Dash"></span> </div>
-                        <div className="depositLevel__address">0x78760030Bd9c50E7ee0CE0b8E2829095EEC0ef41</div>
+                        <div id="depositLevel__address" className="depositLevel__address">{depositAddress}</div>
                         <div className="depositLevel__action">
-                            <button className="button button--inverted">Copy</button>
+                            <button className="button button--inverted" onClick={copyAddress}>Copy</button>
                         </div>
+
+                        <div class="alert">
+                          <span class="closebtn" onClick={(event)=> event.target.parentElement.style.display='none'}>&times;</span>
+                          Copied to clipboard
+                        </div>
+
                         <div className="depositLevel__subTitle">Please note deposit fee is %1</div>
                         <div className="depositLevel__actionNext">
                             <button className="button button--form"  onClick={()=>{$("#stage3").show(); $("#stage2").hide()}}>Next</button>
@@ -148,7 +165,7 @@ const usdtLogo = "/images/crypto/usdt.svg"
                 <div id="stage3" className="deposit__content invisible">
                     <ControlHeader back={{onClick: ()=>{$("#stage2").show(); $("#stage3").hide()}}} close={{onClick: ()=>navigate("/home")}} title={"Deposit"} progress="75%" />
                     <div className="depositProof">
-                        <form onSubmit={onFormSubmit2} className="signup__form">
+                        <form onSubmit={uploadDepositProof} className="signup__form">
                             <div className="signup__heading">
                                 <span className="signup--panel__text">Proof of Deposit</span>
                             </div>
@@ -200,10 +217,10 @@ const usdtLogo = "/images/crypto/usdt.svg"
                                         id={"proofUpload"}
                                         name={"proofUpload"}
                                         label={"Proof of Deposit slip"}
-                                        type={"text"}
+                                        multiple
                                         placeholder={"Type here"}
                                         fileFormats={"(PDF/JPG/PNG)"}
-                                        error={clientSignupForm.passwordField}
+                                        onFilesSelected={setFiles}
                                     />
                                 </div>
                             </div>

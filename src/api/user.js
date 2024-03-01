@@ -9,10 +9,11 @@ import API from './api.mjs';
 import { populateMobileRechargers, populateCurrencies, populateBlockchains, populatePairs } from './configuration';
 import NotificationModal from "../components/NotificationModal";
 import { showErrorModal, showSuccessModal } from '../state/actions/notification';
-import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded, setOpenTrades } from '../state/actions/account';
+import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded, setOpenTrades, setActivity } from '../state/actions/account';
 
 import { selectGenerateAuthenticationTokenEndpoint, selectRefreshAuthenticationTokenEndpoint, selectGetUserInfoEndpoint,
-        selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint, selectGetOpenTradesEndpoint } from '../state/selectors/endpoints';
+        selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint, selectGetOpenTradesEndpoint,
+         selectGetActivityEndpoint } from '../state/selectors/endpoints';
 
 
 //export async function generateAuthenticationToken(email, password) {
@@ -199,12 +200,10 @@ export async function populateTrades(){
     let api = new API();
     const dispatch = store.dispatch;
     let getOpenTradesURL = selectGetOpenTradesEndpoint(store.getState().endpoints)();
-    let formData = {}
 
     setToken();
     return api.get(
         getOpenTradesURL,
-        formData,
         (response)=>{
             let tradesData = [ ...response.data ]
             let trades = []
@@ -227,6 +226,57 @@ export async function populateTrades(){
     )
 }
 
+export async function populateActivity(){
+    let api = new API();
+    const dispatch = store.dispatch;
+    let getActivityURL = selectGetActivityEndpoint(store.getState().endpoints)();
+
+    setToken();
+    return api.get(
+        getActivityURL,
+        (response)=>{
+            let activities = [ ...response.data ]
+
+            dispatch(setActivity(activities))
+        }
+    )
+}
+
+export function calculateAccountSummary() {
+    let leverage = 100;
+    let margin = 0;
+    let freeMargin = 0;
+    let equity = 0;
+    let floatingPL = 0;
+    let marginLevel = 0;
+
+    let openTrades = useSelector(state => state.account.openTrades);
+    let user = useSelector(state => state.account.user);
+    const pairs = useSelector(state => state.configuration.pairs);
+
+    openTrades.map((trade, index)=>{
+        pairs.map((pairData)=>{
+            if(pairData.name == trade.pairName)
+                openTrades[index].pair = pairData
+        })
+        openTrades[index].closePrice = openTrades[index].pair.rate;
+
+        if(openTrades[index].direction == "buy") {
+            openTrades[index].PL = (openTrades[index].pair.rate * openTrades[index].lotSize * 100000) - (openTrades[index].openPrice * openTrades[index].lotSize * 100000)
+        }
+        else {
+            openTrades[index].PL = (openTrades[index].openPrice * openTrades[index].lotSize * 100000) - (openTrades[index].pair.rate * openTrades[index].lotSize * 100000)
+        }
+
+        floatingPL += openTrades[index].PL;
+        margin += (openTrades[index].openPrice * openTrades[index].lotSize * 100000) / leverage
+    })
+
+    equity = user.wallet_balance + floatingPL;
+    freeMargin = equity - margin;
+
+    return { leverage, equity, margin, freeMargin }
+}
 
 
 export async function populateWallets(){

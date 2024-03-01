@@ -18,6 +18,12 @@ export const selectRegisterUserEndpoint = (endpoints) => {
         }
 }
 
+export const selectUploadCredentialsEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/credentials/`;
+        }
+}
+
 export const selectLoginUserEndpoint = (endpoints) => {
         return ()=>{
             return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/login/`;
@@ -54,9 +60,45 @@ export const selectNewSellTradeEndpoint = (endpoints) => {
         }
 }
 
+export const selectCloseTradeEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/close_trade/`;
+        }
+}
+
 export const selectGetOpenTradesEndpoint = (endpoints) => {
         return ()=>{
             return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/open_trades/`;
+        }
+}
+
+export const selectGetDepositAddressEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/admin_address/`;
+        }
+}
+
+export const selectUploadDepositProofEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/deposit_proof/`;
+        }
+}
+
+export const selectRequestWithdrawalEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/place_withdrawal/`;
+        }
+}
+
+export const selectRequestWithdrawalVerificationCodeEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/trading/trigger_withdrawal_email/`;
+        }
+}
+
+export const selectGetActivityEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/activity/`;
         }
 }
 

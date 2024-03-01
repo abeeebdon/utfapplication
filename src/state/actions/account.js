@@ -38,6 +38,14 @@ export const setOpenTrades = (openTrades) => (
     }
 );
 
+// SET ACTIVITY
+export const setActivity = (activity) => (
+    {
+        type: "SET_ACTIVITY",
+        activity
+    }
+);
+
 // SET WALLETS
 export const setWallets = (wallets) => (
     {

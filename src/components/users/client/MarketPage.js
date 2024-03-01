@@ -10,49 +10,23 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
+import { requireLogin, populateTrades } from '../../../api/user.js';
+import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function MarketPage() {
-const dispatch = useDispatch();
-const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
+    requireLogin();
+    useEffect(()=>{
+        loopPopulatePairs();;
+    }, []);
 
-    const clientSignupForm = useSelector(state => state.clientSignupForm);
-    const onFormSubmit2 = async (event) => {
-        event.preventDefault();
-        dispatch(showSuccessModal("We will very your account and get back to you once we are done checking", "/home"));
-    }
-    const onFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").removeClass("invisible")
-    }
-    const togglePasswordVisibility = async (event) => {
-        let password = document.getElementById("password");
-        if(password.type == "password"){
-            password.type = "text";
-        }
-        else{
-            password.type = "password"
-        }
-    }
-    const onVerificationFormSubmit = async (event) => {
-        event.preventDefault();
-        $(".signup__verification").addClass("invisible")
+    const dispatch = useDispatch();
 
-        $("#verification").removeClass("signup--panel__sidebarMenuItem--active");
-        $("#verificationPanel").addClass("invisible");
-
-        $("#personalInfo").addClass("signup--panel__sidebarMenuItem--active");
-        $("#personalInfoPanel").removeClass("invisible");
-    }
-    const sendVerificationToken = async (event) => {}
-    let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
-    let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
-    const validateEmail = async ()=>{}
-    const logo = useSelector(state => state.configuration.app.logo);
+    const navigate = useNavigate();
+    const countries = useSelector(state => state.configuration.countries);
+    const pairs = useSelector(state => state.configuration.pairs);
+    const user = useSelector(state => state.account.user);
+    let gainPercent = (((user.wallet_balance - user.invested_value) / user.invested_value) * 100) || 0
+    gainPercent = gainPercent.toFixed(2);
 
     return (
         <section className="home">
@@ -60,8 +34,8 @@ const countries = useSelector(state => state.configuration.countries);
                 <SideBar selectedItem={"market"} />
                 <div className="home__main">
                     <Header title="Market"/>
-                    <div className="marketTrend__caption">Market is down <span className="marketTrend__direction">-11.17%</span></div>
-                    <p className="marketTrend__duration">In the past 24 hours</p>
+                    {/*<div className="marketTrend__caption">Market is down <span className="marketTrend__direction">-11.17%</span></div>
+                    <p className="marketTrend__duration">In the past 24 hours</p>*/}
 
                     <div className="market__category">
                         <div className="market__categoryName">Currency pairs</div>
@@ -75,12 +49,13 @@ const countries = useSelector(state => state.configuration.countries);
 
                     <div className="home__content">
                         <div className="trendingBox trendingBox--home">
-                            { [...Array(2)].map((x, key)=>{
-                                return <TradingPanel
-                                    pair={{name: "GBP/USD", icon: "/images/countries/gb.svg"}}
-                                    trendChart={{}}
-                                    price={{amount: "$1,085.18", change: "-21.00%"}}
-                                    actions={{trade:"e"}}
+                            { pairs.map((pair, index)=>{
+                                return <TradingPanel key={index}
+                                    pair={{name: pair.name, icon: pair.icon}}
+                                    trendChart={pair.trendData}
+                                    price={{amount: pair.rate, change: pair.change}}
+                                    actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                    onClick={()=>navigate(`/order/${pair.name}`)}
                                 />
                               })
                             }

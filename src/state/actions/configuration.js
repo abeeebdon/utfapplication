@@ -22,6 +22,14 @@ export const setCountries = (countries) => (
     }
 );
 
+// SET DEPOSIT ADDRESS
+export const setDepositAddress = (depositAddress) => (
+    {
+        type: "SET_DEPOSIT_ADDRESS",
+        depositAddress,
+    }
+);
+
 // SET CURRENCIES
 export const setCurrencies = (currencies) => (
     {

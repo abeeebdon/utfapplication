@@ -11,14 +11,14 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import { requireLogin, populateUser } from '../../../api/user.js';
-import { populatePairs } from '../../../api/configuration.js';
+import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
+    requireLogin();
     useEffect(()=>{
-        requireLogin();
-        populatePairs();
-        populateUser()
+        loopPopulatePairs();;
     }, []);
+
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -72,8 +72,8 @@ export default function HomePage() {
                         <div className="trendingBox trendingBox--home">
 
                             <p className="trendingBox__heading">Trending</p>
-                            { pairs.map((pair)=>{
-                                return <TradingPanel
+                            { pairs.map((pair, index)=>{
+                                return <TradingPanel key={index}
                                     pair={{name: pair.name, icon: pair.icon}}
                                     trendChart={pair.trendData}
                                     price={{amount: pair.rate, change: pair.change}}

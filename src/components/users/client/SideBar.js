@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import $ from 'jquery';
@@ -11,10 +11,14 @@ import { setSidebarItem} from '../../../state/actions/configuration';
 
 export function SideBar(props) {
     const dispatch = useDispatch();
+    useEffect(()=>{
+        dispatch(setSidebarItem(props.selectedItem));
+    }, [props.selectedItem]);
+
     let selectedItem = useSelector(state => state.configuration.sidebarItem);
     const logo = useSelector(state => state.configuration.app.logo);
 
-//    dispatch(setSidebarItem(props.selectedItem))
+
 
     return (
         <div className="sidebar">
@@ -53,7 +57,7 @@ export function SideBar(props) {
 export function Header(props) {
     const dispatch = useDispatch();
     let sidebarItem = "home"//useSelector(state => state.configuration.sidebarItem);
-    const profileImage = "/images/avatars/allison.jpg"//useSelector(state => state.configuration.app.logo);
+    const profileImage = "/images/avatars/avatar.jpg"//useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
 
     const toggleSideBar = async (event) => {
@@ -93,15 +97,12 @@ export function Header(props) {
 
 export function ControlHeader(props) {
     const dispatch = useDispatch();
-    let sidebarItem = "home"//useSelector(state => state.configuration.sidebarItem);
     const logo = useSelector(state => state.configuration.app.logo);
 
     const toggleSideBar = async (event) => {
         $(".header__menuToggle").toggleClass("change");
         $(".sidebar").toggleClass("sidebar--open");
     }
-
-//    dispatch(setSidebarItem(props.item))
 
     return (
             <div className="controlHeader">
@@ -112,7 +113,7 @@ export function ControlHeader(props) {
                         { props.action &&
                             <div className="controlHeader__action">{
                                 Object.entries(props.action).map(([key,value])=>{
-                                    return <button className="button button--inverted trade" onClick={value.onClick && value.onClick}>{value.name}</button>
+                                    return <button key={key} className="button button--inverted trade" onClick={value.onClick && value.onClick}>{value.name}</button>
                                 })
                             }</div>
                         }
@@ -165,15 +166,16 @@ export function TradingPanel(props) {
             </div> }
             { props.price && <div className="tradingPanel__figure">
                 <div className="tradingPanel__price"> {props.price.amount} </div>
-                {/*<div className="tradingPanel__change tradingPanel__change--down"> {props.price.change}% </div>*/}
-                <div className={`tradingPanel__change ${props.price.change && props.price.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.price.change && props.price.change < 0? props.price.change : `+${props.price.change}`}% </div>
+                { props.price.change &&
+                    <div className={`tradingPanel__change ${props.price.change && props.price.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.price.change && props.price.change < 0? props.price.change : `+${props.price.change}`}% </div>
+                }
             </div> }
             { props.position && <div>
                 <div className="tradingPanel__price" style={{color: props.position.direction == "buy"? "blue": "red"}}> {props.position.direction} {props.position.lotSize} </div>
                 <div className="tradingPanel__price"> {props.position.openPrice} <small>`n</small> {props.position.closePrice} </div>
             </div> }
             { props.position && <div>
-                <div className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL} </div>
+                <div className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL.toLocaleString("en-US")} </div>
             </div> }
             { props.actions && <div className="tradingPanel__action">
                     { props.actions.trade && <button className="button button--inverted trade" onClick={props.actions.trade}>Trade</button> }
