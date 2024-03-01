@@ -15,6 +15,7 @@ import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
+    populateUser()
     useEffect(()=>{
         loopPopulatePairs();;
     }, []);

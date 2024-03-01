@@ -183,12 +183,10 @@ export async function populateUser(){
     let api = new API();
     const dispatch = store.dispatch;
     let getUserInfoURL = selectGetUserInfoEndpoint(store.getState().endpoints)(store.getState().account.authentication.userId);
-    let formData = {}
 
     setToken();
     return api.get(
         getUserInfoURL,
-        formData,
         (response)=>{
             let user = { ...response.data }
             dispatch(setUser(user))

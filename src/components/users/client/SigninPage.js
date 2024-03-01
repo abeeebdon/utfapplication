@@ -137,13 +137,13 @@ export default function SigninPage() {
         api.post(
             getVerifyLoginURL(),
             {email, token},
-            (response)=>{
-                closeVerificationForm();
-                dispatch(resetAll())
+            async (response)=>{
+                await closeVerificationForm();
+                await dispatch(resetAll())
                 dispatch(setAuthentication(response))
                 dispatch(setLoggedIn(true))
-                populatePairs()
-                populateUser()
+                await populatePairs()
+                await populateUser()
                 navigate("/home")
             },
             async (errorMessage)=>{
