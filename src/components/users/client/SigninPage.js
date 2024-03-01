@@ -140,10 +140,10 @@ export default function SigninPage() {
             async (response)=>{
                 await closeVerificationForm();
                 await dispatch(resetAll())
+                await dispatch(setAuthentication(response))
+                await dispatch(setLoggedIn(true))
                 await populateUser()
-                dispatch(setAuthentication(response))
-                dispatch(setLoggedIn(true))
-                await populatePairs()
+                populatePairs()
                 navigate("/home")
             },
             async (errorMessage)=>{
