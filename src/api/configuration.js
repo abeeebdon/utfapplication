@@ -61,7 +61,7 @@ export async function populateDepositAddress(){
     return api.get(
         getDepositAddressURL,
         (response)=>{
-            dispatch(setDepositAddress(response.data))
+            dispatch(setDepositAddress(response.address))
         },
         (errorMessage)=>{
             dispatch(showErrorModal(errorMessage));

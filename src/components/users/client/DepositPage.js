@@ -24,7 +24,7 @@ export default function DepositPage() {
     const navigate = useNavigate();
     let api = new API();
 
-    const depositAddress = useSelector(state => state.configuration.depositAddress);
+    let depositAddress = useSelector(state => state.configuration.depositAddress);
     const usdtLogo = "/images/crypto/usdt.svg"
     let getUploadDepositProofURL = useSelector(state => selectUploadDepositProofEndpoint(state.endpoints));
     const [files, setFiles] = useState([]);
