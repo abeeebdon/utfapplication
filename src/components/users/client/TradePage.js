@@ -69,13 +69,15 @@ export default function TradePage() {
                     <div className="home__content">
                         <div className="trendingBox">
                             {
-                              pairs.map((pair, index)=>{
-                                return <TradingPanel key={index}
-                                    pair={{name: pair.name, icon: pair.icon}}
-                                    trendChart={pair.trendData}
-                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
-                                    actions={{buy: ()=>navigate(`/order/${pair.name}`), sell: ()=>navigate(`/order/${pair.name}`)}}
-                                />
+                              Object.entries(pairs).map(([key, pair])=>{
+                                return <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
+                                        <TradingPanel key={key}
+                                            pair={{name: pair.name, icon: pair.icon}}
+                                            trendChart={pair.trendData}
+                                            spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
+                                            actions={{buy: ()=>navigate(`/order/${pair.name}`), sell: ()=>navigate(`/order/${pair.name}`)}}
+                                        />
+                                    </div>
 
 
                               })

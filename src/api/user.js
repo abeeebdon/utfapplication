@@ -253,10 +253,7 @@ export function calculateAccountSummary() {
     const pairs = useSelector(state => state.configuration.pairs);
 
     openTrades.map((trade, index)=>{
-        pairs.map((pairData)=>{
-            if(pairData.name == trade.pairName)
-                openTrades[index].pair = pairData
-        })
+        openTrades[index].pair = pairs[trade.pairName]
         openTrades[index].closePrice = openTrades[index].pair.rate;
 
         if(openTrades[index].direction == "buy") {

@@ -28,6 +28,7 @@ export default function DepositPage() {
     const usdtLogo = "/images/crypto/usdt.svg"
     let getUploadDepositProofURL = useSelector(state => selectUploadDepositProofEndpoint(state.endpoints));
     const [files, setFiles] = useState([]);
+    const [amount, setAmount] = useState("$30, $50, $99");
 
     const uploadDepositProof = async (event) => {
         event.preventDefault();
@@ -61,6 +62,8 @@ export default function DepositPage() {
         var copyText = $("#depositLevel__address")[0].innerText;
         navigator.clipboard.writeText(copyText);
         $('.alert').fadeIn('show');
+
+        setTimeout(()=>$('.alert').hide(), 2000)
     }
 
 
@@ -79,7 +82,7 @@ export default function DepositPage() {
                     </div>
 
                     <div className="deposit__levels">
-                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide()}}>
+                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide(); setAmount("$30, $50, $99")}}>
                             <div className="deposit__levelText">
                                 <div className="deposit__levelName">Beginner</div>
                                 <div className="deposit__levelDescription deposit__levelNote">Get amazing discount when you opt for this plan</div>
@@ -94,7 +97,7 @@ export default function DepositPage() {
                                 <span className="fa fa-arrow-right invisible"></span>
                             </div>
                         </div>
-                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide()}}>
+                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide(); setAmount("$100, $200, $500, $1000")}}>
                             <div className="deposit__levelText">
                                 <div className="deposit__levelName">Medium</div>
                                 <div className="deposit__levelDescription deposit__levelNote">Get amazing discount when you opt for this plan</div>
@@ -109,7 +112,7 @@ export default function DepositPage() {
                                 <span className="fa fa-arrow-right invisible"></span>
                             </div>
                         </div>
-                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide()}}>
+                        <div className="deposit__level" onClick={()=>{$("#stage2").show(); $("#stage1").hide(), setAmount("$2000, $5000, $10000")}}>
                             <div className="deposit__levelText">
                                 <div className="deposit__levelName">Advance</div>
                                 <div className="deposit__levelDescription deposit__levelNote">Get amazing discount when you opt for this plan</div>
@@ -132,7 +135,7 @@ export default function DepositPage() {
                     <ControlHeader back={{onClick: ()=>{$("#stage1").show(); $("#stage2").hide()}}} close={{onClick: ()=>navigate("/home")}} title={"Deposit"} progress="50%" />
                     <div className="depositLevel">
                         <div className="depositLevel__title">Beginner Level</div>
-                        <div className="depositLevel__subTitle">Amounts accepted $30, $50, $99</div>
+                        <div className="depositLevel__subTitle">Amounts accepted {amount}</div>
                         <div className="depositLevel__icon">
                             <Image src={usdtLogo} />
                         </div>

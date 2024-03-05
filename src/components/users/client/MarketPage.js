@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import $ from 'jquery';
@@ -25,8 +25,26 @@ export default function MarketPage() {
     const countries = useSelector(state => state.configuration.countries);
     const pairs = useSelector(state => state.configuration.pairs);
     const user = useSelector(state => state.account.user);
+
+    const [category, setCategory] = useState("all");
+
     let gainPercent = (((user.wallet_balance - user.invested_value) / user.invested_value) * 100) || 0
     gainPercent = gainPercent.toFixed(2);
+
+
+    const changeView = (view) => {
+        $(".market__categoryNavButton").removeClass("market__categoryNavSelected")
+
+        if(view == "favorites"){
+            $(".trendingBox").addClass("invisible"); $(".market__favorites").removeClass("invisible")
+            $(".favorites").addClass("market__categoryNavSelected")
+            return
+        }
+
+        setCategory(view)
+        $(`.${view}`).addClass("market__categoryNavSelected")
+        $(".trendingBox").removeClass("invisible"); $(".market__favorites").addClass("invisible")
+    }
 
     return (
         <section className="home">
@@ -40,23 +58,52 @@ export default function MarketPage() {
                     <div className="market__category">
                         <div className="market__categoryName">Currency pairs</div>
                         <div className="market__categoryNav">
-                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton market__categoryNavSelected">All</button>
-                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Gainers</button>
-                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Losers</button>
-                            <button onClick={()=>{$(".trendingBox").toggleClass("invisible"); $(".market__favorites").toggleClass("invisible")}} className="market__categoryNavButton">Favourites</button>
+                            <button onClick={()=>{changeView("all")}} className="market__categoryNavButton all market__categoryNavSelected">All</button>
+                            <button onClick={()=>{changeView("gainers")}} className="market__categoryNavButton gainers">Gainers</button>
+                            <button onClick={()=>{changeView("loosers")}} className="market__categoryNavButton loosers">Losers</button>
+                            <button onClick={()=>{changeView("favorites")}} className="market__categoryNavButton favorites">Favourites</button>
                         </div>
                     </div>
 
                     <div className="home__content">
                         <div className="trendingBox trendingBox--home">
-                            { pairs.map((pair, index)=>{
-                                return <TradingPanel key={index}
-                                    pair={{name: pair.name, icon: pair.icon}}
-                                    trendChart={pair.trendData}
-                                    price={{amount: pair.rate, change: pair.change}}
-                                    actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
-                                    onClick={()=>navigate(`/order/${pair.name}`)}
-                                />
+                            { Object.entries(pairs).map(([key, pair])=>{
+                                    return category == "all" &&
+                                    <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
+                                        <TradingPanel key={key}
+                                            pair={{name: pair.name, icon: pair.icon}}
+                                            trendChart={pair.trendData}
+                                            price={{amount: pair.rate, change: pair.change}}
+                                            actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                            onClick={()=>navigate(`/order/${pair.name}`)}
+                                        />
+                                    </div>
+                              })
+                            }
+                            { Object.entries(pairs).map(([key, pair])=>{
+                                    return category == "gainers" && pair.change >= 0 &&
+                                    <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
+                                        <TradingPanel key={key}
+                                            pair={{name: pair.name, icon: pair.icon}}
+                                            trendChart={pair.trendData}
+                                            price={{amount: pair.rate, change: pair.change}}
+                                            actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                            onClick={()=>navigate(`/order/${pair.name}`)}
+                                        />
+                                    </div>
+                              })
+                            }
+                            { Object.entries(pairs).map(([key, pair])=>{
+                                    return category == "loosers" && pair.change < 0 &&
+                                    <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
+                                        <TradingPanel key={key}
+                                            pair={{name: pair.name, icon: pair.icon}}
+                                            trendChart={pair.trendData}
+                                            price={{amount: pair.rate, change: pair.change}}
+                                            actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                            onClick={()=>navigate(`/order/${pair.name}`)}
+                                        />
+                                    </div>
                               })
                             }
                         </div>

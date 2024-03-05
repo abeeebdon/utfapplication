@@ -71,10 +71,10 @@ export const setBlockchains = (blockchains) => (
 );
 
 // SET PAIRS
-export const setPairs = (pairs) => (
+export const setPairs = (pair) => (
     {
         type: "SET_PAIRS",
-        pairs
+        pair
     }
 );
 

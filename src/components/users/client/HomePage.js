@@ -28,6 +28,7 @@ export default function HomePage() {
     const user = useSelector(state => state.account.user);
     let gainPercent = (((user.wallet_balance - user.invested_value) / user.invested_value) * 100) || 0
     gainPercent = gainPercent.toFixed(2);
+    console.log(pairs)
 
     return (
         <section className="home home--select">
@@ -73,14 +74,16 @@ export default function HomePage() {
                         <div className="trendingBox trendingBox--home">
 
                             <p className="trendingBox__heading">Trending</p>
-                            { pairs.map((pair, index)=>{
-                                return <TradingPanel key={index}
-                                    pair={{name: pair.name, icon: pair.icon}}
-                                    trendChart={pair.trendData}
-                                    price={{amount: pair.rate, change: pair.change}}
-                                    actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
-                                    onClick={()=>navigate(`/order/${pair.name}`)}
-                                />
+                            { Object.entries(pairs).map(([key, pair])=>{
+                                return <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
+                                        <TradingPanel key={key}
+                                            pair={{name: pair.name, icon: pair.icon}}
+                                            trendChart={pair.trendData}
+                                            price={{amount: pair.rate, change: pair.change}}
+                                            actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
+                                            onClick={()=>navigate(`/order/${pair.name}`)}
+                                        />
+                                    </div>
                               })
                             }
                         </div>

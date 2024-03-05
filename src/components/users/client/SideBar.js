@@ -65,6 +65,16 @@ export function Header(props) {
         $(".sidebar").toggleClass("sidebar--open");
     }
 
+    const filter = (event)=> {
+        if(event.target.value != "") {
+            $("[data-filter]").addClass("invisible")
+            $(`[data-filter*=${event.target.value.toLowerCase()}]`).removeClass("invisible")
+        }
+        else {
+            $("[data-filter]").removeClass("invisible")
+        }
+    }
+
     return (
         <div className="header">
             <div className="header__content">
@@ -72,7 +82,7 @@ export function Header(props) {
                 <form className="search__form">
                     <span className="search__iconGroup">
                         <span className="search__icon fa fa-search"></span>
-                        <input className="search__input" type='search' placeholder="Search for"/>
+                        <input className="search__input" type='search' placeholder="Search for" onChange={filter} />
                     </span>
                 </form>
 
@@ -146,10 +156,14 @@ export function TradingPanel(props) {
                 { props.pair.icon && <div className="tradingPanel__pairIcon"> <RoundedImage src={props.pair.icon} /> </div> }
                 <div className="tradingPanel__pairName">
                     <div>{props.pair.name}</div>
-                    { props.spread && <div className="tradingPanel__spread--sm">
+                    { props.spread && !props.position && <div className="tradingPanel__spread--sm">
                         <div className="tradingPanel__price"> Spread {props.spread.amount} </div>
                         <div className={`tradingPanel__change ${props.spread.change && props.spread.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.spread.change && props.spread.change < 0? props.spread.change : `+${props.spread.change}`}% </div>
                     </div> }
+                    { props.position && <small>
+                        <div className="tradingPanel__price" style={{color: props.position.direction == "buy"? "blue": "red"}}> {props.position.direction} {props.position.lotSize} </div>
+                        <div className="tradingPanel__price"> {props.position.openPrice} <small>`n</small> {props.position.closePrice} </div>
+                    </small> }
                 </div>
             </div>
             { props.trendChart && <div className="tradingPanel__chart">
@@ -171,11 +185,7 @@ export function TradingPanel(props) {
                 }
             </div> }
             { props.position && <div>
-                <div className="tradingPanel__price" style={{color: props.position.direction == "buy"? "blue": "red"}}> {props.position.direction} {props.position.lotSize} </div>
-                <div className="tradingPanel__price"> {props.position.openPrice} <small>`n</small> {props.position.closePrice} </div>
-            </div> }
-            { props.position && <div>
-                <div className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL.toLocaleString("en-US")} </div>
+                <small className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL.toLocaleString("en-US")} </small>
             </div> }
             { props.actions && <div className="tradingPanel__action">
                     { props.actions.trade && <button className="button button--inverted trade" onClick={props.actions.trade}>Trade</button> }

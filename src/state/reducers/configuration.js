@@ -10,15 +10,15 @@ const configurationReducerDefaultState = {
 //            blockchainId: '1'
 //        }
     },
-    pairs: [
-//        {
+    pairs: {
+//        GPBUSD: {
 //            name: "GBPUSD",
 //            rate: "1",
 //            spread: "1",
 //            change: "1",
 //            icon: ""
 //        }
-    ]
+    }
 };
 
 export default ( state = configurationReducerDefaultState, action ) => {
@@ -40,7 +40,10 @@ export default ( state = configurationReducerDefaultState, action ) => {
         case "SET_OPERATORS":
             return { ...state, operators: action.operators }
         case "SET_PAIRS":
-            return { ...state, pairs: action.pairs }
+            let pairs = {...state.pairs}
+            pairs[action.pair.name] = action.pair
+            console.log(pairs)
+            return { ...state, pairs }
 //        case "RESET_ALL":
 //            return configurationReducerDefaultState;
         default:

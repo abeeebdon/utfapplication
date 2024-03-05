@@ -28,6 +28,8 @@ export default function RewardPage() {
         var copyText = $("#referralBox__code")[0].innerText;
         navigator.clipboard.writeText(copyText);
         $('.alert').fadeIn('show');
+
+        setTimeout(()=>$('.alert').hide(), 2000)
     }
 
     return (

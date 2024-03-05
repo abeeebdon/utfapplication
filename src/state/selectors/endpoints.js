@@ -36,9 +36,11 @@ export const selectVerifyLoginEndpoint = (endpoints) => {
         }
 }
 
-export const selectGetPairsEndpoint = (endpoints) => {
-        return ()=>{
-            return "https://api.iex.cloud/v1/fx/historical?symbols=EURUSD,GBPUSD,USDJPY,NZDUSD,AUDUSD,USDCHF,USDCAD&last=365&token=pk_d3a65e5ad7fc400a8862da67b3ab118e"
+export const selectGetPairHistoryEndpoint = (endpoints) => {
+        return (pairName)=>{
+            let d = new Date();
+            let day = d.toISOString().split("T")[0]
+            return `https://api.polygon.io/v2/aggs/ticker/C:${pairName}/range/1/minute/${day}/${day}?adjusted=true&sort=desc&limit=1440`
         }
 }
 

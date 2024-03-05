@@ -22,24 +22,16 @@ export default function OrderPage() {
     const dispatch = useDispatch();
     let api = new API();
     const {pairName} = useParams();
-    let pair;
     let floatingPL = 0;
     const pairs = useSelector(state => state.configuration.pairs);
+    let pair = pairs[pairName]
     const openTrades = useSelector(state => state.account.openTrades);
     let getNewBuyTradeURL = useSelector(state => selectNewBuyTradeEndpoint(state.endpoints));
     let getNewSellTradeURL = useSelector(state => selectNewSellTradeEndpoint(state.endpoints));
     let getCloseTradeURL = useSelector(state => selectCloseTradeEndpoint(state.endpoints));
 
-    pairs.map((pairData)=>{
-        if(pairData.name == pairName)
-            pair = pairData
-    })
-
     openTrades.map((trade, index)=>{
-        pairs.map((pairData)=>{
-            if(pairData.name == trade.pairName)
-                openTrades[index].pair = pairData
-        })
+        openTrades[index].pair = pairs[trade.pairName]
         openTrades[index].closePrice = openTrades[index].pair.rate;
 
         if(openTrades[index].direction == "buy") {

@@ -169,7 +169,7 @@
 .deposit__levelPrice {
     color: $mainColor;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.4rem;
     margin-top: 0;
 }
 
@@ -809,6 +809,10 @@
 
     .account__navigation {
         width: 100%;
+    }
+
+    .account__navigation--hideSm {
+        display: none;
     }
 
     .account__navigation .account__profile {

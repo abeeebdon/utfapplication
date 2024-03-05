@@ -10,9 +10,9 @@ import { setAuthentication, setUser } from '../state/actions/account';
 import { setOperators, setMobileRechargers, setCurrencies, setBlockchains, setPairs, setDepositAddress } from '../state/actions/configuration';
 
 import { selectGetOperatorsInCountryEndpoint, selectGetMobileRechargersEndpoint, selectGetCurrenciesEndpoint,
-        selectGetPairsEndpoint, selectGetDepositAddressEndpoint } from '../state/selectors/endpoints';
+        selectGetPairHistoryEndpoint, selectGetDepositAddressEndpoint } from '../state/selectors/endpoints';
 
-export async function populatePairs(){
+export async function populateHistoricalPairData(){
     let api = new API();
     const dispatch = store.dispatch;
     let getPairsURL = selectGetPairsEndpoint(store.getState().endpoints)();
@@ -47,6 +47,46 @@ export async function populatePairs(){
             dispatch(showErrorModal(errorMessage));
         }
     )
+}
+
+export async function populatePairs(){
+    let api = new API();
+    api.setHeaders({authorization: "Bearer lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"});
+    const dispatch = store.dispatch;
+    let getPairHistoryURL = selectGetPairHistoryEndpoint(store.getState().endpoints);
+//    const supportedPairs = useSelector(state => state.configuration.supportedPairs);
+    const supportedPairs = ["EURUSD","GBPUSD","USDJPY","NZDUSD","AUDUSD","USDCHF","USDCAD"]
+
+
+    supportedPairs.map((pairName)=>{
+        api.get(
+            getPairHistoryURL(pairName),
+            (response)=>{
+                let currentRate = response.results[0]
+                let previousRate = response.results[response.results.length - 1]
+//                console.log(currentRate, previousRate)
+                let trendData = []
+
+                response.results.map((pair, index)=>{
+                    trendData.push([index, pair.c])
+                })
+
+                dispatch(setPairs(
+                    {
+                        name: pairName,
+                        rate: currentRate.c,
+                        spread: (Math.floor(Math.random() * 20) + 10)/100000,
+                        trendData: trendData.reverse(),
+                        change: (((currentRate.c - previousRate.c)/previousRate.c) * 100).toFixed(2),
+                        icon: `/images/countries/${pairName[0].toLowerCase() + pairName[1].toLowerCase()}.svg`
+                    }
+                ))
+            },
+            (errorMessage)=>{
+                dispatch(showErrorModal(errorMessage));
+            }
+        )
+    })
 }
 
 export async function loopPopulatePairs() {

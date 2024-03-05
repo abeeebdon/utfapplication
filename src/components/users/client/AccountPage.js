@@ -22,6 +22,11 @@ export default function MarketPage() {
     const logo = useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
     const activities = useSelector(state => state.account.activity);
+    const showPanel = (panel)=> {
+        $(".account__navigation").addClass("account__navigation--hideSm");
+        $(".account__details").show();
+        $(`.account__${panel}`).css("display","flex");
+    }
 //    dispatch(setActivity([]))
 
     return (
@@ -44,7 +49,7 @@ export default function MarketPage() {
                             </div>
 
                             <ul>
-                                <li className="account__navigationItem account__navigationItem--selected"><span className="fa fa-history"></span>History</li>
+                                <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History <span className="fa fa-arrow-right"></span></li>
                                 <li className="account__navigationItem"><span className="fa fa-shield"></span>Security</li>
                                 <li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>
                                 <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
@@ -68,10 +73,12 @@ export default function MarketPage() {
                                 {/*<p className="account__activityDate">Today, Aug 1</p>*/}
                                 {
                                     activities.map((activity, index)=>{
-                                        return <TradingPanel key={index}
-                                                pair={{name: activity.type}}
-                                                price={{amount: activity.amount}}
-                                            />
+                                        return (activity.type == "deposit" || activity.type == "withdrawal") && <div data-filter={`${activity.type.toLowerCase()} ${activity.amount}`} >
+                                                    <TradingPanel key={index}
+                                                        pair={{name: <div style={{textTransform: 'capitalize'}}>{activity.type}<br/> <small>4:13PM</small></div>, icon:"/images/plus.png"}}
+                                                        price={{amount: <div style={{fontWeight: 900}}> {activity.type == 'deposit'? '+' : '-'} ${activity.amount.toLocaleString("en-US")}</div>}}
+                                                    />
+                                               </div>
                                     })
                                 }
 

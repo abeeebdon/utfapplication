@@ -21,12 +21,13 @@ export default function SignupPage() {
     const dispatch = useDispatch();
     let api = new API();
     let countDown = localStorage.getItem('id');
+
+    const [countryCode, setCountryCode] = useState("");
     const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: "NG",
-                            numberPrefix: "+234",
-                            flag: `/images/countries/ng.svg`,
-                            currencyCode:"NGN",
-                            currencySymbol: "NGN" }
+    let selectedCountry = { isoCode: countryCode,
+                            flag: countryCode && `/images/countries/${countryCode.toLowerCase()}.svg`
+                          }
+
     const [files, setFiles] = useState([]);
 
     const clientSignupForm = useSelector(state => state.clientSignupForm);
@@ -48,7 +49,7 @@ export default function SignupPage() {
         }
     }
 
-    const closeVerificationForm = async (event) => {
+    const closeVerificationForm = (event) => {
 //        event.preventDefault();
         dispatch(resetVerificationFields());
         $(".signup__verification").addClass("invisible")
@@ -77,7 +78,7 @@ export default function SignupPage() {
         localStorage.setItem('id', countDown);
     }
 
-    const validatePassword = async (event) => {
+    const validatePassword = (event) => {
         let errorFlag = false
         let password = $("#password").val()
 
@@ -128,10 +129,10 @@ export default function SignupPage() {
             dispatch(setPasswordField({ hasError: false, errorMessage: "" }));
         }
 
-        return errorFlag
+        return !errorFlag
     }
 
-    const validateEmail = async (event) => {
+    const validateEmail = (event) => {
         let errorFlag = false
         let email = $("#email").val()
 
@@ -146,10 +147,10 @@ export default function SignupPage() {
             dispatch(setEmailField({ hasError: false, errorMessage: "" }));
         }
 
-        return errorFlag
+        return !errorFlag
     }
 
-    const validateFirstName = async ()=>{
+    const validateFirstName = ()=>{
         let firstNameField = document.getElementById("firstName");
         if(firstNameField.value.length > 3){
             dispatch(setFirstNameField({ hasError: false, errorMessage: "" }));
@@ -158,6 +159,8 @@ export default function SignupPage() {
             dispatch(setFirstNameField({ hasError: true, errorMessage: "Name must be greater than 3 characters" }));
             errorExist = true;
         }
+
+        return !errorExist
     }
 
     const validateLastName = async (input)=>{
@@ -170,6 +173,8 @@ export default function SignupPage() {
             dispatch(setLastNameField({ hasError: true, errorMessage: "Name must be greater than 3 characters" }));
             errorExist = true;
         }
+
+        return !errorExist
     }
 
     const validateCheckBox = async (input)=>{
@@ -182,6 +187,20 @@ export default function SignupPage() {
 //            dispatch(setAgreeToTermsField({ hasError: true, errorMessage: (input.type == "checkbox") ? "Please tick the box" : "Input cannot be blank" }));
 //            errorExist = true;
 //        }
+    }
+
+    const chooseCountry = async (target)=>{
+        let countryCode = target.value;
+
+        setCountryCode(countryCode)
+        $("#countryInput").nextAll().addClass("invisible")
+        $("#countryInput").nextAll().find("input").val("").change();
+        $("#countryInput").nextAll().find("select").prop("selectedIndex", 0).blur();
+//        $("#countryInput").nextAll().find("select").siblings(".inputIcon__logo").remove();
+
+        if(countryCode){
+            $("#countryInput").next().removeClass("invisible")
+        }
     }
 
 
@@ -470,7 +489,7 @@ export default function SignupPage() {
                                     </span>
 
                                     {/*<span className="signup__formDualInputs">*/}
-                                        <div className="signup__formInput">
+                                        <div id="countryInput" className="signup__formInput">
                                             <IconedInput
                                                 id={"country"}
                                                 name={"country"}
@@ -480,7 +499,7 @@ export default function SignupPage() {
                                                 style={{border: "bottom-sm"}}
                                                 logo={ { src: selectedCountry.flag } }
                                                 options={countries}
-                                                error={clientSignupForm.emailField}
+                                                onInput={chooseCountry}
                                             />
                                         </div>
 
