@@ -17,7 +17,7 @@ export default function RewardPage() {
     const dispatch = useDispatch();
     const user = useSelector(state => state.account.user);
     const endpoints = useSelector(state => state.endpoints);
-    let referralLink = `${endpoints.server.protocol}://${endpoints.server.host}/signup&refer=${user.uuid}`
+    let referralLink = `${endpoints.server.protocol}://${endpoints.server.host}/signup?referrer=${user.uuid}`
     const openReferralPage = async (event) => {
         event.preventDefault();
         $(".referralPage").toggleClass("invisible")

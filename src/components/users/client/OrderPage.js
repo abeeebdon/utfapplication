@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate, Link, useParams } from 'react-router-dom'
 import $ from 'jquery';
@@ -29,6 +29,17 @@ export default function OrderPage() {
     let getNewBuyTradeURL = useSelector(state => selectNewBuyTradeEndpoint(state.endpoints));
     let getNewSellTradeURL = useSelector(state => selectNewSellTradeEndpoint(state.endpoints));
     let getCloseTradeURL = useSelector(state => selectCloseTradeEndpoint(state.endpoints));
+
+    const [closedTrade, setClosedTrade] = useState({
+        PL: 0,
+        id: 0,
+        openPrice: 0,
+        closePrice: 0,
+        lotSize: 0,
+        direction: null,
+        openTime: 0,
+        closeTime: 0
+    });
 
     openTrades.map((trade, index)=>{
         openTrades[index].pair = pairs[trade.pairName]
@@ -88,76 +99,10 @@ export default function OrderPage() {
             getCloseTradeURL(),
             formData,
             (response)=>{
-                dispatch(showActionModal(
-                    <>
-                        <div className="home__content orderSummary" style={{width : "-webkit-fill-available"}}>
-                            <div className="withdraw__details">
-                                <div className="withdraw__heading">Order Information</div>
-                                <div className="withdraw__summaryTable">
-                                    <TradingPanel
-                                        pair={{name: "Actual Profit and Loss",}}
-                                        price={{amount: `$${trade.PL.toLocaleString("en-US")}`}}
-                                    />
-                                </div>
-
-                                <div className="withdraw__summaryTable">
-                                    <TradingPanel
-                                        pair={{name: "Order Profit and Loss",}}
-                                        price={{amount: `$${trade.PL.toLocaleString("en-US")}`}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Deferred Charges",}}
-                                        price={{amount: "$0.00"}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Service Charge",}}
-                                        price={{amount: "$0.00"}}
-                                    />
-                                </div>
-
-                                <div className="withdraw__summaryTable">
-                                    <TradingPanel
-                                        pair={{name: "Order number",}}
-                                        price={{amount: trade.id}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Opening price",}}
-                                        price={{amount: `$${trade.openPrice.toPrecision(6)}`}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Closing price",}}
-                                        price={{amount: `$${trade.closePrice.toPrecision(6)}`}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Trade lot",}}
-                                        price={{amount: trade.lotSize}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Trading direction",}}
-                                        price={{amount: trade.direction}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Closing type",}}
-                                        price={{amount: "Manual closing"}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Occupation of margin ($)",}}
-                                        price={{amount: "8000.0000"}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Opening time",}}
-                                        price={{amount: trade.openTime}}
-                                    />
-                                    <TradingPanel
-                                        pair={{name: "Closing time",}}
-                                        price={{amount: trade.closeTime}}
-                                    />
-                                </div>
-
-                            </div>
-                        </div>
-                    </>
-                ));
+                setClosedTrade(trade)
+                $(".marketOrder").hide();
+                $(".pendingOrder").hide()
+                $(".orderSummary").show()
                 populateTrades()
             },
             (errorMessage)=>{
@@ -257,6 +202,74 @@ export default function OrderPage() {
 
                               })
                             }
+                        </div>
+                    </div>
+
+
+                    <div className="home__content orderSummary invisible" style={{width : "-webkit-fill-available"}}>
+                        <div className="withdraw__details">
+                            <div className="withdraw__heading">Order Information</div>
+                            <div className="withdraw__summaryTable">
+                                <TradingPanel
+                                    pair={{name: "Actual Profit and Loss",}}
+                                    price={{amount: `$${closedTrade.PL.toLocaleString("en-US")}`}}
+                                />
+                            </div>
+
+                            <div className="withdraw__summaryTable">
+                                <TradingPanel
+                                    pair={{name: "Order Profit and Loss",}}
+                                    price={{amount: `$${closedTrade.PL.toLocaleString("en-US")}`}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Deferred Charges",}}
+                                    price={{amount: "$0.00"}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Service Charge",}}
+                                    price={{amount: "$0.00"}}
+                                />
+                            </div>
+
+                            <div className="withdraw__summaryTable">
+                                <TradingPanel
+                                    pair={{name: "Order number",}}
+                                    price={{amount: closedTrade.id}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Opening price",}}
+                                    price={{amount: `$${closedTrade.openPrice.toPrecision(6)}`}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Closing price",}}
+                                    price={{amount: `$${closedTrade.closePrice.toPrecision(6)}`}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Trade lot",}}
+                                    price={{amount: closedTrade.lotSize}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Trading direction",}}
+                                    price={{amount: closedTrade.direction}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Closing type",}}
+                                    price={{amount: "Manual closing"}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Occupation of margin ($)",}}
+                                    price={{amount: "8000.0000"}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Opening time",}}
+                                    price={{amount: closedTrade.openTime}}
+                                />
+                                <TradingPanel
+                                    pair={{name: "Closing time",}}
+                                    price={{amount: closedTrade.closeTime}}
+                                />
+                            </div>
+
                         </div>
                     </div>
 

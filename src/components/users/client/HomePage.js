@@ -10,14 +10,15 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
+import LiveChat from "../../LiveChat";
 import { requireLogin, populateUser } from '../../../api/user.js';
 import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
-    populateUser()
+//    populateUser()
     useEffect(()=>{
-        loopPopulatePairs();;
+//        loopPopulatePairs();;
     }, []);
 
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function HomePage() {
 
     return (
         <section className="home home--select">
+        <LiveChat/>
             <div className="container">
                 <SideBar selectedItem={"home"} />
                 <div className="home__main">

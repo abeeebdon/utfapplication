@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useLocation } from 'react-router-dom'
 import $ from 'jquery';
 
 
@@ -19,6 +19,10 @@ import { populatePairs } from '../../../api/configuration.js';
 
 export default function SignupPage() {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const referrer = queryParams.get("referrer")
+
     let api = new API();
     let countDown = localStorage.getItem('id');
 
@@ -255,7 +259,7 @@ export default function SignupPage() {
 
             return api.post(
                 getRegisterUserURL(),
-                { email, full_name, password },
+                { email, full_name, password, referrer },
                 (response)=>{
                     showVerificationPanel();
                     api.postWithFile(getUploadCredentialsURL(), formData)
