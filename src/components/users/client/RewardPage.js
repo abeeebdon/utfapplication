@@ -8,6 +8,7 @@ import { Image } from "../../Image";
 import { ButtonForm, ButtonInverted } from "../../Button";
 
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
+import { setApp } from '../../../state/actions/configuration';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 import { requireLogin, populateTrades } from '../../../api/user.js';
@@ -15,9 +16,10 @@ import { requireLogin, populateTrades } from '../../../api/user.js';
 export default function RewardPage() {
     requireLogin();
     const dispatch = useDispatch();
+
     const user = useSelector(state => state.account.user);
-    const endpoints = useSelector(state => state.endpoints);
-    let referralLink = `${endpoints.server.protocol}://${endpoints.server.host}/signup?referrer=${user.uuid}`
+    const configuration = useSelector(state => state.configuration);
+    let referralLink = `${configuration.app.protocol}://${configuration.app.host}/signup?referrer=${user.uuid}`
     const openReferralPage = async (event) => {
         event.preventDefault();
         $(".referralPage").toggleClass("invisible")

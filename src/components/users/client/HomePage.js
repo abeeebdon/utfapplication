@@ -95,7 +95,7 @@ export default function HomePage() {
                                     <span className="">
                                         <div className="dashboard__data">
                                             <p className="dashboard__dataHead">Margin Level</p>
-                                            <p className="dashboard__figureMinor">{accountSummary.marginLevel}%</p>
+                                            <p className="dashboard__figureMinor">{accountSummary.marginLevel.toFixed(2)}%</p>
                                         </div>
                                     </span>
                                     <span className="">

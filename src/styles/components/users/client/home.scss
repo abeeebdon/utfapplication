@@ -93,18 +93,17 @@
 
 .dashboard__invested {
     display: flex;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
 .dashboard__invested span {
-    padding-right: 20px;
+    padding-left: 20px;
     margin-right: 20px;
-    border-right: 1px solid white;
+    border-left: 1px solid white;
 }
 
-.dashboard__invested span:last-child {
-    padding-right: 0px;
-    margin-right: 0px;
+.dashboard__invested span:first-child {
     border-right: unset;
 }
 
