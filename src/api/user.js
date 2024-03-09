@@ -269,8 +269,10 @@ export function calculateAccountSummary() {
 
     equity = user.wallet_balance + floatingPL;
     freeMargin = equity - margin;
+    marginLevel = ((equity/margin) * 100) || 0
+    marginLevel = isFinite(marginLevel) ? marginLevel : 0.0;
 
-    return { leverage, equity, margin, freeMargin }
+    return { leverage, equity, margin, freeMargin, marginLevel }
 }
 
 

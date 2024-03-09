@@ -12,43 +12,6 @@ import { setOperators, setMobileRechargers, setCurrencies, setBlockchains, setPa
 import { selectGetOperatorsInCountryEndpoint, selectGetMobileRechargersEndpoint, selectGetCurrenciesEndpoint,
         selectGetPairHistoryEndpoint, selectGetDepositAddressEndpoint } from '../state/selectors/endpoints';
 
-export async function populateHistoricalPairData(){
-    let api = new API();
-    const dispatch = store.dispatch;
-    let getPairsURL = selectGetPairsEndpoint(store.getState().endpoints)();
-
-    return api.get(
-        getPairsURL,
-        (response)=>{
-            let pairs = []
-            response.map((value)=>{
-                let currentRate = value[0]
-                let previousRate = value[value.length - 1]
-//                console.log(currentRate, previousRate)
-                let trendData = []
-
-                value.map((pair, index)=>{
-                    trendData.push([index, pair.rate])
-                })
-
-                pairs.push({
-                    name: currentRate.symbol,
-                    rate: currentRate.rate,
-                    spread: (Math.floor(Math.random() * 20) + 10)/100000,
-                    trendData: trendData.reverse(),
-                    change: (((currentRate.rate - previousRate.rate)/previousRate.rate) * 100).toFixed(2),
-                    icon: `/images/countries/${currentRate.symbol[0].toLowerCase() + currentRate.symbol[1].toLowerCase()}.svg`
-                })
-            })
-
-            dispatch(setPairs(pairs))
-        },
-        (errorMessage)=>{
-            dispatch(showErrorModal(errorMessage));
-        }
-    )
-}
-
 export async function populatePairs(){
     let api = new API();
     api.setHeaders({authorization: "Bearer lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"});

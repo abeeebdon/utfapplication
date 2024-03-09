@@ -11,12 +11,12 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import LiveChat from "../../LiveChat";
-import { requireLogin, populateUser } from '../../../api/user.js';
+import { requireLogin, populateUser, calculateAccountSummary } from '../../../api/user.js';
 import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
-//    populateUser()
+    populateUser()
     useEffect(()=>{
 //        loopPopulatePairs();;
     }, []);
@@ -27,9 +27,29 @@ export default function HomePage() {
     const countries = useSelector(state => state.configuration.countries);
     const pairs = useSelector(state => state.configuration.pairs);
     const user = useSelector(state => state.account.user);
-    let gainPercent = (((user.wallet_balance - user.invested_value) / user.invested_value) * 100) || 0
-    gainPercent = gainPercent.toFixed(2);
     console.log(pairs)
+
+
+    let floatingPL = 0;
+    const openTrades = useSelector(state => state.account.openTrades);
+    openTrades.map((trade, index)=>{
+        openTrades[index].pair = pairs[trade.pairName]
+        openTrades[index].closePrice = openTrades[index].pair.rate;
+
+        if(openTrades[index].direction == "buy") {
+            openTrades[index].PL = (openTrades[index].pair.rate * openTrades[index].lotSize * 100000) - (openTrades[index].openPrice * openTrades[index].lotSize * 100000)
+        }
+        else {
+            openTrades[index].PL = (openTrades[index].openPrice * openTrades[index].lotSize * 100000) - (openTrades[index].pair.rate * openTrades[index].lotSize * 100000)
+        }
+
+        floatingPL += openTrades[index].PL;
+    })
+    let accountSummary = calculateAccountSummary()
+
+    let gainPercent = ((floatingPL / user.wallet_balance) * 100) || 0
+    gainPercent = isFinite(gainPercent) ? gainPercent : 0.0;
+    gainPercent = gainPercent.toFixed(2);
 
     return (
         <section className="home home--select">
@@ -46,9 +66,9 @@ export default function HomePage() {
                                 <div className="dashboard__accountName">{user.full_name}</div>
                                 <div className="dashboard__balance">
                                     <div className="dashboard__data">
-                                        <p className="dashboard__dataHead">Holding Value</p>
+                                        <p className="dashboard__dataHead">Equity</p>
                                         <div className="dashboard__dataBody">
-                                            <p className="dashboard__figureMajor">${user.wallet_balance.toLocaleString("en-US")}</p>
+                                            <p className="dashboard__figureMajor">${(user.wallet_balance + floatingPL).toLocaleString("en-US")}</p>
                                             <p className="dashboard__figureMinor">{gainPercent && gainPercent <= 0? gainPercent.toLocaleString("en-US") : `+${gainPercent.toLocaleString("en-US")}`}%</p>
                                         </div>
                                     </div>
@@ -56,14 +76,32 @@ export default function HomePage() {
                                 <div className="dashboard__invested">
                                     <span className="">
                                         <div className="dashboard__data">
-                                            <p className="dashboard__dataHead">Invested Value</p>
-                                            <p className="dashboard__figureMinor">${user.invested_value.toLocaleString("en-US")}</p>
+                                            <p className="dashboard__dataHead">Balance</p>
+                                            <p className="dashboard__figureMinor">${(user.wallet_balance).toLocaleString("en-US")}</p>
                                         </div>
                                     </span>
                                     <span className="">
                                         <div className="dashboard__data">
-                                            <p className="dashboard__dataHead">Available Balance</p>
-                                            <p className="dashboard__figureMinor">${user.wallet_balance.toLocaleString("en-US")}</p>
+                                            <p className="dashboard__dataHead">Margin</p>
+                                            <p className="dashboard__figureMinor">${accountSummary.margin.toLocaleString("en-US")}</p>
+                                        </div>
+                                    </span>
+                                    <span className="">
+                                        <div className="dashboard__data">
+                                            <p className="dashboard__dataHead">Free Margin</p>
+                                            <p className="dashboard__figureMinor">${accountSummary.freeMargin.toLocaleString("en-US")}</p>
+                                        </div>
+                                    </span>
+                                    <span className="">
+                                        <div className="dashboard__data">
+                                            <p className="dashboard__dataHead">Margin Level</p>
+                                            <p className="dashboard__figureMinor">{accountSummary.marginLevel}%</p>
+                                        </div>
+                                    </span>
+                                    <span className="">
+                                        <div className="dashboard__data">
+                                            <p className="dashboard__dataHead">Leverage</p>
+                                            <p className="dashboard__figureMinor">1:{accountSummary.leverage}</p>
                                         </div>
                                     </span>
                                 </div>

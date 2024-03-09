@@ -51,7 +51,7 @@ export default function MarketPage() {
                             <ul>
                                 <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History <span className="fa fa-arrow-right"></span></li>
                                 <li className="account__navigationItem"><span className="fa fa-shield"></span>Security</li>
-                                <li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>
+                                    {/*<li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>*/}
                                 <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
                                 <li className="account__navigationItem" onClick={ logout }><span className="fa fa-sign-out"></span>Logout</li>
                             </ul>
