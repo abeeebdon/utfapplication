@@ -282,6 +282,7 @@ export function protectMargin(accountSummary) {
 }
 
 export function closeAllPositions() {
+return
     let api = new API();
     const dispatch = store.dispatch;
     let openTrades = useSelector(state => state.account.openTrades);
