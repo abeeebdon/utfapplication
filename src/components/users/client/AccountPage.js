@@ -58,7 +58,7 @@ export default function MarketPage() {
             return <div data-filter={`close_trade ${activity.amount} ${activity.meta_data.trade_data.type} ${activity.meta_data.trade_data.forex_pair}`} >
                 <TradingPanel key={index}
                     pair={{name: <div style={{textTransform: 'capitalize'}}>Close Trade {activity.meta_data.trade_data.forex_pair}<br/> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg`}}
-                    price={{amount: <div style={{fontWeight: 600}}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.profit} at {activity.meta_data.trade_data.lot_cost}</small>    ${activity.meta_data.trade_data.profit.toLocaleString("en-US")}</div>}}
+                    price={{amount: <div style={{fontWeight: 600}}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small>    ${activity.meta_data.trade_data.profit.toLocaleString("en-US")}</div>}}
                 />
            </div>
         }
@@ -67,6 +67,14 @@ export default function MarketPage() {
                 <TradingPanel key={index}
                     pair={{name: <div style={{textTransform: 'capitalize'}}>Open Trade {activity.meta_data.trade_data.forex_pair}<br/> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg`}}
                     price={{amount: <div style={{fontWeight: 600}}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small></div>}}
+                />
+           </div>
+        }
+        else if(activity.type == "referral_bonus")  {
+            return <div data-filter={`${activity.type.toLowerCase()} ${activity.amount}`} >
+                <TradingPanel key={index}
+                    pair={{name: <div style={{textTransform: 'capitalize'}}>Referral Bonus<br/> <small>{activity.datetime}</small></div>, icon:"/images/plus.png"}}
+                    price={{amount: <div style={{fontWeight: 900}}>+ ${activity.amount.toLocaleString("en-US")}</div>}}
                 />
            </div>
         }
