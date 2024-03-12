@@ -13,12 +13,20 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import API from '../../../api/api.mjs';
 import { ControlHeader } from "./SideBar";
-import { requireLogin, populateUser } from '../../../api/user.js';
+import { requireLogin, populateUser, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 import { populateDepositAddress } from '../../../api/configuration.js';
 
 export default function DepositPage() {
     requireLogin();
     populateDepositAddress()
+
+    let accountSummary = calculateAccountSummary()
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
+
+    useEffect(()=>{
+//        loopPopulatePairs();;
+    }, []);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

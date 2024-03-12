@@ -184,7 +184,7 @@ export function TradingPanel(props) {
                     <div className={`tradingPanel__change ${props.price.change && props.price.change < 0? "tradingPanel__change--down":"tradingPanel__change--up"}`}> {props.price.change && props.price.change < 0? props.price.change : `+${props.price.change}`}% </div>
                 }
             </div> }
-            { props.position && <div>
+            { props.position && props.position.PL && <div>
                 <small className="tradingPanel__price" style={{color: props.position.PL < 0? "red" : "blue"}}> {props.position.PL.toLocaleString("en-US")} </small>
             </div> }
             { props.actions && <div className="tradingPanel__action">

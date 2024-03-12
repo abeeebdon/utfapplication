@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import $ from 'jquery';
-
+import { GoogleLogin } from '@react-oauth/google';
 
 import { Image } from "../../Image";
 import { ButtonForm, ButtonInverted } from "../../Button";
@@ -11,7 +11,7 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 
 import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, setFormData, setFirstNameField, setLastNameField, setEmailField, setPasswordField, setConfirmPasswordField, setAgreeToTermsField, resetFields, resetVerificationFields } from '../../../state/actions/clientSignupForm';
-import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint, selectUploadCredentialsEndpoint } from '../../../state/selectors/endpoints';
+import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegisterUserEndpoint, selectUploadCredentialsEndpoint, selectGoogleLoginEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 import { populateUser } from '../../../api/user.js';
@@ -39,9 +39,11 @@ export default function SignupPage() {
     let getVerifyEmailURL = useSelector(state => selectVerifyEmailEndpoint(state.endpoints));
     let getRegisterUserURL = useSelector(state => selectRegisterUserEndpoint(state.endpoints));
     let getUploadCredentialsURL = useSelector(state => selectUploadCredentialsEndpoint(state.endpoints));
+    let getGoogleLoginURL = useSelector(state => selectGoogleLoginEndpoint(state.endpoints));
     let verificationTokenExpiryTimeLeft = useSelector(state => state.clientSignupForm.verificationTokenExpiryTimeLeft);
     let verificationTokenValidityDuration = useSelector(state => state.clientSignupForm.verificationTokenValidityDuration);
     const logo = useSelector(state => state.configuration.app.logo);
+    let errorExist = false
 
     const togglePasswordVisibility = async (event) => {
         let password = document.getElementById("password");
@@ -197,14 +199,14 @@ export default function SignupPage() {
         let countryCode = target.value;
 
         setCountryCode(countryCode)
-        $("#countryInput").nextAll().addClass("invisible")
-        $("#countryInput").nextAll().find("input").val("").change();
-        $("#countryInput").nextAll().find("select").prop("selectedIndex", 0).blur();
-//        $("#countryInput").nextAll().find("select").siblings(".inputIcon__logo").remove();
-
-        if(countryCode){
-            $("#countryInput").next().removeClass("invisible")
-        }
+//        $("#countryInput").nextAll().addClass("invisible")
+//        $("#countryInput").nextAll().find("input").val("").change();
+//        $("#countryInput").nextAll().find("select").prop("selectedIndex", 0).blur();
+////        $("#countryInput").nextAll().find("select").siblings(".inputIcon__logo").remove();
+//
+//        if(countryCode){
+//            $("#countryInput").next().removeClass("invisible")
+//        }
     }
 
 
@@ -294,9 +296,9 @@ export default function SignupPage() {
     }
 
     const requestVerificationToken = async (event)=>{
-        if(event){
-            event.target.parentNode.previousSibling.reset();
-        }
+//        if(event){
+//            event.target.parentNode.previousSibling.reset();
+//        }
 
         let email = $("#email").val();
         clearInterval(countDown)
@@ -341,6 +343,25 @@ export default function SignupPage() {
         )
     }
 
+    const googleLogin = async (auth_token) => {
+        event.preventDefault();
+
+        api.post(
+            getGoogleLoginURL(),
+            {auth_token},
+            (response)=>{
+//                dispatch(resetAll())
+//                dispatch(setAuthentication(response))
+//                dispatch(setLoggedIn(true))
+//                populateUser()
+//                return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
+            },
+            async (errorMessage)=>{
+                dispatch(setVerificationField({hasError: true, errorMessage: errorMessage}));
+            }
+        )
+    }
+
     return (
         <>
             <section className="signup signup--panel">
@@ -376,7 +397,7 @@ export default function SignupPage() {
                                     <span className="signup--panel__text">Verifications</span>
                                 </div>
                                 <div className="signup__formInputs">
-                                    <div className="signup__formInput signup__google">
+                                    <div id="signup__google" className="signup__formInput signup__google">
                                         <IconedInput
                                             id={"google"}
                                             name={"goggle"}
@@ -391,7 +412,10 @@ export default function SignupPage() {
                                                     </svg>
                                             }
                                         />
+                                        <GoogleLogin onSuccess={(response)=>googleLogin(response.access_token)} onError={(errorMessage)=>dispatch(showErrorModal(errorMessage))} />
                                     </div>
+
+
                                     <p className="signup__google signup__agreementText">Or</p>
                                     <div className="signup__formInput">
                                         <IconedInput
@@ -442,7 +466,7 @@ export default function SignupPage() {
                                 <div className="signup__google-sm">
                                     <div> <span className="signup__googleDash"></span> Or <span className="signup__googleDash"></span> </div>
 
-                                    <div className="signup__googleIcon-sm">
+                                    <div className="signup__googleIcon-sm" onClick={()=>$(".signup__google *").click()}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
                                               <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
                                               <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>

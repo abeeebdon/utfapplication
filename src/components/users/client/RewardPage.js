@@ -11,10 +11,18 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import { setApp } from '../../../state/actions/configuration';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
-import { requireLogin, populateTrades } from '../../../api/user.js';
+import { requireLogin, populateTrades, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 
 export default function RewardPage() {
     requireLogin();
+
+    let accountSummary = calculateAccountSummary()
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
+
+    useEffect(()=>{
+//        loopPopulatePairs();;
+    }, []);
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.account.user);

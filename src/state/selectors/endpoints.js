@@ -30,6 +30,12 @@ export const selectLoginUserEndpoint = (endpoints) => {
         }
 }
 
+export const selectGoogleLoginEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/google_auth/`;
+        }
+}
+
 export const selectVerifyLoginEndpoint = (endpoints) => {
         return ()=>{
             return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/confirm_login/`;

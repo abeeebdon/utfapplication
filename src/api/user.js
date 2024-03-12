@@ -13,7 +13,7 @@ import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTrans
 
 import { selectGenerateAuthenticationTokenEndpoint, selectRefreshAuthenticationTokenEndpoint, selectGetUserInfoEndpoint,
         selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint, selectGetOpenTradesEndpoint,
-         selectGetActivityEndpoint } from '../state/selectors/endpoints';
+         selectGetActivityEndpoint, selectCloseTradeEndpoint } from '../state/selectors/endpoints';
 
 
 //export async function generateAuthenticationToken(email, password) {
@@ -271,8 +271,34 @@ export function calculateAccountSummary() {
     freeMargin = equity - margin;
     marginLevel = ((equity/margin) * 100) || 0
     marginLevel = isFinite(marginLevel) ? marginLevel : 0.0;
+    marginLevel = 0
 
     return { leverage, equity, margin, freeMargin, marginLevel }
+}
+
+export function protectMargin(accountSummary) {
+    if(accountSummary.marginLevel <= 5)
+        closeAllPositions();
+}
+
+export function closeAllPositions() {
+    let api = new API();
+    const dispatch = store.dispatch;
+    let openTrades = useSelector(state => state.account.openTrades);
+    let getCloseTradeURL = useSelector(state => selectCloseTradeEndpoint(state.endpoints));
+
+    openTrades.map((trade, index)=>{
+        let formData = {
+            trade_id: trade.id, lot_cost: trade.pair.rate
+        }
+
+        api.post(
+                getCloseTradeURL(),
+                formData,
+                (response)=>{},
+                (errorMessage)=>{}
+            )
+    });
 }
 
 

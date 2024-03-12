@@ -16,12 +16,21 @@ import { setVerificationTokenExpiryTimeLeft, setVerificationField, setStage, set
 import { selectRequestWithdrawalEndpoint, selectRequestWithdrawalVerificationCodeEndpoint } from '../../../state/selectors/endpoints';
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
-import { requireLogin, populateUser } from '../../../api/user.js';
+import { requireLogin, populateUser, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function WithdrawPage() {
     requireLogin();
     populatePairs();
+
+    let accountSummary = calculateAccountSummary()
+    const openTrades = useSelector(state => state.account.openTrades);
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
+
+    useEffect(()=>{
+//        loopPopulatePairs();;
+    }, []);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

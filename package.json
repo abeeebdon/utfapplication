@@ -2,6 +2,7 @@
   "dependencies": {
     "@babel/preset-env": "^7.18.0",
     "@babel/preset-react": "^7.17.12",
+    "@react-oauth/google": "^0.12.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.2.5",

@@ -11,14 +11,19 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import LiveChat from "../../LiveChat";
-import { requireLogin, populateUser, calculateAccountSummary } from '../../../api/user.js';
+import { requireLogin, populateUser, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
 import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
     populateUser()
+
+    let accountSummary = calculateAccountSummary()
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
+
     useEffect(()=>{
-//        loopPopulatePairs();;
+        loopPopulatePairs();;
     }, []);
 
     const dispatch = useDispatch();
@@ -27,7 +32,7 @@ export default function HomePage() {
     const countries = useSelector(state => state.configuration.countries);
     const pairs = useSelector(state => state.configuration.pairs);
     const user = useSelector(state => state.account.user);
-    console.log(pairs)
+//    console.log(pairs)
 
 
     let floatingPL = 0;
@@ -45,7 +50,6 @@ export default function HomePage() {
 
         floatingPL += openTrades[index].PL;
     })
-    let accountSummary = calculateAccountSummary()
 
     let gainPercent = ((floatingPL / user.wallet_balance) * 100) || 0
     gainPercent = isFinite(gainPercent) ? gainPercent : 0.0;

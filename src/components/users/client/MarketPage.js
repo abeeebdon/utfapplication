@@ -10,13 +10,18 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
-import { requireLogin, populateTrades } from '../../../api/user.js';
+import { requireLogin, populateTrades, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 import { loopPopulatePairs } from '../../../api/configuration.js';
 
 export default function MarketPage() {
     requireLogin();
+
+    let accountSummary = calculateAccountSummary()
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
+
     useEffect(()=>{
-        loopPopulatePairs();;
+//        loopPopulatePairs();;
     }, []);
 
     const dispatch = useDispatch();

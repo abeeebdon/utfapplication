@@ -12,12 +12,20 @@ import { selectNewBuyTradeEndpoint, selectNewSellTradeEndpoint, selectCloseTrade
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import API from '../../../api/api.mjs';
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
-import { requireLogin, populateTrades, calculateAccountSummary } from '../../../api/user.js';
+import { requireLogin, populateTrades, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
 import { populatePairs } from '../../../api/configuration.js';
 
 export default function OrderPage() {
     requireLogin();
     populateTrades();
+
+    let accountSummary = calculateAccountSummary()
+//    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+//        closeAllPositions();
+
+    useEffect(()=>{
+//        loopPopulatePairs();;
+    }, []);
 
     const dispatch = useDispatch();
     let api = new API();
@@ -55,7 +63,6 @@ export default function OrderPage() {
         floatingPL += openTrades[index].PL;
     })
 
-    let accountSummary = calculateAccountSummary()
 
 
 
@@ -68,9 +75,9 @@ export default function OrderPage() {
         let lotSize = parseFloat($("#lotSize").val())
         lotSize = lotSize.toFixed(2)
 
-        let downPrice = (pair.rate * lotSize * 100000) / accountSummary.leverage
+        let margin = (pair.rate * lotSize * 100000) / accountSummary.leverage
 
-        if(lotSize <= 0 || accountSummary.equity < downPrice)
+        if(lotSize <= 0 || accountSummary.equity < margin || (accountSummary.marginLevel <= 100 && accountSummary.margin > 0))
             return
 
         let formData = {
@@ -189,7 +196,7 @@ export default function OrderPage() {
                     <div className="home__content pendingOrder invisible">
                         <div className="trendingBox">
                             <p className="trendingBox__heading">Open Positions</p>
-                            <p className="trendingBox__heading" style={{color: floatingPL < 0 ? "red": "blue"}}>{floatingPL.toLocaleString("en-US")} USD</p>
+                            {openTrades.lenght > 0 && <p className="trendingBox__heading" style={{color: floatingPL < 0 ? "red": "blue"}}>{floatingPL.toLocaleString("en-US")} USD</p>}
                             {
                               openTrades.map((trade, index)=>{
                                 return <TradingPanel key={index}
@@ -257,8 +264,8 @@ export default function OrderPage() {
                                     price={{amount: "Manual closing"}}
                                 />
                                 <TradingPanel
-                                    pair={{name: "Occupation of margin ($)",}}
-                                    price={{amount: "8000.0000"}}
+                                    pair={{name: "Margin occupied ($)",}}
+                                    price={{amount: ((closedTrade.openPrice * closedTrade.lotSize * 100000) / accountSummary.leverage).toLocaleString("en-US")}}
                                 />
                                 <TradingPanel
                                     pair={{name: "Opening time",}}
