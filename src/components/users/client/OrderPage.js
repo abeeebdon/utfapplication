@@ -234,7 +234,7 @@ export default function OrderPage() {
                                 />
                                 <TradingPanel
                                     pair={{name: "Service Charge",}}
-                                    price={{amount: "$0.00"}}
+                                    price={{amount: Math.abs( (closedTrade.PL * (0.3)).toLocaleString("en-US") )}}
                                 />
                             </div>
 
