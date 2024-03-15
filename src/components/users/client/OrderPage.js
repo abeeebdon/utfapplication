@@ -160,7 +160,7 @@ export default function OrderPage() {
                                             required={"required"}
                                         />
                                         <p>Sell</p>
-                                        <p>{pair && (pair.rate - pair.spread).toPrecision(5)}</p>
+                                        <p>{pair && (pair.rate - pair.spread).toPrecision(6)}</p>
                                     </span>
                                     <span className="orderForm__directionButton">
                                         <RadioInput
@@ -169,7 +169,7 @@ export default function OrderPage() {
                                             required={"required"}
                                         />
                                         <p>Buy</p>
-                                        <p>{pair && (pair.rate + pair.spread).toPrecision(5)}</p>
+                                        <p>{pair && (pair.rate + pair.spread).toPrecision(6)}</p>
                                     </span>
                                 </div>
                                 <p className="orderForm__lots">Trade Amounts (Lots)</p>
@@ -202,8 +202,8 @@ export default function OrderPage() {
                               openTrades.map((trade, index)=>{
                                 return <TradingPanel key={index}
                                     pair={{name: trade.pair.name, icon: trade.pair.icon}}
-                                    position={{direction: trade.direction, lotSize: trade.lotSize, openPrice: trade.openPrice.toPrecision(5), closePrice: trade.closePrice.toPrecision(5), PL: trade.PL}}
-                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(5), sell: (pair.rate - pair.spread).toPrecision(5)}}
+                                    position={{direction: trade.direction, lotSize: trade.lotSize, openPrice: trade.openPrice.toPrecision(6), closePrice: trade.closePrice.toPrecision(6), PL: trade.PL}}
+                                    spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
                                     actions={{close: ()=>{closePosition(trade)} }}
                                 />
 
@@ -246,11 +246,11 @@ export default function OrderPage() {
                                 />
                                 <TradingPanel
                                     pair={{name: "Opening price",}}
-                                    price={{amount: `$${closedTrade.openPrice.toPrecision(5)}`}}
+                                    price={{amount: `$${closedTrade.openPrice.toPrecision(6)}`}}
                                 />
                                 <TradingPanel
                                     pair={{name: "Closing price",}}
-                                    price={{amount: `$${closedTrade.closePrice.toPrecision(5)}`}}
+                                    price={{amount: `$${closedTrade.closePrice.toPrecision(6)}`}}
                                 />
                                 <TradingPanel
                                     pair={{name: "Trade lot",}}
