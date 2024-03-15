@@ -29,11 +29,13 @@ export default function MarketPage() {
     const dispatch = useDispatch();
     const logo = useSelector(state => state.configuration.app.logo);
     const user = useSelector(state => state.account.user);
+    const clientSignupForm = useSelector(state => state.clientSignupForm);
     const activities = useSelector(state => state.account.activity);
     const showPanel = (panel)=> {
         $(".account__navigation").addClass("account__navigation--hideSm");
         $(".account__details").show();
-        $(`.account__${panel}`).css("display","flex");
+        $(".panel").hide();
+        $(`.account__${panel}`).show();
     }
 //    dispatch(setActivity([]))
 
@@ -102,7 +104,7 @@ export default function MarketPage() {
 
                             <ul>
                                 <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History <span className="fa fa-arrow-right"></span></li>
-                                <li className="account__navigationItem"><span className="fa fa-shield"></span>Security</li>
+                                <li className="account__navigationItem" ><span className="fa fa-shield"></span>Change Password</li>
                                     {/*<li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>*/}
                                 <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
                                 <li className="account__navigationItem" onClick={ logout }><span className="fa fa-sign-out"></span>Logout</li>
@@ -120,7 +122,7 @@ export default function MarketPage() {
                                 </div>
                             </div>
 
-                            <div className="account__activity">
+                            <div className="account__activity panel">
                                 <p className="account__activityHead">Activity</p>
                                 {/*<p className="account__activityDate">Today, Aug 1</p>*/}
                                 {
@@ -130,6 +132,43 @@ export default function MarketPage() {
                                 }
 
                                 {/*<button className="button button--form">Download Transactions</button>*/}
+                            </div>
+
+                            <div className="account__security panel invisible">
+                                <p className="account__activityHead">Change Password</p>
+                                <form  className="signup__form">
+                                    <div className="signup__formInputs">
+                                        <div className="signup__formInput">
+                                            <IconedInput
+                                                id={"oldPassword"}
+                                                name={"oldPassword"}
+                                                label={"Old Password"}
+                                                type={"text"}
+                                                placeholder={"Type here"}
+                                                required={"required"}
+                                                style={{border: "bottom-sm"}}
+                                                error={clientSignupForm.passwordField}
+                                            />
+                                        </div>
+
+                                        <div className="signup__formInput">
+                                            <IconedInput
+                                                id={"newPassword"}
+                                                name={"newPassword"}
+                                                label={"New Password"}
+                                                type={"text"}
+                                                placeholder={"Type here"}
+                                                required={"required"}
+                                                style={{border: "bottom-sm"}}
+                                                error={clientSignupForm.passwordField}
+                                            />
+                                        </div>
+
+                                        <div className="signup__buttonBar">
+                                            <ButtonForm label={"Change"} />
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

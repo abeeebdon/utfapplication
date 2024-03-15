@@ -8,6 +8,7 @@ import NotificationModal from "../components/NotificationModal";
 import LaunchPage from "../components/LaunchPage";
 import SigninPage from "../components/users/client/SigninPage";
 import SignupPage from "../components/users/client/SignupPage";
+import PasswordResetPage from "../components/users/client/PasswordResetPage";
 import HomePage from "../components/users/client/HomePage";
 import DepositPage from "../components/users/client/DepositPage";
 import WithdrawPage from "../components/users/client/WithdrawPage";
@@ -23,6 +24,7 @@ const Routers = ()=>(
             <Route path='/' element={<LaunchPage/>}  />
             <Route path='/signin' element={<SigninPage/>}  />
             <Route path='/signup' element={<SignupPage/>}  />
+            <Route path='/password_reset' element={<PasswordResetPage/>}  />
             <Route path='/home' element={<HomePage/>}  />
             <Route path='/deposit' element={<DepositPage/>}  />
             <Route path='/withdraw' element={<WithdrawPage/>}  />

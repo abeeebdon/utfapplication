@@ -30,6 +30,24 @@ export const selectLoginUserEndpoint = (endpoints) => {
         }
 }
 
+export const selectRequestResetPasswordEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/recover/`;
+        }
+}
+
+export const selectSubmitPasswordRecoveryCodeEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/confirm_recovery/`;
+        }
+}
+
+export const selectResetPasswordEndpoint = (endpoints) => {
+        return ()=>{
+            return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/new_password/`;
+        }
+}
+
 export const selectGoogleLoginEndpoint = (endpoints) => {
         return ()=>{
             return `${endpoints.server.protocol}://${endpoints.server.host}/${endpoints.apiVersion}/accounts/google_auth/`;

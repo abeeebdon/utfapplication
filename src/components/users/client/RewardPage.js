@@ -91,25 +91,35 @@ export default function RewardPage() {
                             </div>
 
                             <div className="commissionBox">
-                                { [...Array(3)].map((x, index)=>{
-                                    return <div className="commission" key={index}>
-                                                <p>First<br/>Commission</p>
-                                                <p className="commission__amount">329</p>
-                                            </div>
-                                  })
-                                }
+                                <div className="commission">
+                                    <p>First<br/>Commission</p>
+                                    <p className="commission__amount">{user.first_generation_bonuses}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Second<br/>Commission</p>
+                                    <p className="commission__amount">{user.second_generation_bonuses}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Third<br/>Commission</p>
+                                    <p className="commission__amount">{user.third_generation_bonuses}</p>
+                                </div>
                             </div>
 
                             <p className="referralBox__title">Total Recommended Members</p>
 
                             <div className="commissionBox">
-                                { [...Array(3)].map((x, index)=>{
-                                    return <div className="commission" key={index}>
-                                                <p>First<br/>Level Member</p>
-                                                <p className="commission__amount">125</p>
-                                            </div>
-                                  })
-                                }
+                                <div className="commission">
+                                    <p>First<br/>Level Member</p>
+                                    <p className="commission__amount">{user.first_generation_referrals}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Second<br/>Level Member</p>
+                                    <p className="commission__amount">{user.second_generation_referrals}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Thired<br/>Level Member</p>
+                                    <p className="commission__amount">{user.third_generation_referrals}</p>
+                                </div>
                             </div>
 
                             <ul className="input__passwordRequirements">

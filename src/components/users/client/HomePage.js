@@ -23,7 +23,7 @@ export default function HomePage() {
         closeAllPositions();
 
     useEffect(()=>{
-//        loopPopulatePairs();;
+        loopPopulatePairs();;
     }, []);
 
     const dispatch = useDispatch();
