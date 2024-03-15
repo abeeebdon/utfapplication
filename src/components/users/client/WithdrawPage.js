@@ -17,7 +17,7 @@ import { selectRequestWithdrawalEndpoint, selectRequestWithdrawalVerificationCod
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 import { requireLogin, populateUser, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
-import { populatePairs } from '../../../api/configuration.js';
+import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function WithdrawPage() {
     requireLogin();
@@ -30,6 +30,7 @@ export default function WithdrawPage() {
 
     useEffect(()=>{
 //        loopPopulatePairs();;
+        setConfig();
     }, []);
 
     const dispatch = useDispatch();

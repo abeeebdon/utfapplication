@@ -11,7 +11,7 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 import { requireLogin, populateTrades, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
-import { populatePairs } from '../../../api/configuration.js';
+import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function TradePage() {
     requireLogin();
@@ -22,6 +22,7 @@ export default function TradePage() {
 
     useEffect(()=>{
 //        loopPopulatePairs();;
+        setConfig();
     }, []);
 
     const dispatch = useDispatch();
@@ -82,7 +83,7 @@ export default function TradePage() {
                                         <TradingPanel key={key}
                                             pair={{name: pair.name, icon: pair.icon}}
                                             trendChart={pair.trendData}
-                                            spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(6), sell: (pair.rate - pair.spread).toPrecision(6)}}
+                                            spread={{amount: pair.spread, change: pair.change, buy: (pair.rate + pair.spread).toPrecision(5), sell: (pair.rate - pair.spread).toPrecision(5)}}
                                             actions={{buy: ()=>navigate(`/order/${pair.name}`), sell: ()=>navigate(`/order/${pair.name}`)}}
                                         />
                                     </div>

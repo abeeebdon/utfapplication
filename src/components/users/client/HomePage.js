@@ -12,7 +12,7 @@ import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../.
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import LiveChat from "../../LiveChat";
 import { requireLogin, populateUser, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
-import { loopPopulatePairs } from '../../../api/configuration.js';
+import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
@@ -23,7 +23,8 @@ export default function HomePage() {
         closeAllPositions();
 
     useEffect(()=>{
-        loopPopulatePairs();;
+        loopPopulatePairs();
+        setConfig()
     }, []);
 
     const dispatch = useDispatch();

@@ -15,9 +15,13 @@ import { selectVerificationTokenEndpoint, selectVerifyLoginEndpoint, selectLogin
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 import { populateUser } from '../../../api/user.js';
-import { populatePairs } from '../../../api/configuration.js';
+import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function SigninPage() {
+    useEffect(()=>{
+        setConfig()
+    }, []);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let api = new API();

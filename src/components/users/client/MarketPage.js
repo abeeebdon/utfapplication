@@ -11,7 +11,7 @@ import { showErrorModal, showSuccessModal } from '../../../state/actions/notific
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import { requireLogin, populateTrades, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
-import { loopPopulatePairs } from '../../../api/configuration.js';
+import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function MarketPage() {
     requireLogin();
@@ -21,6 +21,7 @@ export default function MarketPage() {
         closeAllPositions();
 
     useEffect(()=>{
+        setConfig();
 //        loopPopulatePairs();;
     }, []);
 

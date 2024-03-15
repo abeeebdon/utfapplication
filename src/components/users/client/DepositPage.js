@@ -14,7 +14,7 @@ import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../.
 import API from '../../../api/api.mjs';
 import { ControlHeader } from "./SideBar";
 import { requireLogin, populateUser, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
-import { populateDepositAddress } from '../../../api/configuration.js';
+import { populateDepositAddress, setConfig } from '../../../api/configuration.js';
 
 export default function DepositPage() {
     requireLogin();
@@ -26,6 +26,7 @@ export default function DepositPage() {
 
     useEffect(()=>{
 //        loopPopulatePairs();;
+        setConfig()
     }, []);
 
     const dispatch = useDispatch();

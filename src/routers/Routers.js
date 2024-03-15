@@ -3,7 +3,6 @@ import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer'
 
-
 import NotificationModal from "../components/NotificationModal";
 import LaunchPage from "../components/LaunchPage";
 import SigninPage from "../components/users/client/SigninPage";

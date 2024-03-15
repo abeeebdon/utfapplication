@@ -15,9 +15,13 @@ import { selectVerificationTokenEndpoint, selectVerifyEmailEndpoint, selectRegis
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded } from '../../../state/actions/account';
 import API from '../../../api/api.mjs';
 import { populateUser } from '../../../api/user.js';
-import { populatePairs } from '../../../api/configuration.js';
+import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function SignupPage() {
+    useEffect(()=>{
+        setConfig();
+    }, []);
+
     const dispatch = useDispatch();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);

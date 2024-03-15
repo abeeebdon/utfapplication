@@ -12,6 +12,7 @@ import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../.
 import { SideBar, Header, TradingPanel} from "./SideBar";
 import { requireLogin, populateActivity, logout, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 import { setActivity } from '../../../state/actions/account';
+import { setConfig } from '../../../api/configuration.js';
 
 
 export default function MarketPage() {
@@ -24,6 +25,7 @@ export default function MarketPage() {
 
     useEffect(()=>{
 //        loopPopulatePairs();;
+        setConfig();
     }, []);
 
     const dispatch = useDispatch();
@@ -103,8 +105,8 @@ export default function MarketPage() {
                             </div>
 
                             <ul>
-                                <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History <span className="fa fa-arrow-right"></span></li>
-                                <li className="account__navigationItem" ><span className="fa fa-shield"></span>Change Password</li>
+                                <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History</li>
+                                {/*<li className="account__navigationItem" ><span className="fa fa-shield"></span>Change Password</li>*/}
                                     {/*<li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>*/}
                                 <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
                                 <li className="account__navigationItem" onClick={ logout }><span className="fa fa-sign-out"></span>Logout</li>

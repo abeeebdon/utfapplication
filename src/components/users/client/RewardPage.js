@@ -12,6 +12,7 @@ import { setApp } from '../../../state/actions/configuration';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 import { requireLogin, populateTrades, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
+import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function RewardPage() {
     requireLogin();
@@ -21,6 +22,7 @@ export default function RewardPage() {
         closeAllPositions();
 
     useEffect(()=>{
+        setConfig()
 //        loopPopulatePairs();;
     }, []);
     const dispatch = useDispatch();
@@ -81,7 +83,7 @@ export default function RewardPage() {
                                 <p className="referralBox__title">Share to make money</p>
                                 <p className="referralBox__subTitle">Your referral link</p>
                                 <div className="referralBox__codeBox">
-                                    <div id="referralBox__code" className="referralBox__code">{referralLink}</div>
+                                    <small id="referralBox__code" className="referralBox__code">{referralLink}</small>
                                     <div className="referralBox__button" onClick={copyAddress}>Copy</div>
                                 </div>
                                 <div class="alert">
@@ -117,7 +119,7 @@ export default function RewardPage() {
                                     <p className="commission__amount">{user.second_generation_referrals}</p>
                                 </div>
                                 <div className="commission">
-                                    <p>Thired<br/>Level Member</p>
+                                    <p>Third<br/>Level Member</p>
                                     <p className="commission__amount">{user.third_generation_referrals}</p>
                                 </div>
                             </div>
