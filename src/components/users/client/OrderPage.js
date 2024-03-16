@@ -100,7 +100,7 @@ export default function OrderPage() {
     }
     const closePosition = async (trade) => {
         let formData = {
-            trade_id: trade.id, lot_cost: trade.PL - Math.abs(trade.PL * (0.3))
+            trade_id: trade.id, lot_cost: trade.pair.rate
         }
 
         return api.post(
