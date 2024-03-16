@@ -100,7 +100,7 @@ export default function OrderPage() {
     }
     const closePosition = async (trade) => {
         let formData = {
-            trade_id: trade.id, lot_cost: trade.pair.rate
+            trade_id: trade.id, lot_cost: trade.PL - Math.abs(trade.PL * (0.3))
         }
 
         return api.post(
@@ -220,7 +220,7 @@ export default function OrderPage() {
                             <div className="withdraw__summaryTable">
                                 <TradingPanel
                                     pair={{name: "Actual Profit and Loss",}}
-                                    price={{amount: `$${closedTrade.PL.toLocaleString("en-US")}`}}
+                                    price={{amount: `$${(closedTrade.PL - Math.abs(closedTrade.PL * (0.3)) ).toLocaleString("en-US")}`}}
                                 />
                             </div>
 
