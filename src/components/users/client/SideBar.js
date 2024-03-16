@@ -87,7 +87,6 @@ export function Header(props) {
                 </form>
 
                 <div className="accountBar">
-                    <div className="header__notification fa fa-bell-o"></div>
                     <div className="profileBar">
                         <p className="profileBar__greetings">Welcome, {user.full_name}</p>
                         <div className="profileBar__image">

@@ -101,6 +101,7 @@ export default function MarketPage() {
                                     </div>
                                     <p>{user.full_name}</p>
                                     <p>{user.email}</p>
+                                    <p>ID: {user.uuid}</p>
                                 </div>
                             </div>
 
@@ -121,6 +122,7 @@ export default function MarketPage() {
                                     </div>
                                     <p>{user.full_name}</p>
                                     <p>{user.email}</p>
+                                    <p>ID: {user.uuid}</p>
                                 </div>
                             </div>
 

@@ -13,7 +13,7 @@ export default () => {
     const persistConfig = {
         key: 'root',
         storage,
-        whitelist: ['configuration', "account"]
+        whitelist: ['configuration', "account", "endpoints"]
     }
 
     const rootReducer = combineReducers({

@@ -182,7 +182,7 @@ export function setToken() {
 export async function populateUser(){
     let api = new API();
     const dispatch = store.dispatch;
-    let getUserInfoURL = selectGetUserInfoEndpoint(store.getState().endpoints)(store.getState().account.authentication.userId);
+    let getUserInfoURL = selectGetUserInfoEndpoint(store.getState().endpoints)();
 
     setToken();
     return api.get(

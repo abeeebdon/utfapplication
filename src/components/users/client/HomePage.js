@@ -16,16 +16,17 @@ import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
-    populateUser()
-
-    let accountSummary = calculateAccountSummary()
-    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
-        closeAllPositions();
 
     useEffect(()=>{
         loopPopulatePairs();
         setConfig()
     }, []);
+
+    populateUser()
+
+    let accountSummary = calculateAccountSummary()
+    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+        closeAllPositions();
 
     const dispatch = useDispatch();
 
