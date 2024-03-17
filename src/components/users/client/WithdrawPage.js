@@ -146,7 +146,7 @@ export default function WithdrawPage() {
                         <div className="withdrawalBalance">
                             <TradingPanel
                                 pair={{name: <div>USDT<br/>TRC-20</div>, icon: "/images/crypto/usdt.svg"}}
-                                price={{amount: <div>Available balance<br/>${user.wallet_balance}</div>}}
+                                price={{amount: <div>Available balance<br/>${user.wallet_balance.toLocaleString("en-US")}</div>}}
                             />
                         </div>
 
