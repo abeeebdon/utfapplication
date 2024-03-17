@@ -84,7 +84,8 @@ export default function OrderPage() {
         let formData = {
             forex_pair: pair.name,
             lot_size: lotSize,
-            lot_cost: pair.rate
+            lot_cost: pair.rate,
+            cost: margin
         }
 
         return api.post(
@@ -100,7 +101,7 @@ export default function OrderPage() {
     }
     const closePosition = async (trade) => {
         let formData = {
-            trade_id: trade.id, lot_cost: trade.pair.rate
+            trade_id: trade.id, lot_cost: trade.pair.rate, cost: trade.pair.rate * trade.lotSize * 100000
         }
 
         return api.post(
@@ -197,7 +198,7 @@ export default function OrderPage() {
                     <div className="home__content pendingOrder invisible">
                         <div className="trendingBox">
                             <p className="trendingBox__heading">Open Positions</p>
-                            {openTrades.lenght > 0 && <p className="trendingBox__heading" style={{color: floatingPL < 0 ? "red": "blue"}}>{floatingPL.toLocaleString("en-US")} USD</p>}
+                            {openTrades.length > 0 && <p className="trendingBox__heading" style={{color: floatingPL < 0 ? "red": "blue"}}>{floatingPL.toLocaleString("en-US")} USD</p>}
                             {
                               openTrades.map((trade, index)=>{
                                 return <TradingPanel key={index}
