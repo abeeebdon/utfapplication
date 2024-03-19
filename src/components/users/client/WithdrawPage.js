@@ -52,9 +52,9 @@ export default function WithdrawPage() {
 
         let address = document.getElementById("address").value;
         let amount = document.getElementById("amount").value;
-        console.log(address && amount && (amount > user.wallet_balance) && (amount > 20))
+//        console.log(address && amount && (amount < user.wallet_balance) && (amount > 20))
 
-        if(address && amount && (amount >= user.wallet_balance) && (amount >= 20)) {
+        if(address && amount && (amount <= user.wallet_balance) && (amount >= 20)) {
             let formData = {}
 
             return api.get(
