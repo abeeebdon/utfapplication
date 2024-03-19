@@ -21,7 +21,7 @@ import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function WithdrawPage() {
     requireLogin();
-    populatePairs();
+//    populatePairs();
 
     let accountSummary = calculateAccountSummary()
     const openTrades = useSelector(state => state.account.openTrades);
@@ -59,6 +59,7 @@ export default function WithdrawPage() {
 
             return api.get(
                 getRequestWithdrawalVerificationCodeURL(),
+                {},
                 (response)=>{
                     $(".withdraw__content").addClass("invisible");
                     setWithdrawTotal(`$${amount}`)
@@ -92,6 +93,7 @@ export default function WithdrawPage() {
             return api.post(
                 getRequestWithdrawalURL(),
                 formData,
+                {},
                 (response)=>{
                     dispatch(resetVerificationFields());
                     closeVerificationForm()
@@ -177,7 +179,7 @@ export default function WithdrawPage() {
                                             <>
                                                 <ul className="input__passwordRequirements">
                                                     <li className="input__underLabel input__underLabel--passwordRequirements">Please note that minimum withdrawal is $20</li>
-                                                    <li className="input__underLabel input__underLabel--passwordRequirements">Withdrawal fee is %1</li>
+                                                    <li className="input__underLabel input__underLabel--passwordRequirements">Withdrawal fee is 5% - 10%</li>
                                                 </ul>
                                             </>
                                         }
@@ -204,7 +206,7 @@ export default function WithdrawPage() {
                         <form onSubmit={withdraw} className="signup__form">
                             <div className="signup__verificationControl"><span className="signup__verificationControlIcon fas fa-angle-left" onClick={()=>navigate("/home")}></span><span onClick={closeVerificationForm}>Back</span></div>
                             <p className="signup__verificationHead">Verify It's You</p>
-                            <p className="signup__verificationText">We sent a code to ({$("#email").val()})<br/>Enter it here to verify your identity.</p>
+                            <p className="signup__verificationText">We sent a code to your mail address<br/>Enter it here to verify your identity.</p>
                             <div className="signup__formInputs">
                                 <p className="signup__verificationFormInputsText">Digits Verification Code</p>
                                 <div className="signup__verificationInput">
@@ -243,7 +245,7 @@ export default function WithdrawPage() {
                 </section>
 
                 <div className="deposit__content withdraw__content withdraw__confirmation invisible">
-                    <ControlHeader back={()=>navigate("/home")} title={"Withdraw"} />
+                    <ControlHeader back={{onClick: ()=>navigate("/home")}} title={"Withdraw"} />
                     <div className="withdraw__details">
                         <div className="withdraw__heading">Withdrawal Complete</div>
                         <div className="withdraw__subHeading">Please note that you can't make another withdrawal within 24 hours</div>
@@ -255,7 +257,7 @@ export default function WithdrawPage() {
                             />
                             <TradingPanel
                                 pair={{name: "Withdrawal fee",}}
-                                price={{amount: "1%"}}
+                                price={{amount: "5% - 10%"}}
                             />
                             <TradingPanel
                                 pair={{name: "Rewards discount",}}
@@ -270,7 +272,7 @@ export default function WithdrawPage() {
                             />
                         </div>
 
-                        <p className="withdraw__footnote">Please your withdrawal is being verified and it usually takes up to 6 hours for funds to be credited into your account</p>
+                        <p className="withdraw__footnote">Please your withdrawal is being verified and it usually takes up to 30 minutes for funds to be credited into your account</p>
                     </div>
                 </div>
 
