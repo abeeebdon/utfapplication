@@ -1979,7 +1979,8 @@ export async function setConfig() {
 
 export async function populatePairs(){
     let api = new API();
-    api.setHeaders({authorization: "Bearer lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"});
+//    api.setHeaders({authorization: "Bearer lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"});
+await setToken()
     const dispatch = store.dispatch;
     let getPairHistoryURL = selectGetPairHistoryEndpoint(store.getState().endpoints);
 //    const supportedPairs = useSelector(state => state.configuration.supportedPairs);
