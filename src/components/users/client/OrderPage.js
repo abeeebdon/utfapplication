@@ -8,6 +8,7 @@ import { Image } from "../../Image";
 import { ButtonForm, ButtonInverted } from "../../Button";
 
 import { showErrorModal, showSuccessModal, showActionModal } from '../../../state/actions/notification';
+import { setAutoTrade } from '../../../state/actions/configuration';
 import { selectNewBuyTradeEndpoint, selectNewSellTradeEndpoint, selectCloseTradeEndpoint } from '../../../state/selectors/endpoints';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput, RadioInput } from "../../Input";
 import API from '../../../api/api.mjs';
@@ -33,6 +34,7 @@ export default function OrderPage() {
     const {pairName} = useParams();
     let floatingPL = 0;
     const pairs = useSelector(state => state.configuration.pairs);
+    const autoTrade = useSelector(state => state.configuration.autoTrade);
     let pair = pairs[pairName]
     const openTrades = useSelector(state => state.account.openTrades);
     let getNewBuyTradeURL = useSelector(state => selectNewBuyTradeEndpoint(state.endpoints));
@@ -91,6 +93,7 @@ export default function OrderPage() {
         return api.post(
             getNewTradeURL(),
             formData,
+            {},
             (response)=>{
                 dispatch(showSuccessModal("Your trade has been accepted by the server", "/trade"));
             },
@@ -107,6 +110,7 @@ export default function OrderPage() {
         return api.post(
             getCloseTradeURL(),
             formData,
+            {},
             (response)=>{
                 setClosedTrade(trade)
                 $(".marketOrder").hide();
@@ -134,6 +138,9 @@ export default function OrderPage() {
         $("#lotSize").val((currentLotSize - 0.01).toFixed(2))
     }
 
+    const toggleAutoTrade = async (event) => {
+        dispatch(setAutoTrade(!autoTrade))
+    }
 
     return (
         <section className="home trade">
@@ -147,6 +154,8 @@ export default function OrderPage() {
                                 <ToggleInput
                                     id={"checkBox"}
                                     name={"checkBox"}
+                                    checked={autoTrade}
+                                    onInput={toggleAutoTrade}
                                 />
                                 <span><p>Switch to Auto Trading</p></span>
                             </div>

@@ -1,5 +1,5 @@
 import $ from 'jquery';
-
+import { setToken } from "./user.js"
 
 export default class api {
     setHeaders(headers) {
@@ -8,7 +8,18 @@ export default class api {
         });
     }
 
-    get(url, doneCallback, failCallback, alwaysCallback){
+    async get(url, headers, doneCallback, failCallback, alwaysCallback){
+        if(headers) {
+            if(headers.authorization) {
+                this.setHeaders({
+                    authorization: `Bearer ${headers.authorization}`
+                })
+            }
+            else {
+                await setToken();
+            }
+        }
+
         return $.get(url, (response) => {
                 console.log(response)
                 doneCallback(response);
@@ -36,13 +47,23 @@ export default class api {
 //        );
     }
 
-    post(url, body, doneCallback, failCallback, alwaysCallback){
+    async post(url, body, headers, doneCallback, failCallback, alwaysCallback){
         this.setHeaders({
 //            "Origin": "https://utx-application-production.up.railway.app",
 //            "Access-Control-Allow-Origin": "https://utx-application-production.up.railway.app",
 //            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
 //            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
         })
+        if(headers) {
+            if(headers.authorization) {
+                this.setHeaders({
+                    authorization: `Bearer ${headers.authorization}`
+                })
+            }
+            else {
+                await setToken();
+            }
+        }
         return $.post(url, body, (response) => {
                 console.log(response)
                 if(doneCallback)
@@ -73,7 +94,7 @@ export default class api {
 //        );
     }
 
-    postWithFile(url, body, doneCallback, failCallback, alwaysCallback){
+    postWithFile(url, body, headers, doneCallback, failCallback, alwaysCallback){
         $.ajax({
                 type: "POST",
                 url,
@@ -108,7 +129,7 @@ export default class api {
 //        );
     }
 
-    patch(url, body, doneCallback, failCallback, alwaysCallback){
+    patch(url, body, headers, doneCallback, failCallback, alwaysCallback){
         return $.patch(url, body, (response) => {
                 doneCallback(response);
                 console.log(response)

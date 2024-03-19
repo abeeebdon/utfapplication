@@ -56,6 +56,7 @@ export default function DepositPage() {
             return api.postWithFile(
                 getUploadDepositProofURL(),
                 formData,
+                {},
                 (response)=>{
                     dispatch(showSuccessModal("Please your deposit is still being verified and it usually takes up to 6 hours for your account to be verified", "/home"));
                 },

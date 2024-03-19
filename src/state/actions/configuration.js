@@ -46,6 +46,14 @@ export const setSidebarItem = (sidebarItem) => (
     }
 );
 
+// SET SIDEBAR ITEM
+export const setAutoTrade = (autoTrade) => (
+    {
+        type: "SET_AUTO_TRADE",
+        autoTrade
+    }
+);
+
 // SET MOBILE RECHARGERS
 export const setMobileRechargers = (mobileRechargers) => (
     {

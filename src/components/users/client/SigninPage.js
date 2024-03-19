@@ -117,6 +117,7 @@ export default function SigninPage() {
             return api.post(
                 getLoginUserURL(),
                 formData,
+                {},
                 (response)=>{
                     showVerificationPanel();
                 },
@@ -141,6 +142,7 @@ export default function SigninPage() {
         api.post(
             getVerifyLoginURL(),
             {email, token},
+            {},
             async (response)=>{
                 await closeVerificationForm();
                 await dispatch(resetAll())

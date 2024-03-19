@@ -266,6 +266,7 @@ export default function SignupPage() {
             return api.post(
                 getRegisterUserURL(),
                 { email, full_name, password, referrer },
+                {},
                 (response)=>{
                     showVerificationPanel();
                     api.postWithFile(getUploadCredentialsURL(), formData)
@@ -310,6 +311,7 @@ export default function SignupPage() {
         api.post(
             getVerificationTokenURL(),
             {email},
+            {},
             (response)=>{
                 showVerificationPanel()
             },
@@ -333,6 +335,7 @@ export default function SignupPage() {
         api.post(
             getVerifyEmailURL(),
             {email, token},
+            {},
             (response)=>{
                 closeVerificationForm();
                 dispatch(resetAll())
@@ -353,6 +356,7 @@ export default function SignupPage() {
         api.post(
             getGoogleLoginURL(),
             {auth_token},
+            {},
             (response)=>{
 //                dispatch(resetAll())
 //                dispatch(setAuthentication(response))

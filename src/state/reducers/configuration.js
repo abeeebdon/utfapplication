@@ -4,6 +4,7 @@ const configurationReducerDefaultState = {
     countries: {},
     depositAddress: "",
     sidebarItem: '',
+    autoTrade: true,
     blockchains: {
 //        bitcoinId: {
 //            name: "Bitcoin",
@@ -35,6 +36,8 @@ export default ( state = configurationReducerDefaultState, action ) => {
             return { ...state, currencies: action.currencies }
         case "SET_SIDEBAR_ITEM":
             return { ...state, sidebarItem: action.sidebarItem }
+        case "SET_AUTO_TRADE":
+            return { ...state, autoTrade: action.autoTrade }
         case "SET_MOBILE_RECHARGERS":
             return { ...state, mobileRechargers: action.mobileRechargers }
         case "SET_OPERATORS":

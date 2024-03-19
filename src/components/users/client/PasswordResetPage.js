@@ -173,6 +173,7 @@ export default function PasswordResetPage() {
             return api.post(
                 getRequestResetPasswordURL(),
                 formData,
+                {},
                 (response)=>{
                     showVerificationPanel();
                 },
@@ -197,6 +198,7 @@ export default function PasswordResetPage() {
         api.post(
             getSubmitPasswordRecoveryCodeURL(),
             {email, token},
+            {},
             async (response)=>{
                 await closeVerificationForm();
                 await dispatch(resetAll())
@@ -223,6 +225,7 @@ export default function PasswordResetPage() {
             return api.post(
                 getResetPasswordURL(),
                 formData,
+                {},
                 (response)=>{
                     dispatch(showSuccessModal("Your password has been successfully reset. Proceed to signin", "/signin"));
                 },

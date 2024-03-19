@@ -172,11 +172,11 @@ export function logout(){
     window.location.replace("/signin")
 }
 
-export function setToken() {
+export async function setToken() {
     let api = new API();
     let authenticationToken = store.getState().account.authentication.access;
     let authorization = "Bearer " + authenticationToken;
-    api.setHeaders({authorization});
+    await api.setHeaders({authorization});
 }
 
 export async function populateUser(){
@@ -187,6 +187,7 @@ export async function populateUser(){
     setToken();
     return api.get(
         getUserInfoURL,
+        {},
         (response)=>{
             let user = { ...response.data }
             dispatch(setUser(user))
@@ -202,6 +203,7 @@ export async function populateTrades(){
     setToken();
     return api.get(
         getOpenTradesURL,
+        {},
         (response)=>{
             let tradesData = [ ...response.data ]
             let trades = []
@@ -232,6 +234,7 @@ export async function populateActivity(){
     setToken();
     return api.get(
         getActivityURL,
+        {},
         (response)=>{
             let activities = [ ...response.data ]
 
@@ -296,6 +299,7 @@ return
         api.post(
                 getCloseTradeURL(),
                 formData,
+                {},
                 (response)=>{},
                 (errorMessage)=>{}
             )

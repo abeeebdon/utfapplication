@@ -1979,8 +1979,7 @@ export async function setConfig() {
 
 export async function populatePairs(){
     let api = new API();
-//    api.setHeaders({authorization: "Bearer lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"});
-await setToken()
+//    api.setHeaders();
     const dispatch = store.dispatch;
     let getPairHistoryURL = selectGetPairHistoryEndpoint(store.getState().endpoints);
 //    const supportedPairs = useSelector(state => state.configuration.supportedPairs);
@@ -1990,6 +1989,7 @@ await setToken()
     supportedPairs.map((pairName)=>{
         api.get(
             getPairHistoryURL(pairName),
+            {authorization: "lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"},
             (response)=>{
                 let currentRate = response.results[0]
                 let previousRate = response.results[response.results.length - 1]
@@ -2029,6 +2029,7 @@ export async function populateDepositAddress(){
 
     return api.get(
         getDepositAddressURL,
+        {},
         (response)=>{
             dispatch(setDepositAddress(response.address))
         },
