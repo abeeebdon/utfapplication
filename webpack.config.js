@@ -1,5 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const dotenv = require('dotenv');
+const webpack = require('webpack');
+
+const env = dotenv.config({path: './config.env'}).parsed;
+
+// reduce it to a nice object, the same as before
+const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+}, {});
 
 module.exports = {
     entry: "./src/app.js",
@@ -8,6 +19,10 @@ module.exports = {
         publicPath: "/scripts/",
         filename: "bundle.js",
     },
+    plugins: [
+        new NodePolyfillPlugin(),
+        new webpack.DefinePlugin(envKeys)
+    ],
     cache: false,
     module: {
         rules: [{

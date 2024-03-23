@@ -18,7 +18,7 @@ function Livechat () {
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({
-            websiteToken: 'ssn2aag1hGrCNhBraTEeA7NA',
+            websiteToken: process.env.CHATWOOT_API_KEY,
             baseUrl: BASE_URL
           })
         }

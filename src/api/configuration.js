@@ -1971,9 +1971,9 @@ export async function setConfig() {
   }
 }
 
-    store.dispatch(setServer({ protocol: "https", host: "utx-application-production.up.railway.app", }));
-    store.dispatch(setApiVersion("v1"));
-    store.dispatch(setApp({ name: "Universal-FX", namePlural: "Universal-FX's", version: "1", logo: "/images/logo-nobg.png", protocol: "https", host: "universal-fx.onrender.com" }));
+    store.dispatch(setServer({ protocol: process.env.API_PROTOCOL, host: process.env.API_HOST }));
+    store.dispatch(setApiVersion(process.env.API_VERSION));
+    store.dispatch(setApp({ name: "Universal-FX", namePlural: "Universal-FX's", version: process.env.VERSION, logo: "/images/logo-nobg.png", protocol: process.env.PROTOCOL, host: process.env.HOST }));
     store.dispatch(setCountries(countries));
 }
 
@@ -1989,7 +1989,7 @@ export async function populatePairs(){
     supportedPairs.map((pairName)=>{
         api.get(
             getPairHistoryURL(pairName),
-            {authorization: "lOLWToxTSV_nqECS4ltgS4gxtVYCJfUt"},
+            {authorization: process.env.POLYGON_API_KEY},
             (response)=>{
                 let currentRate = response.results[0]
                 let previousRate = response.results[response.results.length - 1]
