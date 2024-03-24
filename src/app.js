@@ -8,7 +8,6 @@ import Routers from "./routers/Routers";
 import configureStore from "./state/store/configureStore";
 
 export const store = configureStore();
-console.log(process.env.PORT)
 const JSX = (
     <Provider store={store}>
         <GoogleOAuthProvider clientId={process.env.GOOGLE_OAUTH_CLIENT_ID}>

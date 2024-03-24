@@ -35,7 +35,8 @@ export class Image extends React.Component {
 }
 
 Image.defaultProps = {
-    placeholder: "/images/placeholder.png"
+//    placeholder: "/images/placeholder.png"
+    placeholder: "/images/logo-nobg.png"
 }
 
 
