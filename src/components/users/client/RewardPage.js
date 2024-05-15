@@ -124,6 +124,23 @@ export default function RewardPage() {
                                 </div>
                             </div>
 
+                            <p className="referralBox__title">Total Members Deposit</p>
+
+                            <div className="commissionBox">
+                                <div className="commission">
+                                    <p>First<br/>Level Deposits</p>
+                                    <p className="commission__amount">{user.first_generation_deposit}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Second<br/>Level Deposits</p>
+                                    <p className="commission__amount">{user.second_generation_deposit}</p>
+                                </div>
+                                <div className="commission">
+                                    <p>Third<br/>Level Deposits</p>
+                                    <p className="commission__amount">{user.third_generation_deposit}</p>
+                                </div>
+                            </div>
+
                             <ul className="input__passwordRequirements">
                                 <li className="input__underLabel input__underLabel--passwordRequirements">The commission of the member you recommend will be added to your fund account according to the proportion after transaction is closed</li>
                                 <li className="input__underLabel input__underLabel--passwordRequirements">Direct referral income is 10% and indirect is 5%. Referral will depend on the daily trade profit.</li>
