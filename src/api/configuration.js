@@ -2019,7 +2019,10 @@ export async function populatePairs(){
 }
 
 export async function loopPopulatePairs() {
-    let countDown = setInterval(populatePairs, 5000);
+    let countDown = localStorage.getItem('tickPrice');
+    clearInterval(countDown)
+    countDown = setInterval(populatePairs, 5000);
+    localStorage.setItem('tickPrice', countDown);
 }
 
 export async function populateDepositAddress(){
