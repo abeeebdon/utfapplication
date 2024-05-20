@@ -1977,7 +1977,7 @@ export async function setConfig() {
     store.dispatch(setCountries(countries));
 }
 
-export async function populatePairs(){
+export function populatePairs(){
     let api = new API();
 //    api.setHeaders();
     const dispatch = store.dispatch;
@@ -2018,11 +2018,20 @@ export async function populatePairs(){
     })
 }
 
-export async function loopPopulatePairs() {
+export function loopPopulatePairs() {
     let countDown = localStorage.getItem('tickPrice');
     clearInterval(countDown)
     countDown = setInterval(populatePairs, 5000);
     localStorage.setItem('tickPrice', countDown);
+}
+
+export function loopFunction(myFunction, interval) {
+    if (isNaN(interval))
+        interval = 30000
+    let countDown = localStorage.getItem(myFunction.name);
+    clearInterval(countDown)
+    countDown = setInterval(myFunction, interval);
+    localStorage.setItem(myFunction.name, countDown);
 }
 
 export async function populateDepositAddress(){
@@ -2035,81 +2044,6 @@ export async function populateDepositAddress(){
         {},
         (response)=>{
             dispatch(setDepositAddress(response.address))
-        },
-        (errorMessage)=>{
-            dispatch(showErrorModal(errorMessage));
-        }
-    )
-}
-
-
-
-export async function populateOperators(){
-    let api = new API();
-    const dispatch = store.dispatch;
-    let getOperatorsInCountryURL = selectGetOperatorsInCountryEndpoint(store.getState().endpoints)(store.getState().buyAirtimeForm.formData.mobileRechargerId,
-                                                                        store.getState().buyAirtimeForm.formData.countryCode);
-    let formData = {}
-
-    setToken();
-    return api.get(
-        getOperatorsInCountryURL,
-        formData,
-        (response)=>{
-            let operators = { ...response.data }
-            dispatch(setOperators(operators))
-        },
-        (errorMessage)=>{
-            dispatch(showErrorModal(errorMessage));
-        }
-    )
-}
-
-export async function populateMobileRechargers(){
-    let api = new API();
-    const dispatch = store.dispatch;
-    let getMobileRechargersURL = selectGetMobileRechargersEndpoint(store.getState().endpoints)();
-    let formData = {}
-
-    setToken();
-    return api.get(
-        getMobileRechargersURL,
-        formData,
-        (response)=>{
-            let mobileRechargers = response.data
-            let allMobileRechargers = {}
-
-            mobileRechargers.map((mobileRecharger)=>{
-                allMobileRechargers[mobileRecharger.name] = mobileRecharger;
-            })
-
-            dispatch(setMobileRechargers(allMobileRechargers))
-        },
-        (errorMessage)=>{
-            dispatch(showErrorModal(errorMessage));
-        }
-    )
-}
-
-export async function populateCurrencies(){
-    let api = new API();
-    const dispatch = store.dispatch;
-    let getCurrenciesURL = selectGetCurrenciesEndpoint(store.getState().endpoints)();
-    let formData = {}
-
-    setToken();
-    return api.get(
-        getCurrenciesURL,
-        formData,
-        (response)=>{
-            let currencies = response.data
-            let allCurrencies = {}
-
-            currencies.map((currency)=>{
-                allCurrencies[currency.currencyId] = currency;
-            })
-
-            dispatch(setCurrencies(allCurrencies))
         },
         (errorMessage)=>{
             dispatch(showErrorModal(errorMessage));

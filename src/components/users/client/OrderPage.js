@@ -14,11 +14,10 @@ import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload, ToggleInput
 import API from '../../../api/api.mjs';
 import { SideBar, Header, TradingPanel, ControlHeader} from "./SideBar";
 import { requireLogin, populateTrades, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
-import { populatePairs, setConfig } from '../../../api/configuration.js';
+import { loopFunction, populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function OrderPage() {
     requireLogin();
-    populateTrades();
 
     let accountSummary = calculateAccountSummary()
 //    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
@@ -26,6 +25,7 @@ export default function OrderPage() {
 
     useEffect(()=>{
 //        loopPopulatePairs();;
+        loopFunction(populateTrades);
         setConfig()
     }, []);
 
