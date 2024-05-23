@@ -4,7 +4,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 
-const env = dotenv.config({path: './config.env'}).parsed;
+const env = dotenv.config({ path: './config.env' }).parsed;
 
 // reduce it to a nice object, the same as before
 const envKeys = Object.keys(env).reduce((prev, next) => {
@@ -40,17 +40,22 @@ module.exports = {
     devServer: {
         allowedHosts: "all",
         static: {
-          directory: path.join(__dirname, 'public'),
+            directory: path.join(__dirname, 'public'),
         },
         devMiddleware: {
-//            writeToDisk: true,
+            //            writeToDisk: true,
         },
-//        hot: true,
-//        liveReload: true,
+        //        hot: true,
+        //        liveReload: true,
         watchFiles: ['src/**/*.js'],
         compress: true,
         host: '0.0.0.0',
         port: 8080,
-        historyApiFallback : true
+        historyApiFallback: true
+    },
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000
     }
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import $ from 'jquery';
 import { GoogleLogin } from '@react-oauth/google';
@@ -18,7 +18,7 @@ import { populateUser } from '../../../api/user.js';
 import { populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function SignupPage() {
-    useEffect(()=>{
+    useEffect(() => {
         setConfig();
     }, []);
 
@@ -32,9 +32,10 @@ export default function SignupPage() {
 
     const [countryCode, setCountryCode] = useState("");
     const countries = useSelector(state => state.configuration.countries);
-    let selectedCountry = { isoCode: countryCode,
-                            flag: countryCode && `/images/countries/${countryCode.toLowerCase()}.svg`
-                          }
+    let selectedCountry = {
+        isoCode: countryCode,
+        flag: countryCode && `/images/countries/${countryCode.toLowerCase()}.svg`
+    }
 
     const [files, setFiles] = useState([]);
 
@@ -51,38 +52,38 @@ export default function SignupPage() {
 
     const togglePasswordVisibility = async (event) => {
         let password = document.getElementById("password");
-        if(password.type == "password"){
+        if (password.type == "password") {
             password.type = "text";
         }
-        else{
+        else {
             password.type = "password"
         }
     }
 
     const closeVerificationForm = (event) => {
-//        event.preventDefault();
+        //        event.preventDefault();
         dispatch(resetVerificationFields());
         $(".signup__verification").addClass("invisible")
     }
 
-    const showVerificationPanel = ()=>{
+    const showVerificationPanel = () => {
         $(".signup__verification").removeClass("invisible")
         var countDownDate = new Date();
         countDownDate.setMinutes(countDownDate.getMinutes() + verificationTokenValidityDuration);
         countDownDate = countDownDate.getTime();
 
-        countDown = setInterval(function() {
-          var now = new Date().getTime();
-          var distance = countDownDate - now;
+        countDown = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
 
-          if (distance <= 0) {
-              clearInterval(countDown)
-              return;
-          }
+            if (distance <= 0) {
+                clearInterval(countDown)
+                return;
+            }
 
-          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          dispatch(setVerificationTokenExpiryTimeLeft(`${minutes}:${seconds}`))
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            dispatch(setVerificationTokenExpiryTimeLeft(`${minutes}:${seconds}`))
         }, 1000);
 
         localStorage.setItem('id', countDown);
@@ -92,7 +93,7 @@ export default function SignupPage() {
         let errorFlag = false
         let password = $("#password").val()
 
-        if(password.length < 8){
+        if (password.length < 8) {
             errorFlag = true;
             $("#passwordLength").addClass("input__errorMessage")
         }
@@ -100,7 +101,7 @@ export default function SignupPage() {
             $("#passwordLength").removeClass("input__errorMessage")
         }
 
-        if(!/[A-Z]/.test(password)){
+        if (!/[A-Z]/.test(password)) {
             errorFlag = true;
             $("#uppercase").addClass("input__errorMessage")
         }
@@ -108,7 +109,7 @@ export default function SignupPage() {
             $("#uppercase").removeClass("input__errorMessage")
         }
 
-        if(!/[a-z]/.test(password)){
+        if (!/[a-z]/.test(password)) {
             errorFlag = true;
             $("#lowercase").addClass("input__errorMessage")
         }
@@ -116,7 +117,7 @@ export default function SignupPage() {
             $("#lowercase").removeClass("input__errorMessage")
         }
 
-        if(!/\d/.test(password)){
+        if (!/\d/.test(password)) {
             errorFlag = true;
             $("#digit").addClass("input__errorMessage")
         }
@@ -124,7 +125,7 @@ export default function SignupPage() {
             $("#digit").removeClass("input__errorMessage")
         }
 
-        if(!/\W/.test(password)){
+        if (!/\W/.test(password)) {
             errorFlag = true;
             $("#specialChar").addClass("input__errorMessage")
         }
@@ -132,7 +133,7 @@ export default function SignupPage() {
             $("#specialChar").removeClass("input__errorMessage")
         }
 
-        if(errorFlag == true){
+        if (errorFlag == true) {
             dispatch(setPasswordField({ hasError: true, errorMessage: "Please fix the error(s) before proceeding!" }));
         }
         else {
@@ -146,11 +147,11 @@ export default function SignupPage() {
         let errorFlag = false
         let email = $("#email").val()
 
-        if(!/[a-z]/.test(email)){
+        if (!/[a-z]/.test(email)) {
             errorFlag = true;
         }
 
-        if(errorFlag == true){
+        if (errorFlag == true) {
             dispatch(setEmailField({ hasError: true, errorMessage: "Invalid email!" }));
         }
         else {
@@ -160,9 +161,9 @@ export default function SignupPage() {
         return !errorFlag
     }
 
-    const validateFirstName = ()=>{
+    const validateFirstName = () => {
         let firstNameField = document.getElementById("firstName");
-        if(firstNameField.value.length > 3){
+        if (firstNameField.value.length > 3) {
             dispatch(setFirstNameField({ hasError: false, errorMessage: "" }));
         }
         else {
@@ -173,10 +174,10 @@ export default function SignupPage() {
         return !errorExist
     }
 
-    const validateLastName = async (input)=>{
+    const validateLastName = async (input) => {
         let lastNameField = document.getElementById("lastName");
 
-        if(lastNameField.value.length > 3){
+        if (lastNameField.value.length > 3) {
             dispatch(setLastNameField({ hasError: false, errorMessage: "" }));
         }
         else {
@@ -187,30 +188,30 @@ export default function SignupPage() {
         return !errorExist
     }
 
-    const validateCheckBox = async (input)=>{
+    const validateCheckBox = async (input) => {
         let checkboxField = document.getElementById("sendSMSUpdate");
 
-//        if(checkboxField.checked == true){
-//            dispatch(setAgreeToTermsField({ hasError: false, errorMessage: "" }));
-//        }
-//        else {
-//            dispatch(setAgreeToTermsField({ hasError: true, errorMessage: (input.type == "checkbox") ? "Please tick the box" : "Input cannot be blank" }));
-//            errorExist = true;
-//        }
+        //        if(checkboxField.checked == true){
+        //            dispatch(setAgreeToTermsField({ hasError: false, errorMessage: "" }));
+        //        }
+        //        else {
+        //            dispatch(setAgreeToTermsField({ hasError: true, errorMessage: (input.type == "checkbox") ? "Please tick the box" : "Input cannot be blank" }));
+        //            errorExist = true;
+        //        }
     }
 
-    const chooseCountry = async (target)=>{
+    const chooseCountry = async (target) => {
         let countryCode = target.value;
 
         setCountryCode(countryCode)
-//        $("#countryInput").nextAll().addClass("invisible")
-//        $("#countryInput").nextAll().find("input").val("").change();
-//        $("#countryInput").nextAll().find("select").prop("selectedIndex", 0).blur();
-////        $("#countryInput").nextAll().find("select").siblings(".inputIcon__logo").remove();
-//
-//        if(countryCode){
-//            $("#countryInput").next().removeClass("invisible")
-//        }
+        //        $("#countryInput").nextAll().addClass("invisible")
+        //        $("#countryInput").nextAll().find("input").val("").change();
+        //        $("#countryInput").nextAll().find("select").prop("selectedIndex", 0).blur();
+        ////        $("#countryInput").nextAll().find("select").siblings(".inputIcon__logo").remove();
+        //
+        //        if(countryCode){
+        //            $("#countryInput").next().removeClass("invisible")
+        //        }
     }
 
 
@@ -218,7 +219,7 @@ export default function SignupPage() {
         event.preventDefault();
         dispatch(resetFields());
 
-        if(validateEmail() && validatePassword()) {
+        if (validateEmail() && validatePassword()) {
             let email = document.getElementById("email").value;
             let firstName;
             let lastName;
@@ -243,7 +244,7 @@ export default function SignupPage() {
         event.preventDefault();
         dispatch(resetFields());
 
-        if(validateFirstName() && validateLastName() && validateEmail() && validatePassword() && files.length > 0){
+        if (validateFirstName() && validateLastName() && validateEmail() && validatePassword() && files.length > 0) {
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             let firstName = document.getElementById("firstName").value;
@@ -267,11 +268,11 @@ export default function SignupPage() {
                 getRegisterUserURL(),
                 { email, full_name, password, referrer },
                 {},
-                (response)=>{
+                (response) => {
                     showVerificationPanel();
                     api.postWithFile(getUploadCredentialsURL(), formData)
                 },
-                (errorMessage)=>{
+                (errorMessage) => {
                     dispatch(showErrorModal(errorMessage));
                 }
             )
@@ -300,22 +301,22 @@ export default function SignupPage() {
         )*/
     }
 
-    const requestVerificationToken = async (event)=>{
-//        if(event){
-//            event.target.parentNode.previousSibling.reset();
-//        }
+    const requestVerificationToken = async (event) => {
+        //        if(event){
+        //            event.target.parentNode.previousSibling.reset();
+        //        }
 
         let email = $("#email").val();
         clearInterval(countDown)
         dispatch(resetVerificationFields());
         api.post(
             getVerificationTokenURL(),
-            {email},
+            { email },
             {},
-            (response)=>{
+            (response) => {
                 showVerificationPanel()
             },
-            (errorMessage)=>{
+            (errorMessage) => {
                 dispatch(showErrorModal(errorMessage));
             }
         )
@@ -327,16 +328,19 @@ export default function SignupPage() {
         let email = $("#email").val();
         let token = "";
 
-        for(let i=0; i<6; i++){
+        for (let i = 0; i < 6; i++) {
             let child = event.target[i];
             token = `${token}${child.value}`
         }
 
         api.post(
             getVerifyEmailURL(),
-            {email, token},
+
+            console.log('get verify', getVerifyEmailURL()),
+
+            { email, token },
             {},
-            (response)=>{
+            (response) => {
                 closeVerificationForm();
                 dispatch(resetAll())
                 dispatch(setAuthentication(response))
@@ -344,8 +348,8 @@ export default function SignupPage() {
                 populateUser()
                 return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
             },
-            async (errorMessage)=>{
-                dispatch(setVerificationField({hasError: true, errorMessage: errorMessage}));
+            async (errorMessage) => {
+                dispatch(setVerificationField({ hasError: true, errorMessage: errorMessage }));
             }
         )
     }
@@ -355,17 +359,17 @@ export default function SignupPage() {
 
         api.post(
             getGoogleLoginURL(),
-            {auth_token},
+            { auth_token },
             {},
-            (response)=>{
-//                dispatch(resetAll())
-//                dispatch(setAuthentication(response))
-//                dispatch(setLoggedIn(true))
-//                populateUser()
-//                return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
+            (response) => {
+                //                dispatch(resetAll())
+                //                dispatch(setAuthentication(response))
+                //                dispatch(setLoggedIn(true))
+                //                populateUser()
+                //                return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
             },
-            async (errorMessage)=>{
-                dispatch(setVerificationField({hasError: true, errorMessage: errorMessage}));
+            async (errorMessage) => {
+                dispatch(setVerificationField({ hasError: true, errorMessage: errorMessage }));
             }
         )
     }
@@ -376,7 +380,7 @@ export default function SignupPage() {
                 <div className="container">
                     <div className="signup--panel__head">
                         <span className="signup__logo">
-                            <Image src={logo}/>
+                            <Image src={logo} />
                         </span>
 
                         <p className="signup--panel__headText">Join Universal FX</p>
@@ -387,7 +391,7 @@ export default function SignupPage() {
                     </div>
                     <div className="signup--panel__body">
                         <div className="signup--panel__sidebar">
-                            <div className="signup--panel__text trackText"><span style={{color:"blue"}}>1</span><span>/</span><span>2</span></div>
+                            <div className="signup--panel__text trackText"><span style={{ color: "blue" }}>1</span><span>/</span><span>2</span></div>
                             <ul className="signup--panel__sidebarMenu">
                                 <li id="verification" className="signup--panel__sidebarMenuItem signup--panel__sidebarMenuItem--active">
                                     <span className="signup--panel__sidebarMenuIcon fa fa-user"></span>
@@ -412,15 +416,15 @@ export default function SignupPage() {
                                             type={"text"}
                                             disabled={"disabled"}
                                             placeholder={"Sign in with google"}
-                                            custom={ <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
-                                                          <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
-                                                          <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>
-                                                          <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50"/>
-                                                          <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
-                                                    </svg>
+                                            custom={<svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
+                                                <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107" />
+                                                <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00" />
+                                                <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50" />
+                                                <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2" />
+                                            </svg>
                                             }
                                         />
-                                        <GoogleLogin onSuccess={(response)=>googleLogin(response.access_token)} onError={(errorMessage)=>dispatch(showErrorModal(errorMessage))} />
+                                        <GoogleLogin onSuccess={(response) => googleLogin(response.access_token)} onError={(errorMessage) => dispatch(showErrorModal(errorMessage))} />
                                     </div>
 
 
@@ -435,7 +439,7 @@ export default function SignupPage() {
                                             placeholder={"Type here"}
                                             required={"required"}
                                             error={clientSignupForm.emailField}
-                                            style={{border: "bottom-sm"}}
+                                            style={{ border: "bottom-sm" }}
                                             onInput={validateEmail}
                                         />
                                     </div>
@@ -457,8 +461,8 @@ export default function SignupPage() {
                                             type={"password"}
                                             placeholder={"Type here"}
                                             required={"required"}
-                                            icon={ { name: "fa fa-eye", position: "right", onClick: togglePasswordVisibility } }
-                                            style={{border: "bottom-sm"}}
+                                            icon={{ name: "fa fa-eye", position: "right", onClick: togglePasswordVisibility }}
+                                            style={{ border: "bottom-sm" }}
                                             onInput={validatePassword}
                                             error={clientSignupForm.passwordField}
                                         />
@@ -474,12 +478,12 @@ export default function SignupPage() {
                                 <div className="signup__google-sm">
                                     <div> <span className="signup__googleDash"></span> Or <span className="signup__googleDash"></span> </div>
 
-                                    <div className="signup__googleIcon-sm" onClick={()=>$(".signup__google *").click()}>
+                                    <div className="signup__googleIcon-sm" onClick={() => $(".signup__google *").click()}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" viewBox="0 0 36 36" fill="none">
-                                              <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107"/>
-                                              <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00"/>
-                                              <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50"/>
-                                              <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2"/>
+                                            <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.2405 24.4928 21.9172 27 18 27C13.0297 27 9 22.9702 9 18C9 13.0297 13.0297 9 18 9C20.2943 9 22.3815 9.8655 23.9708 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C9.71625 3 3 9.71625 3 18C3 26.2838 9.71625 33 18 33C26.2838 33 33 26.2838 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#FFC107" />
+                                            <path d="M4.72949 11.0182L9.65774 14.6325C10.9912 11.331 14.2207 9 18 9C20.2942 9 22.3815 9.8655 23.9707 11.2792L28.2135 7.0365C25.5345 4.53975 21.951 3 18 3C12.2385 3 7.24199 6.25275 4.72949 11.0182Z" fill="#FF3D00" />
+                                            <path d="M18.0002 33C21.8747 33 25.3952 31.5173 28.057 29.106L23.4145 25.1775C21.8579 26.3613 19.9558 27.0016 18.0002 27C14.0987 27 10.786 24.5123 9.53798 21.0405L4.64648 24.8093C7.12898 29.667 12.1705 33 18.0002 33Z" fill="#4CAF50" />
+                                            <path d="M32.7083 15.0623H31.5V15H18V21H26.4773C25.8857 22.6623 24.82 24.1149 23.412 25.1782L23.4142 25.1768L28.0568 29.1052C27.7283 29.4037 33 25.5 33 18C33 16.9943 32.8965 16.0125 32.7083 15.0623Z" fill="#1976D2" />
                                         </svg>
                                     </div>
                                 </div>
@@ -503,7 +507,7 @@ export default function SignupPage() {
                                                 type={"text"}
                                                 placeholder={"Type here"}
                                                 required={"required"}
-                                                style={{border: "bottom-sm"}}
+                                                style={{ border: "bottom-sm" }}
                                                 error={clientSignupForm.emailField}
                                                 onInput={validateFirstName}
                                             />
@@ -517,7 +521,7 @@ export default function SignupPage() {
                                                 type={"text"}
                                                 placeholder={"Type here"}
                                                 required={"required"}
-                                                style={{border: "bottom-sm"}}
+                                                style={{ border: "bottom-sm" }}
                                                 error={clientSignupForm.emailField}
                                                 onInput={validateLastName}
                                             />
@@ -525,21 +529,21 @@ export default function SignupPage() {
                                     </span>
 
                                     {/*<span className="signup__formDualInputs">*/}
-                                        <div id="countryInput" className="signup__formInput">
-                                            <IconedInput
-                                                id={"country"}
-                                                name={"country"}
-                                                label={"Country"}
-                                                type={"select"}
-                                                required={"required"}
-                                                style={{border: "bottom-sm"}}
-                                                logo={ { src: selectedCountry.flag } }
-                                                options={countries}
-                                                onInput={chooseCountry}
-                                            />
-                                        </div>
+                                    <div id="countryInput" className="signup__formInput">
+                                        <IconedInput
+                                            id={"country"}
+                                            name={"country"}
+                                            label={"Country"}
+                                            type={"select"}
+                                            required={"required"}
+                                            style={{ border: "bottom-sm" }}
+                                            logo={{ src: selectedCountry.flag }}
+                                            options={countries}
+                                            onInput={chooseCountry}
+                                        />
+                                    </div>
 
-                                        {/*<div className="signup__formInput">
+                                    {/*<div className="signup__formInput">
                                             <IconedInput
                                                 id={"city"}
                                                 name={"city"}
@@ -559,7 +563,7 @@ export default function SignupPage() {
                                             name={"street"}
                                             label={"Street Address"}
                                             type={"text"}
-                                            style={{border: "bottom-sm"}}
+                                            style={{ border: "bottom-sm" }}
                                             placeholder={"Type here"}
                                             required={"required"}
                                             error={clientSignupForm.passwordField}
@@ -573,7 +577,7 @@ export default function SignupPage() {
                                             label={"National Identification Number"}
                                             type={"text"}
                                             placeholder={"Type here"}
-                                                style={{border: "bottom-sm"}}
+                                            style={{ border: "bottom-sm" }}
                                             required={"required"}
                                             error={clientSignupForm.passwordField}
                                         />
@@ -617,13 +621,13 @@ export default function SignupPage() {
                     <form onSubmit={activateAccount} className="signup__form">
                         <div className="signup__verificationControl" onClick={closeVerificationForm}><span className="signup__verificationControlIcon fas fa-angle-left"></span>Back</div>
                         <p className="signup__verificationHead">Verify It's You</p>
-                        <p className="signup__verificationText">We sent a code to ({$("#email").val()})<br/>Enter it here to verify your identity.</p>
+                        <p className="signup__verificationText">We sent a code to ({$("#email").val()})<br />Enter it here to verify your identity.</p>
                         <div className="signup__formInputs">
                             <p className="signup__verificationFormInputsText">Digits Verification Code</p>
                             <div className="signup__verificationInput">
-                            {
-                                [...Array(5)].map((x, key)=>{
-                                    return <SingleInput
+                                {
+                                    [...Array(5)].map((x, key) => {
+                                        return <SingleInput
                                             key={key}
                                             id={`digit${key}`}
                                             name={`digit${key}`}
@@ -631,8 +635,8 @@ export default function SignupPage() {
                                             required={"required"}
                                             error={clientSignupForm.verificationField}
                                         />
-                                })
-                            }
+                                    })
+                                }
                             </div>
 
 
@@ -641,9 +645,9 @@ export default function SignupPage() {
                             </p>
 
                             <p className="signup__verificationText">
-                            {
-                                clientSignupForm.verificationField.hasError && <span className={`input__errorMessage ${clientSignupForm.verificationField.hasError? "visible" : "invisible"}`}>{clientSignupForm.verificationField.errorMessage}</span>
-                            }
+                                {
+                                    clientSignupForm.verificationField.hasError && <span className={`input__errorMessage ${clientSignupForm.verificationField.hasError ? "visible" : "invisible"}`}>{clientSignupForm.verificationField.errorMessage}</span>
+                                }
                             </p>
 
                             <div className="signup__verificationButton">

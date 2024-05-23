@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
-import $ from 'jquery';
-
-
-import { Image } from "../../Image";
-import { ButtonForm, ButtonInverted } from "../../Button";
-
-import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
-import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
-import { SideBar, Header, TradingPanel} from "./SideBar";
+import { ButtonForm } from "../../Button";
+import { SideBar, Header, TradingPanel } from "./SideBar";
 import LiveChat from "../../LiveChat";
 import { requireLogin, populateUser, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
 import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
@@ -17,7 +10,7 @@ import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
 export default function HomePage() {
     requireLogin();
 
-    useEffect(()=>{
+    useEffect(() => {
         loopPopulatePairs();
         setConfig()
     }, []);
@@ -25,7 +18,7 @@ export default function HomePage() {
     populateUser()
 
     let accountSummary = calculateAccountSummary()
-    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+    if (accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
         closeAllPositions();
 
     const dispatch = useDispatch();
@@ -34,16 +27,16 @@ export default function HomePage() {
     const countries = useSelector(state => state.configuration.countries);
     const pairs = useSelector(state => state.configuration.pairs);
     const user = useSelector(state => state.account.user);
-//    console.log(pairs)
+    //    console.log(pairs)
 
 
     let floatingPL = 0;
     const openTrades = useSelector(state => state.account.openTrades);
-    openTrades.map((trade, index)=>{
+    openTrades.map((trade, index) => {
         openTrades[index].pair = pairs[trade.pairName]
         openTrades[index].closePrice = openTrades[index].pair.rate;
 
-        if(openTrades[index].direction == "buy") {
+        if (openTrades[index].direction == "buy") {
             openTrades[index].PL = (openTrades[index].pair.rate * openTrades[index].lotSize * 100000) - (openTrades[index].openPrice * openTrades[index].lotSize * 100000)
         }
         else {
@@ -59,11 +52,11 @@ export default function HomePage() {
 
     return (
         <section className="home home--select">
-        <LiveChat/>
+            <LiveChat />
             <div className="container">
                 <SideBar selectedItem={"home"} />
                 <div className="home__main">
-                    <Header title="Home"/>
+                    <Header title="Home" />
                     <div className="home__content">
                         <div className="dashboardBox">
                             <div className="dashboard">
@@ -75,7 +68,7 @@ export default function HomePage() {
                                         <p className="dashboard__dataHead">Equity</p>
                                         <div className="dashboard__dataBody">
                                             <p className="dashboard__figureMajor">${(user.wallet_balance + floatingPL).toLocaleString("en-US")}</p>
-                                            <p className="dashboard__figureMinor">{gainPercent && gainPercent <= 0? gainPercent.toLocaleString("en-US") : `+${gainPercent.toLocaleString("en-US")}`}%</p>
+                                            <p className="dashboard__figureMinor">{gainPercent && gainPercent <= 0 ? gainPercent?.toLocaleString("en-US") : `+${gainPercent.toLocaleString("en-US")}`}%</p>
                                         </div>
                                     </div>
                                 </div>
@@ -120,17 +113,17 @@ export default function HomePage() {
                         <div className="trendingBox trendingBox--home">
 
                             <p className="trendingBox__heading">Trending</p>
-                            { Object.entries(pairs).map(([key, pair])=>{
+                            {Object.entries(pairs).map(([key, pair]) => {
                                 return <div data-filter={`${pair.name.toLowerCase()} ${pair.rate}`} >
-                                        <TradingPanel key={key}
-                                            pair={{name: pair.name, icon: pair.icon}}
-                                            trendChart={pair.trendData}
-                                            price={{amount: pair.rate, change: pair.change}}
-                                            actions={{trade: ()=>navigate(`/order/${pair.name}`)}}
-                                            onClick={()=>navigate(`/order/${pair.name}`)}
-                                        />
-                                    </div>
-                              })
+                                    <TradingPanel key={key}
+                                        pair={{ name: pair.name, icon: pair.icon }}
+                                        trendChart={pair.trendData}
+                                        price={{ amount: pair.rate, change: pair.change }}
+                                        actions={{ trade: () => navigate(`/order/${pair.name}`) }}
+                                        onClick={() => navigate(`/order/${pair.name}`)}
+                                    />
+                                </div>
+                            })
                             }
                         </div>
                     </div>

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import $ from 'jquery';
 
@@ -9,22 +9,25 @@ import { ButtonForm, ButtonInverted } from "../../Button";
 
 import { showErrorModal, showSuccessModal } from '../../../state/actions/notification';
 import Input, { CheckBoxInput, SingleInput, IconedInput, FileUpload } from "../../Input";
-import { SideBar, Header, TradingPanel} from "./SideBar";
+import { SideBar, Header, TradingPanel } from "./SideBar";
 import { requireLogin, populateActivity, logout, closeAllPositions, calculateAccountSummary } from '../../../api/user.js';
 import { setActivity } from '../../../state/actions/account';
 import { setConfig } from '../../../api/configuration.js';
+import TermsAndConditions from './TermsandConditions';
 
 
 export default function MarketPage() {
+    const [selectedItem, setSelectedItem] = useState("activity");
+
     requireLogin();
     populateActivity()
 
     let accountSummary = calculateAccountSummary()
-    if(accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
+    if (accountSummary.marginLevel <= 5 && accountSummary.margin > 0)
         closeAllPositions();
 
-    useEffect(()=>{
-//        loopPopulatePairs();;
+    useEffect(() => {
+        //        loopPopulatePairs();;
         setConfig();
     }, []);
 
@@ -33,54 +36,59 @@ export default function MarketPage() {
     const user = useSelector(state => state.account.user);
     const clientSignupForm = useSelector(state => state.clientSignupForm);
     const activities = useSelector(state => state.account.activity);
-    const showPanel = (panel)=> {
+    const showPanel = (panel) => {
+        setSelectedItem(panel); // Update the selected item in state
         $(".account__navigation").addClass("account__navigation--hideSm");
         $(".account__details").show();
         $(".panel").hide();
         $(`.account__${panel}`).show();
+
+        if (panel === "terms") {
+            $(".account__terms").show(); // Show the terms and conditions panel
+        }
     }
-//    dispatch(setActivity([]))
+    //    dispatch(setActivity([]))
 
     const getActivity = (activity, index) => {
-        if(activity.type == "deposit")  {
+        if (activity.type == "deposit") {
             return <div data-filter={`${activity.type.toLowerCase()} ${activity.amount}`} >
                 <TradingPanel key={index}
-                    pair={{name: <div style={{textTransform: 'capitalize'}}>{activity.type}<br/> <small>{activity.datetime}</small></div>, icon:"/images/plus.png"}}
-                    price={{amount: <div style={{fontWeight: 900}}>+ ${activity.amount.toLocaleString("en-US")}</div>}}
+                    pair={{ name: <div style={{ textTransform: 'capitalize' }}>{activity.type}<br /> <small>{activity.datetime}</small></div>, icon: "/images/plus.png" }}
+                    price={{ amount: <div style={{ fontWeight: 900 }}>+ ${activity.amount.toLocaleString("en-US")}</div> }}
                 />
-           </div>
+            </div>
         }
-        else if(activity.type == "withdrawal")  {
+        else if (activity.type == "withdrawal") {
             return <div data-filter={`${activity.type.toLowerCase()} ${activity.amount}`} >
                 <TradingPanel key={index}
-                    pair={{name: <div style={{textTransform: 'capitalize'}}>{activity.type}<br/> <small>{activity.datetime}</small></div>, icon:"/images/minus.png"}}
-                    price={{amount: <div style={{fontWeight: 900}}>- ${activity.amount.toLocaleString("en-US")}</div>}}
+                    pair={{ name: <div style={{ textTransform: 'capitalize' }}>{activity.type}<br /> <small>{activity.datetime}</small></div>, icon: "/images/minus.png" }}
+                    price={{ amount: <div style={{ fontWeight: 900 }}>- ${activity.amount.toLocaleString("en-US")}</div> }}
                 />
-           </div>
+            </div>
         }
-        else if(activity.type == "close_trade")  {
+        else if (activity.type == "close_trade") {
             return <div data-filter={`close_trade ${activity.amount} ${activity.meta_data.trade_data.type} ${activity.meta_data.trade_data.forex_pair}`} >
                 <TradingPanel key={index}
-                    pair={{name: <div style={{textTransform: 'capitalize'}}>Close Trade {activity.meta_data.trade_data.forex_pair}<br/> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg`}}
-                    price={{amount: <div style={{fontWeight: 600}}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small>    ${activity.meta_data.trade_data.profit.toLocaleString("en-US")}</div>}}
+                    pair={{ name: <div style={{ textTransform: 'capitalize' }}>Close Trade {activity.meta_data.trade_data.forex_pair}<br /> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg` }}
+                    price={{ amount: <div style={{ fontWeight: 600 }}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small>    ${activity.meta_data.trade_data.profit.toLocaleString("en-US")}</div> }}
                 />
-           </div>
+            </div>
         }
-        else if(activity.type == "trade")  {
+        else if (activity.type == "trade") {
             return <div data-filter={`open_trade ${activity.amount} ${activity.meta_data.trade_data.type} ${activity.meta_data.trade_data.forex_pair}`} >
                 <TradingPanel key={index}
-                    pair={{name: <div style={{textTransform: 'capitalize'}}>Open Trade {activity.meta_data.trade_data.forex_pair}<br/> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg`}}
-                    price={{amount: <div style={{fontWeight: 600}}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small></div>}}
+                    pair={{ name: <div style={{ textTransform: 'capitalize' }}>Open Trade {activity.meta_data.trade_data.forex_pair}<br /> <small>{activity.datetime}</small></div>, icon: `/images/countries/${activity.meta_data.trade_data.forex_pair[0].toLowerCase() + activity.meta_data.trade_data.forex_pair[1].toLowerCase()}.svg` }}
+                    price={{ amount: <div style={{ fontWeight: 600 }}><small>{activity.meta_data.trade_data.type} {activity.meta_data.trade_data.lot_size} at {activity.meta_data.trade_data.lot_cost}</small></div> }}
                 />
-           </div>
+            </div>
         }
-        else if(activity.type == "referral_bonus")  {
+        else if (activity.type == "referral_bonus") {
             return <div data-filter={`${activity.type.toLowerCase()} ${activity.amount}`} >
                 <TradingPanel key={index}
-                    pair={{name: <div style={{textTransform: 'capitalize'}}>Referral Bonus<br/> <small>{activity.datetime}</small></div>, icon:"/images/plus.png"}}
-                    price={{amount: <div style={{fontWeight: 900}}>+ ${activity.amount.toLocaleString("en-US")}</div>}}
+                    pair={{ name: <div style={{ textTransform: 'capitalize' }}>Referral Bonus<br /> <small>{activity.datetime}</small></div>, icon: "/images/plus.png" }}
+                    price={{ amount: <div style={{ fontWeight: 900 }}>+ ${activity.amount.toLocaleString("en-US")}</div> }}
                 />
-           </div>
+            </div>
         }
 
     }
@@ -90,7 +98,7 @@ export default function MarketPage() {
             <div className="container">
                 <SideBar selectedItem={"account"} />
                 <div className="home__main">
-                    <Header title="Account"/>
+                    <Header title="Account" />
 
                     <div className="account__panel">
                         <div className="account__navigation">
@@ -106,11 +114,21 @@ export default function MarketPage() {
                             </div>
 
                             <ul>
-                                <li className="account__navigationItem account__navigationItem--selected" onClick={()=>showPanel("activity")}><span className="fa fa-history"></span>History</li>
+                                <li
+                                    className={`account__navigationItem ${selectedItem === "activity" ? "account__navigationItem--selected" : ""}`}
+                                    onClick={() => showPanel("activity")}
+                                >
+                                    <span className="fa fa-history"></span>History
+                                </li>
+                                <li
+                                    className={`account__navigationItem ${selectedItem === "terms" ? "account__navigationItem--selected" : ""}`}
+                                    onClick={() => showPanel("terms")}
+                                >
+                                    <span className="fa fa-check"></span>Terms & Conditions
+                                </li>
                                 {/*<li className="account__navigationItem" ><span className="fa fa-shield"></span>Change Password</li>*/}
-                                    {/*<li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>*/}
-                                <li className="account__navigationItem"><span className="fa fa-check"></span>Terms & Conditions</li>
-                                <li className="account__navigationItem" onClick={ logout }><span className="fa fa-sign-out"></span>Logout</li>
+                                {/*<li className="account__navigationItem"><span className="fa fa-question-circle"></span>Help & Support</li>*/}
+                                <li className="account__navigationItem" onClick={logout}><span className="fa fa-sign-out"></span>Logout</li>
                             </ul>
                         </div>
 
@@ -126,11 +144,13 @@ export default function MarketPage() {
                                 </div>
                             </div>
 
+                            <TermsAndConditions />
+
                             <div className="account__activity panel">
                                 <p className="account__activityHead">Activity</p>
                                 {/*<p className="account__activityDate">Today, Aug 1</p>*/}
                                 {
-                                    activities.map((activity, index)=>{
+                                    activities.map((activity, index) => {
                                         return getActivity(activity, index)
                                     })
                                 }
@@ -140,7 +160,7 @@ export default function MarketPage() {
 
                             <div className="account__security panel invisible">
                                 <p className="account__activityHead">Change Password</p>
-                                <form  className="signup__form">
+                                <form className="signup__form">
                                     <div className="signup__formInputs">
                                         <div className="signup__formInput">
                                             <IconedInput
@@ -150,7 +170,7 @@ export default function MarketPage() {
                                                 type={"text"}
                                                 placeholder={"Type here"}
                                                 required={"required"}
-                                                style={{border: "bottom-sm"}}
+                                                style={{ border: "bottom-sm" }}
                                                 error={clientSignupForm.passwordField}
                                             />
                                         </div>
@@ -163,7 +183,7 @@ export default function MarketPage() {
                                                 type={"text"}
                                                 placeholder={"Type here"}
                                                 required={"required"}
-                                                style={{border: "bottom-sm"}}
+                                                style={{ border: "bottom-sm" }}
                                                 error={clientSignupForm.passwordField}
                                             />
                                         </div>
