@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { ButtonForm } from "../../Button";
 import { SideBar, Header, TradingPanel } from "./SideBar";
@@ -15,7 +13,12 @@ export default function HomePage() {
     const [currentCount, setCount] = useState(0)
 
     useEffect(() => {
-        loopPopulatePairs();
+        if (currentCount >= 1)
+            return
+        setCount(1)
+
+        loopFunction(populatePairs, 5000);
+        loopFunction(populateUser);
         setConfig()
     }, []);
 
