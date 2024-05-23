@@ -2024,6 +2024,15 @@ export async function loopPopulatePairs() {
   let countDown = setInterval(populatePairs, 5000);
 }
 
+export function loopFunction(myFunction, interval) {
+  if (isNaN(interval))
+    interval = 30000
+  let countDown = localStorage.getItem(myFunction.name);
+  clearInterval(countDown)
+  countDown = setInterval(myFunction, interval);
+  localStorage.setItem(myFunction.name, countDown);
+}
+
 export async function populateDepositAddress() {
   let api = new API();
   const dispatch = store.dispatch;
