@@ -12,7 +12,7 @@ import { showErrorModal, showSuccessModal } from '../state/actions/notification'
 import { setAuthentication, setUser, setLoggedIn, setWallets, resetAll, setTransactions, setOnboarded, setOpenTrades, setActivity } from '../state/actions/account';
 
 import { selectGenerateAuthenticationTokenEndpoint, selectRefreshAuthenticationTokenEndpoint, selectGetUserInfoEndpoint,
-        selectGetWalletsEndpoint, selectAddWalletEndpoint, selectAddKeyEndpoint, selectGetTransactionsEndpoint, selectGetOpenTradesEndpoint,
+         selectGetOpenTradesEndpoint,
          selectGetActivityEndpoint, selectCloseTradeEndpoint } from '../state/selectors/endpoints';
 
 

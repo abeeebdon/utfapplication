@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
@@ -5,17 +7,18 @@ import { ButtonForm } from "../../Button";
 import { SideBar, Header, TradingPanel } from "./SideBar";
 import LiveChat from "../../LiveChat";
 import { requireLogin, populateUser, calculateAccountSummary, closeAllPositions } from '../../../api/user.js';
-import { loopPopulatePairs, setConfig } from '../../../api/configuration.js';
+import { loopFunction, populatePairs, setConfig } from '../../../api/configuration.js';
 
 export default function HomePage() {
     requireLogin();
+
+    const [currentCount, setCount] = useState(0)
 
     useEffect(() => {
         loopPopulatePairs();
         setConfig()
     }, []);
 
-    populateUser()
 
     let accountSummary = calculateAccountSummary()
     if (accountSummary.marginLevel <= 5 && accountSummary.margin > 0)

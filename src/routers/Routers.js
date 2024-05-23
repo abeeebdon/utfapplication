@@ -5,6 +5,7 @@ import { useIdleTimer } from 'react-idle-timer'
 
 import NotificationModal from "../components/NotificationModal";
 import LaunchPage from "../components/LaunchPage";
+import TermsPage from "../components/TermsPage";
 import SigninPage from "../components/users/client/SigninPage";
 import SignupPage from "../components/users/client/SignupPage";
 import PasswordResetPage from "../components/users/client/PasswordResetPage";
@@ -32,6 +33,7 @@ const Routers = ()=>(
             <Route path='/reward' element={<RewardPage/>}  />
             <Route path='/market' element={<MarketPage/>}  />
             <Route path='/account' element={<AccountPage/>}  />
+            <Route path='/terms' element={<TermsPage/>}  />
         </Routes>
         <NotificationModal />
     </BrowserRouter>

@@ -1979,7 +1979,7 @@ export async function setConfig() {
   store.dispatch(setCountries(countries));
 }
 
-export async function populatePairs() {
+export function populatePairs() {
   let api = new API();
   //    api.setHeaders();
   const dispatch = store.dispatch;
