@@ -333,25 +333,34 @@ export default function SignupPage() {
             token = `${token}${child.value}`
         }
 
-        api.post(
-            getVerifyEmailURL(),
+        try {
+            api.post(
+                getVerifyEmailURL(),
+                { email, token },
+                {},
+                (response) => {
+                    console.log('response', response);
+                    if (response.status === 'error') {
+                        console.log('there was an error');
+                        return
+                    }
+                    closeVerificationForm();
+                    dispatch(resetAll())
+                    dispatch(setAuthentication(response))
+                    dispatch(setLoggedIn(true))
+                    populateUser()
+                    return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
+                },
+                async (errorMessage) => {
+                    dispatch(setVerificationField({ hasError: true, errorMessage: errorMessage }));
+                }
+            )
+        } catch (error) {
 
-            console.log('get verify', getVerifyEmailURL()),
+            console.log('there was an error', error);
+        }
 
-            { email, token },
-            {},
-            (response) => {
-                closeVerificationForm();
-                dispatch(resetAll())
-                dispatch(setAuthentication(response))
-                dispatch(setLoggedIn(true))
-                populateUser()
-                return dispatch(showSuccessModal("You account has been registered and you can proceed to your personal area!", "/home"));
-            },
-            async (errorMessage) => {
-                dispatch(setVerificationField({ hasError: true, errorMessage: errorMessage }));
-            }
-        )
+
     }
 
     const googleLogin = async (auth_token) => {
