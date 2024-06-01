@@ -244,7 +244,7 @@ export default function SignupPage() {
         event.preventDefault();
         dispatch(resetFields());
 
-        if (validateFirstName() && validateLastName() && validateEmail() && validatePassword() && files.length > 0) {
+        if (validateFirstName() && validateLastName() && validateEmail() && validatePassword()) {
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             let firstName = document.getElementById("firstName").value;
@@ -252,15 +252,15 @@ export default function SignupPage() {
             let full_name = `${firstName} ${lastName}`
             let country = document.getElementById("country").value;
             let street = document.getElementById("street").value;
-            let nin = document.getElementById("nin").value;
-            let ninDoc = files[0]
+            // let nin = document.getElementById("nin").value;
+            // let ninDoc = files[0]
 
             let formData = new FormData()
             formData.append('state', country)
             formData.append('city', country)
             formData.append('street_address', street)
-            formData.append('nin', nin)
-            formData.append('nin_picture', ninDoc)
+            // formData.append('nin', nin)
+            // formData.append('nin_picture', ninDoc)
 
             dispatch(setFormData({ email, firstName, lastName, password }))
 
@@ -579,7 +579,7 @@ export default function SignupPage() {
                                         />
                                     </div>
 
-                                    <div className="signup__formInput">
+                                    {/* <div className="signup__formInput">
                                         <IconedInput
                                             id={"nin"}
                                             name={"nin"}
@@ -600,7 +600,7 @@ export default function SignupPage() {
                                             fileFormats={"(PDF/JPG/PNG)"}
                                             onFilesSelected={setFiles}
                                         />
-                                    </div>
+                                    </div> */}
 
                                     <div className="signup__formInput">
                                         <CheckBoxInput

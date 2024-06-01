@@ -1988,36 +1988,42 @@ export function populatePairs() {
   const supportedPairs = ["EURUSD", "GBPUSD", "USDJPY", "NZDUSD", "AUDUSD", "USDCHF", "USDCAD"]
 
 
-  supportedPairs.map((pairName) => {
+  supportedPairs.map(pairName => {
     api.get(
       getPairHistoryURL(pairName),
       { authorization: process.env.POLYGON_API_KEY },
-      (response) => {
-        let currentRate = response.results[0]
-        let previousRate = response.results[response.results.length - 1]
-        //                console.log(currentRate, previousRate)
-        let trendData = []
+      response => {
+        let currentRate, previousRate, trendData = [];
 
-        response.results.map((pair, index) => {
-          trendData.push([index, pair.c])
-        })
+        // 1. Check for existence and length
+        if (response.results && response.results.length > 0) {
+          currentRate = response.results[0];
+          previousRate = response.results[response.results.length - 1];
 
-        dispatch(setPairs(
-          {
-            name: pairName,
-            rate: currentRate.c,
-            spread: (Math.floor(Math.random() * 20) + 10) / 100000,
-            trendData: trendData.reverse(),
-            change: (((currentRate.c - previousRate.c) / previousRate.c) * 100).toFixed(2),
-            icon: `/images/countries/${pairName[0].toLowerCase() + pairName[1].toLowerCase()}.svg`
-          }
-        ))
+          // 2. Map only if data exists
+          trendData = response.results.map((pair, index) => [index, pair.c]).reverse();
+        } else {
+          // 3. Handle missing data gracefully (options below)
+          //   a) Default values: currentRate = { c: 0 }; previousRate = { c: 0 }; 
+          //   b) Error handling: dispatch(showErrorModal("No data available for " + pairName)); return; 
+        }
+
+        // 4. Dispatch action even if data was missing
+        dispatch(setPairs({
+          name: pairName,
+          rate: currentRate?.c || 0,  // Safe access and default
+          spread: (Math.floor(Math.random() * 20) + 10) / 100000,
+          trendData: trendData,
+          change: currentRate && previousRate ? (((currentRate.c - previousRate.c) / previousRate.c) * 100).toFixed(2) : '0.00', // Conditional calculation
+          icon: `/images/countries/${pairName[0].toLowerCase() + pairName[1].toLowerCase()}.svg`
+        }));
       },
-      (errorMessage) => {
+      errorMessage => {
         dispatch(showErrorModal(errorMessage));
       }
-    )
-  })
+    );
+  });
+
 }
 
 export async function loopPopulatePairs() {
