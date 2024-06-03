@@ -676,6 +676,7 @@
     background: #171d30;
     text-align: center;
     padding: 80px;
+    font-family: Poppins;
 
     .section_eight {
       width: 100%;
@@ -851,6 +852,7 @@
         font-weight: 900;
         line-height: 26px; /* 173.333% */
         letter-spacing: -0.1px;
+        font-family: Poppins;
       }
       p {
         color: #fff;
@@ -859,6 +861,7 @@
         line-height: 40px; /* 235.294% */
         letter-spacing: -0.2px;
         text-align: left;
+        font-family: Poppins;
       }
     }
     .social {
@@ -870,8 +873,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        p {
-          color: white;
+        & p {
+          color: #fff;
+          font-family: Poppins;
+          font-size: 15px;
+          font-style: normal;
+          font-weight: 900;
+          line-height: 26px; /* 173.333% */
+          letter-spacing: -0.1px;
+          opacity: 0.65;
         }
       }
     }
