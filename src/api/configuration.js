@@ -2063,8 +2063,10 @@ export async function populateDepositAddress() {
 export async function populateOperators() {
   let api = new API();
   const dispatch = store.dispatch;
-  let getOperatorsInCountryURL = selectGetOperatorsInCountryEndpoint(store.getState().endpoints)(store.getState().buyAirtimeForm.formData.mobileRechargerId,
-    store.getState().buyAirtimeForm.formData.countryCode);
+  // let getOperatorsInCountryURL = selectGetOperatorsInCountryEndpoint(store.getState().endpoints)(store.getState().buyAirtimeForm.formData.mobileRechargerId,
+  // store.getState().buyAirtimeForm.formData.countryCode);
+  // let getOperatorsInCountryURL = selectGetOperatorsInCountryEndpoint(store.getState().endpoints)(store.getState().buyAirtimeForm.formData.mobileRechargerId,
+  let getOperatorsInCountryURL = {}
   let formData = {}
 
   setToken();
@@ -2084,7 +2086,8 @@ export async function populateOperators() {
 export async function populateMobileRechargers() {
   let api = new API();
   const dispatch = store.dispatch;
-  let getMobileRechargersURL = selectGetMobileRechargersEndpoint(store.getState().endpoints)();
+  // let getMobileRechargersURL = selectGetMobileRechargersEndpoint(store.getState().endpoints)();
+  let getMobileRechargersURL = {}
   let formData = {}
 
   setToken();
@@ -2110,7 +2113,8 @@ export async function populateMobileRechargers() {
 export async function populateCurrencies() {
   let api = new API();
   const dispatch = store.dispatch;
-  let getCurrenciesURL = selectGetCurrenciesEndpoint(store.getState().endpoints)();
+  // let getCurrenciesURL = selectGetCurrenciesEndpoint(store.getState().endpoints)();
+  let getCurrenciesURL = {}
   let formData = {}
 
   setToken();

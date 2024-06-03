@@ -13,57 +13,64 @@
  *
  * ================================================================= */
 
-    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/all.css");
-    @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-    @import './fonts/fonts.css';
-    @import './fonts/nova/nova.css';
-    @import './fonts/font-awesome/css/font-awesome.css';
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/all.css");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "./fonts/fonts.css";
+@import "./fonts/nova/nova.css";
+@import "./fonts/font-awesome/css/font-awesome.css";
 
 /* ===================================================================
  *  01. Base, typography & theme styles
  *
  * ------------------------------------------------------------------- */
-    @import './base/settings';
-    @import './base/base';
+@import "./base/settings";
+@import "./base/base";
 
-    @import './components/image';
-    @import './components/input';
-    @import './components/button';
-    @import './components/notification';
-    @import './components/launchpage';
-    @import './components/users/client/signup';
-    @import './components/users/client/sideBar';
-    @import './components/users/client/home';
+@import "./components/image";
+@import "./components/input";
+@import "./components/button";
+@import "./components/notification";
+@import "./components/launchpage";
+@import "./components/users/client/signup";
+@import "./components/users/client/sideBar";
+@import "./components/users/client/home";
+@import "./components/landing";
 
-
-    @import './components/misc';
-
+@import "./components/misc";
 
 .textcontent {
-    padding: 10px 40px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    background-color: white;
-    color: black;
-    border-radius: 5px;
+  padding: 10px 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
 }
 
 .textcontent__heading {
-    font-weight: bold;
-    font-size: 1.7em;
-    margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 1.7em;
+  margin-bottom: 10px;
 }
 
 .textcontent__body {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 .textcontent__bodyText {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
-th:first-child, td:first-child, th:last-child, td:last-child {
-    padding: 1.5rem 3rem;
+th:first-child,
+td:first-child,
+th:last-child,
+td:last-child {
+  padding: 1.5rem 3rem;
 }
 
 /* width */

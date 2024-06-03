@@ -46,6 +46,7 @@
   "author": "Noryson",
   "license": "ISC",
   "devDependencies": {
+    "tailwindcss": "^3.4.3",
     "webpack-cli": "^4.9.2"
   },
   "keywords": [

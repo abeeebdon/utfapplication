@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+// import './style.css';
 import './styles/style.scss';
 import Routers from "./routers/Routers";
 import configureStore from "./state/store/configureStore";
@@ -17,4 +17,4 @@ const JSX = (
 );
 
 const root = ReactDOM.createRoot(document.getElementById("app"));
-root.render( JSX );
+root.render(JSX);
