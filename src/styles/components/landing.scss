@@ -29,6 +29,14 @@
           font-weight: 400;
           line-height: normal;
           letter-spacing: -0.16px;
+
+          &:hover {
+            color: #f9bd4d;
+          }
+        }
+
+        & .active {
+          border-bottom: 1px solid var(--Secondary-color, #f9bd4d);
         }
       }
 

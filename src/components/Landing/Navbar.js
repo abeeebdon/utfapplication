@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { links } from '../../utils/data'
 
 const Navbar = () => {
+    const [active, setActive] = useState(links[0])
     return (
         <nav className='navbar'>
             <div className="navbar_center">
                 <img src="/images/logo.svg" alt="" />
                 <div className='links'>
                     {
-                        links.map((item, index) => <Link key={index} className={`'inks_item ${item.active && 'active'}`} to={item.path}>{item.text}</Link>)
+                        links.map((item, index) => <Link key={index} className={`links_item ${item === active && 'active'}`} to={item.path}>{item.text}</Link>)
                     }
                 </div>
                 <div className='right'>
