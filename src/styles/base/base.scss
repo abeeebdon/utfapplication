@@ -35,16 +35,20 @@ body {
   height: 100%;
 }
 
+*,
+body,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: "roboto-regular", "Roboto", "Poppins", sans-serif;
   line-height: 3rem;
   color: #292c35;
-  /*background: $offBlack;*/
   font-size: 1.6rem;
-  /* line-height: 3rem; */
-  /* color: #353535; */
-  margin: 0;
-  padding: 0;
   -moz-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   -webkit-transition: all 0.3s ease-in-out;

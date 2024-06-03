@@ -7,6 +7,8 @@ import SectionFive from './Landing/SectionFive'
 import Navbar from './Landing/Navbar'
 import SectionSix from './Landing/SectionSix'
 import SectionSeven from './Landing/SectionSeven'
+import SectionEight from './Landing/SectionEight'
+import Footer from './Landing/Footer'
 
 
 
@@ -21,6 +23,8 @@ const LandingPage = () => {
             <SectionFive />
             <SectionSix />
             <SectionSeven />
+            <SectionEight />
+            <Footer />
         </main>
     )
 }
