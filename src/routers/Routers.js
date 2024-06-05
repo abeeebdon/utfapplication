@@ -22,8 +22,9 @@ import LandingPage from '../components/LandingPage';
 const Routers = () => (
     <BrowserRouter>
         <Routes>
-            <Route path='/' element={<LaunchPage />} />
-            <Route path='/landing' element={<LandingPage />} />
+            {/* <Route path='/' element={<LaunchPage />} /> */}
+            <Route path='/' element={<LandingPage />} />
+            {/* <Route path='/landing' element={<LandingPage />} /> */}
             <Route path='/signin' element={<SigninPage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/password_reset' element={<PasswordResetPage />} />
