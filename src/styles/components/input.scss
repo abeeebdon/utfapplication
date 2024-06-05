@@ -1,5 +1,5 @@
 .input {
-    /*border: 3px solid white;
+  /*border: 3px solid white;
     padding: 12px 45px;
     display: inline-block;
     text-decoration: none;
@@ -7,418 +7,424 @@
     text-align: center;
     white-space: nowrap;
     color: white;*/
-    padding: 10px 15px 10px 15px;
-    border: 3px solid $mainColor;
-    border-radius: 10px;
-    background-color: transparent;
-    /*background-color: #0e0e0e85;*/
-    color: white;
-    font-weight: normal;
-    cursor: pointer;
-    /*width: 100%;*/
-    width: -webkit-fill-available;
+  padding: 10px 15px 10px 15px;
+  border: 3px solid $mainColor;
+  border-radius: 10px;
+  background-color: transparent;
+  /*background-color: #0e0e0e85;*/
+  color: white;
+  font-weight: normal;
+  cursor: pointer;
+  /*width: 100%;*/
+  width: -webkit-fill-available;
 }
 
-.input:focus, .input:hover, input:focus-visible {
-    border: 3px solid $mainColor;
-    outline: none;
+.input:focus,
+.input:hover,
+input:focus-visible {
+  border: 3px solid $mainColor;
+  outline: none;
 }
 
 .input__box {
-    text-align: left;
+  text-align: left;
 }
 
 .input__boxLabel {
-    display: block;
-    color: $offBlack;
-
+  display: block;
+  color: $offBlack;
 }
 
 .input__underLabel {
-    font-size: 12px;
-    color: $grey;
+  font-size: 12px;
+  color: $grey;
 }
 
 .input__passwordRequirements {
-    padding: 0;
-    list-style: disc;
+  padding: 0;
+  list-style: disc;
 }
 
 .input__underLabel--passwordRequirements {
-    line-height: 2rem;
+  line-height: 2rem;
 }
 
-
 .input__checkboxBox {
-    display: flex;
-    text-align: left;
-    align-items: center;
+  display: flex;
+  text-align: left;
+  align-items: center;
 }
 
 .input__checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: unset;
+  display: flex;
+  align-items: center;
+  justify-content: unset;
 }
 
 .input__checkboxLabel {
-    color: $offBlack;
-    margin-left: 10px;
+  color: $offBlack;
+  margin-left: 10px;
 }
 
 .input__check {
-    width: 18px;
-    height: 18px;
-    font-size: 8px;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    padding: 0px;
-    border: 3px solid grey;
-    background-color: transparent;
-    appearance: none;
+  width: 18px;
+  height: 18px;
+  font-size: 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+  border: 3px solid grey;
+  background-color: transparent;
+  appearance: none;
 }
 
 .input__check:checked {
-    background-color: $mainColor;
-    border-color: $mainColor;
+  background-color: $mainColor;
+  border-color: $mainColor;
 }
 
 .input__check:checked::before {
-    content: "\2713";
-    color: black;
+  content: "\2713";
+  color: black;
 }
 
-
-
 .input__toggleBox {
-    display: flex;
-    text-align: left;
-    align-items: center;
+  display: flex;
+  text-align: left;
+  align-items: center;
 }
 
 .input__toggleSwitch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 20px;
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 20px;
 }
 
 .input__toggleLabel {
-    color: white;
-    margin-left: 10px;
+  color: white;
+  margin-left: 10px;
 }
 
 .input__toggle {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .input__toggleSlider {
-    position: absolute;
-    cursor: pointer;
-    border-radius: 5px;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  cursor: pointer;
+  border-radius: 5px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .input__toggleSlider:before {
-    position: absolute;
-    content: "";
-    border-radius: 5px;
-    height: 12px;
-    width: 17px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  content: "";
+  border-radius: 5px;
+  height: 12px;
+  width: 17px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .input__toggle:checked + .input__toggleSlider {
-    background-color: $mainColor;
-
+  background-color: $mainColor;
 }
 
 .input__toggle:checked + .input__toggleSlider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }
 
 .input__toggle:focus + .input__toggleSlider {
-    box-shadow: 0 0 1px #2196F3;
-
+  box-shadow: 0 0 1px #2196f3;
 }
 
-
-
 .input__radioBox {
-    display: flex;
-    text-align: left;
-    align-items: center;
+  display: flex;
+  text-align: left;
+  align-items: center;
 }
 
 .input__radioLabel {
-    color: white;
-    margin-left: 10px;
+  color: white;
+  margin-left: 10px;
 }
 
 .input__radio {
-    width: 18px;
-    height: 18px;
-    font-size: 8px;
-    display: flex;
-    border-radius: 50%;
-    justify-content: center;
-    padding: 0px;
-    border: 3px solid grey;
-    background-color: transparent;
-    appearance: none;
+  width: 18px;
+  height: 18px;
+  font-size: 8px;
+  display: flex;
+  border-radius: 50%;
+  justify-content: center;
+  padding: 0px;
+  border: 3px solid grey;
+  background-color: transparent;
+  appearance: none;
 }
 
 .input__radio:checked {
-    border-color: $mainColor;
+  border-color: $mainColor;
 }
 
 .input__radio:checked::before {
-    content: "\2688";
-    color: $mainColor;
+  content: "\2688";
+  color: $mainColor;
 }
 
-
-
 .input--error {
-    border-color: #ffadad;
+  border-color: #ffadad;
 }
 
 .input__errorMessage {
-    color: #b90a0a;
+  color: #b90a0a;
+}
+
+.signup__verificationInput {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  //   border: 2px solid red;
+  //   max-width: 500px;
+  gap: 40px;
+  width: 100%;
 }
 
 .input__verification {
-    display: inline;
-    text-align: center;
-    width: 20px;
-    height: 20px;
-    font-size: 2.5rem;
-    font-weight: bolder;
-    background: $subBackground;
-    border-color: transparent;
-    color: $mainColor;
+  display: inline;
+  text-align: center;
+  //   width: 30px;
+  height: 60px;
+  width: 100%;
+  font-size: 2.5rem;
+  font-weight: bolder;
+  background: $subBackground;
+  border-color: transparent;
+  color: $mainColor;
 }
 
 .input__option {
-    padding: 10px;
-    background-color: $subBackground;
+  padding: 10px;
+  background-color: $subBackground;
 }
 
 .search__icon {
-    padding: 10px;
-    color: $grey;
-    cursor: pointer;
+  padding: 10px;
+  color: $grey;
+  cursor: pointer;
 }
 
 .search__iconGroup {
-    display: flex;
-    border-radius: 10px;
-    text-align: left;
-    border: 1px solid $subBackground;
-    width: 100%;
-    background: $subBackground;
+  display: flex;
+  border-radius: 10px;
+  text-align: left;
+  border: 1px solid $subBackground;
+  width: 100%;
+  background: $subBackground;
 }
 
 .search__input {
-    border: none;
-    display: inline-block;
-    width: 90%;
-    color: $mainColor;
+  border: none;
+  display: inline-block;
+  width: 90%;
+  color: $mainColor;
 }
 
-.search__input:focus, .search__input:hover, .search__input:focus-visible {
-    outline: none;
-    border: none;
+.search__input:focus,
+.search__input:hover,
+.search__input:focus-visible {
+  outline: none;
+  border: none;
 }
-
-
 
 .inputIcon__iconGroup {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    border-radius: 10px;
-    text-align: left;
-    border: 1px solid $grey;
-    fwidth: 100%;
-    background: transparent;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: 10px;
+  text-align: left;
+  border: 1px solid $grey;
+  fwidth: 100%;
+  background: transparent;
 }
 
 .inputIcon__iconGroup--error {
-    border-color: red;
-    color: red;
+  border-color: red;
+  color: red;
 }
 
 .inputIcon__iconGroup--error input {
-    color: red;
+  color: red;
 }
 
 .inputIcon__icon {
-    margin: 10px;
-    color: $grey;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+  margin: 10px;
+  color: $grey;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .inputIcon__logo {
-    min-width: 30px;
-    max-width: 30px;
-    height: 30px;
-    margin: 10px;
-    margin-right: 0;
+  min-width: 30px;
+  max-width: 30px;
+  height: 30px;
+  margin: 10px;
+  margin-right: 0;
 }
 
 .inputIcon__input {
-    border: none;
-    display: inline-block;
-    padding: 15px 10px;
-    width: 100%;
-    color: $offBlack;
+  border: none;
+  display: inline-block;
+  padding: 15px 10px;
+  width: 100%;
+  color: $offBlack;
 }
 
-.inputIcon__input:focus, .inputIcon__input:hover, .inputIcon__input:focus-visible {
-    outline: none;
-    border: none;
+.inputIcon__input:focus,
+.inputIcon__input:hover,
+.inputIcon__input:focus-visible {
+  outline: none;
+  border: none;
 }
 
 .input__fileUpload {
-    display: flex;
-    align-items: center;
-    color: $grey;
-    border: 1px dashed $grey;
-    border-radius: 10px;
-    padding: 5px;
+  display: flex;
+  align-items: center;
+  color: $grey;
+  border: 1px dashed $grey;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .input__fileUploadIcon {
-    font-size: 3rem;
-    padding: 25px;
-    color: $grey;
+  font-size: 3rem;
+  padding: 25px;
+  color: $grey;
 }
 
 .file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  height: 30vh;
+  &__container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  .file-info {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    height: 30vh;
-    &__container {
-      width: 100%;
-      height: 100%;
-      overflow: auto;
+    gap: 0.25rem;
+    flex: 1;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
     }
   }
 
-  .file-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+  .file-actions {
+    cursor: pointer;
 
-    .file-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      flex: 1;
-
-      p {
-        margin: 0;
-        font-size: 14px;
-        color: #333;
-      }
+    svg {
+      font-size: 18px;
+      color: #888;
     }
 
-    .file-actions {
-      cursor: pointer;
-
+    &:hover {
       svg {
-        font-size: 18px;
-        color: #888;
-      }
-
-      &:hover {
-        svg {
-          color: #d44;
-        }
+        color: #d44;
       }
     }
   }
+}
 
-.input__fileUploadTextBox--sm, .input__fileUploadTextButton {
+.input__fileUploadTextBox--sm,
+.input__fileUploadTextButton {
+  display: none;
+}
+
+@media only screen and (max-width: 1024px) {
+}
+
+@media only screen and (max-width: 768px) {
+  .input__verification {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .input {
+    padding: 10px;
+  }
+
+  .input__verification {
+    display: inline;
+    widthf: 10px;
+    heightf: 20px;
+    font-size: 1.25rem;
+  }
+
+  .input__fileUpload {
+    justify-content: space-between;
+  }
+
+  .input__fileUploadIcon,
+  .input__fileUploadTextBox {
     display: none;
+  }
+
+  .input__fileUploadTextBox--sm,
+  .input__fileUploadTextButton {
+    display: block;
+  }
+
+  .inputIcon__iconGroup--bottomBorder-sm,
+  .input__fileUpload {
+    border-radius: 0px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid;
+  }
+
+  .inputIcon__iconGroup--bottomBorder-sm *:first-child {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .inputIcon__iconGroup--bottomBorder-sm *:last-child {
+    margin-right: 0;
+    padding-right: 0;
+  }
 }
 
-
-@media only screen and (max-width:1024px) {
-}
-
-@media only screen and (max-width:768px) {
-
-    .input__verification {
-        font-size: 2rem;
-    }
-}
-
-@media only screen and (max-width:600px) {
-    .input {
-        padding: 10px;
-    }
-
-    .input__verification {
-        display: inline;
-        widthf: 10px;
-        heightf: 20px;
-        font-size: 1.25rem;
-    }
-
-    .input__fileUpload {
-        justify-content: space-between;
-    }
-
-    .input__fileUploadIcon, .input__fileUploadTextBox {
-        display: none;
-    }
-
-    .input__fileUploadTextBox--sm, .input__fileUploadTextButton {
-        display: block;
-    }
-
-    .inputIcon__iconGroup--bottomBorder-sm, .input__fileUpload {
-        border-radius: 0px;
-        border-top: none;
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid;
-    }
-
-    .inputIcon__iconGroup--bottomBorder-sm *:first-child {
-        margin-left: 0;
-        padding-left: 0;
-    }
-
-    .inputIcon__iconGroup--bottomBorder-sm *:last-child {
-        margin-right: 0;
-        padding-right: 0;
-    }
-}
-
-@media only screen and (max-width:425px) {
+@media only screen and (max-width: 425px) {
 }
