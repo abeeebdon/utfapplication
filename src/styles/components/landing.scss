@@ -814,6 +814,9 @@
     text-align: center;
     padding: 80px;
     font-family: Poppins;
+    @media (max-width: $breakpoint-large) {
+      padding: 10px;
+    }
 
     .section_eight {
       width: 100%;
@@ -837,6 +840,10 @@
       gap: 37px;
       justify-content: space-between;
       align-items: center;
+      padding: 10px 40px 0;
+      @media (max-width: $breakpoint-large) {
+        padding: 10px;
+      }
       padding: 10px 40px 0;
       @media (max-width: $breakpoint-tablet) {
         flex-direction: column;
@@ -862,7 +869,8 @@
           flex-direction: column;
           justify-content: flex-start;
           align-items: flex-start;
-          min-width: 517px;
+          width: 100%;
+          max-width: 517px;
           gap: 12px;
         }
 
@@ -870,8 +878,10 @@
           line-height: 40px;
           color: #f9bd4d;
           text-align: left;
-          // border: 2px solid red;
           margin: 0;
+          @media (max-width: $breakpoint-small) {
+            font-size: 1.2rem;
+          }
         }
         .paragraph {
           color: #fff;
@@ -880,16 +890,19 @@
           line-height: 40px;
           letter-spacing: -0.2px;
           margin: 0;
+          @media (max-width: $breakpoint-small) {
+            font-size: 1.2rem;
+          }
         }
       }
     }
     .contact-us {
       flex-basis: 50%;
+      width: 100%;
+      max-width: 418px;
       // padding-right: 40px;
       margin: 0px 1rem;
-      max-width: 418px;
       // border: 2px solid red;
-
       .contact-heading {
         color: #fff;
         font-size: 22px;
@@ -981,6 +994,9 @@
     background-color: #040a1e;
     // border: 2px solid red;
     width: 100%;
+    @media (max-width: $breakpoint-tablet) {
+      padding: 10px;
+    }
 
     .footer-wrapper {
       display: flex;
@@ -990,6 +1006,16 @@
       width: 100%;
       justify-content: space-between;
       margin: 0 auto;
+      @media (max-width: $breakpoint-large) {
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 10px;
+      }
+      @media (max-width: $breakpoint-small) {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
       h2 {
         color: #fff;
@@ -1000,14 +1026,22 @@
         letter-spacing: -0.1px;
         font-family: Poppins;
       }
-      p {
-        color: #fff;
-        font-size: 17px;
-        font-weight: 900;
-        line-height: 40px; /* 235.294% */
-        letter-spacing: -0.2px;
-        text-align: left;
-        font-family: Poppins;
+      & .path {
+        @media (max-width: $breakpoint-small) {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
+        p {
+          color: #fff;
+          font-size: 17px;
+          font-weight: 900;
+          line-height: 40px; /* 235.294% */
+          letter-spacing: -0.2px;
+          text-align: left;
+          font-family: Poppins;
+        }
       }
     }
     .social {
