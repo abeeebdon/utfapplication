@@ -25,7 +25,7 @@ const SectionOne = () => {
             <button>Download PDF</button>
           </div>
           <div className="right">
-            <img src="/images/crypto.png" alt="crypto" />
+            <img src="/images/crypto.png" className="img" alt="crypto" />
           </div>
         </div>
         <div className="section_one_bottom">
